@@ -30,20 +30,22 @@ with a manual break inserted</p>
 ```
 
 ### Phrase Formatting
-Phrase formatting can be nested inside of any other syntax, except code blocks. Phrase formatting is only translated when both starting end ending syntax is found. `_` is no longer valid syntax for phrase formatting. Phrase formatting can be done inside of words. Phrase formatting surrounded with whitespace will not be translated as phrase formatting.
+Phrase formatting can be nested inside of any other syntax, except code blocks. Phrase formatting is only translated when both starting end ending syntax is found. Phrase formatting can be done inside of words, with the exception of underline. Phrase formatting surrounded with whitespace will not be translated as phrase formatting.
 ##### mrkdwn
 ```
 *emphasis*  **bold**  ***strong***
-~italic~  ~~strikethrough~~
+~italic~  ~~mark~~  ~~~strikethrough~~~~
 ~*italic bold*~
 ^superscript^  ^^subscript^^
+_underline_
 ```
 ##### html
 ```
 <em>emphasis</em>  <b>bold</b>  <strong>strong</strong>
-<i>italic</i>  <strike>strikethrough</strike>
+<i>italic</i>  <mark>mark</mark>  <strike>strikethrough</strike>
 <i><b>italic bold</b></i>
 <sup>superscript</sup>  <sub>subscript</sub>
+<u>underline</u>
 ```
 
 ### Headers
@@ -114,15 +116,22 @@ Header 2
 </blockquote>
 ```
 
-### Accordian
+### Detail
+A detail block must start with `<!` or it will be translated as a accordian list.
 ##### mrkdwn
 ```
-<! Visible Header
-< Hidden Text
+<! summary
+< Content
+<
+< Content
 ```
 ##### html
 ```
-
+<details>
+  <summary>summary</summary>
+  <p>Content</p>
+  <p>Content</p>
+</details>
 ```
 
 ### Unordered List
@@ -163,12 +172,16 @@ Unordered lists must be denoted using `-`, `*` and `+` will not be translated to
 ```
 
 ### Ordered List
-Numbering does not need to be unique or sequential. All numbering schemes will translate to the same.
+Numbering does not need to be unique or sequential. The first number will be used as the starting value of the list.
 ##### mrkdwn
 ```
 1. One
 2. Two
 3. Three
+
+50. Fifty
+34. Fifty One
+25. Fifty Two
 ```
 ##### html
 ```
@@ -176,6 +189,12 @@ Numbering does not need to be unique or sequential. All numbering schemes will t
   <li>One</li>
   <li>Two</li>
   <li>Three</li>
+</ol>
+
+<ol start="50">
+  <li>Fifty</li>
+  <li>Fifty One</li>
+  <li>fifty Two</li>
 </ol>
 ```
 
@@ -249,7 +268,36 @@ Numbering does not need to be unique or sequential. All numbering schemes will t
 ```
 ##### html
 ```
+<dl>
+  <dt>Term</dt>
+    <dd>Definition</dd>
+  <dt>Term</dt>
+    <dd>Defintion</dd>
+</dl>
+```
 
+### Accordian List
+##### mrkdwn
+```
+< Visible
+  < Hidden
+< Visible
+  < Hidden
+```
+##### html
+```
+<ul class="accordian">
+  <li>Visible
+    <ul>
+      <li>Hidden</li>
+    </ul>
+  </li>
+  <li>Visible
+    <ul>
+      <li>Hidden</li>
+    </ul>
+  </li>
+</ul>
 ```
 
 ### Inline Link
@@ -369,8 +417,8 @@ The `<body></body>` tags
 The <pre>&lt;body&gt;&lt;/body&gt;</pre> tags
 ```
 
-### Block Code
-All special characters within a block pre code syntax is escaped to it's ascii represenation. Reference syntax inside block code will not be translated as reference syntax.
+### Block Pre and Code
+All special characters within a block pre code syntax is escaped to it's ascii represenation. Reference syntax inside block code will not be translated as reference syntax. The absense of absence of a syntax will translate the block without a code tag. The syntax does not need to be a valid syntax name to translate with the code tag.
 ##### mrkdwn
 ```
 '''
@@ -383,13 +431,28 @@ All special characters within a block pre code syntax is escaped to it's ascii r
 ```
 ##### html
 ```
-<code>
+<pre>
 &lt;body&gt;&lt;/body&gt;
-</code>
+</pre>
 
-<code class="syntax">
+<pre><code class="syntax">
 &lt;body&gt;&lt;/body&gt;
-</code>
+</code></pre>
+```
+
+### Block Sample
+All special characters within the block is escaped to it's ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
+##### mrkdwn
+```
+''''
+> Output from a bash script
+''''
+```
+###### html
+```
+<pre><samp>
+&gt; Output from a bash script
+</samp></pre>
 ```
 
 ### Inline Table
@@ -439,7 +502,7 @@ All special characters within a block pre code syntax is escaped to it's ascii r
 ```
 
 ### Backslash Escape
-Any character used in mrkdwn syntax can be escaped with `\` to produce the actual character and remove it's mrkdwn meaning. This includes `\, *, _, {}, [], (), #, +, -, ., !`.
+Any character used in mrkdwn syntax can be escaped with `\` to produce the actual character and remove it's mrkdwn meaning. This includes `\, *, _, {, }, [, ], (, ), <, >, #, +, -, ., !, :`.
 ##### mrkdwn
 ```
 \*Actual asterisk surrounded text\*
@@ -469,6 +532,16 @@ Any character used in mrkdwn syntax can be escaped with `\` to produce the actua
 
 ```
 
+### Automatic Quotation
+##### mrkdwn
+```
+He said "Something worth remembering".
+```
+##### html
+```
+He said <q>Something worth remembering</q>.
+```
+
 ### Document Attributes
 A mrkdwn document may begin with a section of attributes that may be used elsewhere in the document, but are not displayed where they are defined.
 ##### mrkdwn
@@ -492,6 +565,22 @@ Page Title
 Author One Name, Author Two Name
 Date Created - Date Updated
 Custom Value
+```
+
+### Abbreviations
+Abbreviations can be defined anywhere and are automatically translated everyone in the document. Abbreviations are case sensative.
+##### mrkdwn
+```
+The HTML specification
+The Primary Standard is good
+
++[HTML]: Hyper Text Markup Language
++[Primary Standard]: Main Standard
+```
+##### html
+```
+The <abbr title="Hyper Text Markup Language">HTML</abbr> specification
+The <abbr title="Main Standard">Primary Standard</abbr> is good
 ```
 
 
