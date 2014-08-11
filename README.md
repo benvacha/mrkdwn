@@ -322,6 +322,26 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 <img src="url" title="Title" alt="alt text" />
 ```
 
+### Inline Video
+Video will be embedded based on video content provider
+##### mrkdwn
+```
+!![alt text](url "Title")
+```
+##### html
+```
+varied based on provider
+```
+
+### Reference Video
+##### mrkdwn
+`!![alt text][reference]`  
+`[reference]: url "Title"`
+##### html
+```
+varied based on provider
+```
+
 ### Inline Pre
 All special characters within an inline pre syntax is escaped to it's ascii representation.
 ##### mrkdwn
