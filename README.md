@@ -29,17 +29,17 @@ with a manual break inserted
 with a manual break inserted</p>
 ```
 
-### Phrase Emphasis
-Phrase emphasis can be nested inside of any other syntax, except code blocks. Phrase emphasis is only translated when both starting end ending syntax is found. `_` is no longer valid syntax for phrase emphasis.
+### Phrase Formatting
+Phrase formatting can be nested inside of any other syntax, except code blocks. Phrase formatting is only translated when both starting end ending syntax is found. `_` is no longer valid syntax for phrase formatting. Phrase formatting can be done inside of words. Phrase formatting surrounded with whitespace will not be translated as phrase formatting.
 ##### mrkdwn
 ```
-*italic*  **bold**  ***strong***
+*emphasis*  **strong**
 ~italic~ ~~strikethrough~~
 ~*italic bold*~
 ```
 ##### html
 ```
-<i>italic</i> <b>bold</b> <strong>strong</strong>
+<em>bold</em> <strong>strong</strong>
 <i>italic</i> <strike>strikethrough</strike>
 <i><b>italic bold</b></i>
 ```
@@ -123,11 +123,18 @@ Header 2
 ```
 
 ### Unordered List
-Unordered ists must be denoted using `-`
+Unordered lists must be denoted using `-`, `*` and `+` will not be translated to unordered lists. Multiple line list items will be translated into paragraphs.
 ##### mrkdwn
 ```
 - Item
 - Item
+- Item
+
+- Item
+
+- Item
+  
+  With a second paragraph
 - Item
 ```
 ##### html
@@ -137,9 +144,23 @@ Unordered ists must be denoted using `-`
   <li>Item</li>
   <li>Item</li>
 </ul>
+
+<ul>
+  <li>
+    <p>Item</p>
+  </li>
+  <li>
+    <p>Item</p>
+    <p>With a second paragraph</p>
+  </li>
+  <li>
+    <p>Item</p>
+  </li>
+</ul>
 ```
 
 ### Ordered List
+Numbering does not need to be unique or sequential. All numbering schemes will translate to the same.
 ##### mrkdwn
 ```
 1. One
@@ -227,6 +248,30 @@ Unordered ists must be denoted using `-`
 <a href="url" title="Title">text</a>
 ```
 
+### Anchor Links
+##### mrkdwn
+```
+Define a [text](!anchor)
+Define a [text](!anchor "Title")
+
+Go to [text](#anchor) in same page
+Go to [text](#anchor "Title") in same page
+
+Go to [text](url#anchor) in external page
+Go to [text](url#anchor "Title") in external page
+```
+##### html
+```
+Define a <a name="anchor">text</a>
+Define a <a name="anchor" title="Title">text</a>
+
+Go to <a href="#anchor">text</a> in same page
+Go to <a href="#anchor" title="Title">text</a> in same page
+
+Go to <a href="url#anchor">text</a> in external page
+Go to <a href="url#anchor" title="Title">text</a> in external page
+```
+
 ### Reference Link
 ##### mrkdwn
 `[text][reference]`  
@@ -277,34 +322,36 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 <img src="url" title="Title" alt="alt text" />
 ```
 
-### Inline Code
+### Inline Pre
+All special characters within an inline pre syntax is escaped to it's ascii representation.
 ##### mrkdwn
 ```
 The `<body></body>` tags
 ```
 ##### html
 ```
-The <code>&lt;body&gt;&lt;/body&gt;</code> tags
+The <pre>&lt;body&gt;&lt;/body&gt;</pre> tags
 ```
 
 ### Block Code
+All special characters within a block pre code syntax is escaped to it's ascii represenation. Reference syntax inside block code will not be translated as reference syntax.
 ##### mrkdwn
 ```
 '''
 <body></body>
 '''
   
-'''syntax
+''' syntax
 <body></body>
 '''
 ```
 ##### html
 ```
-<code class="block">
+<code>
 &lt;body&gt;&lt;/body&gt;
 </code>
 
-<code class="block syntax">
+<code class="syntax">
 &lt;body&gt;&lt;/body&gt;
 </code>
 ```
@@ -355,10 +402,31 @@ The <code>&lt;body&gt;&lt;/body&gt;</code> tags
 </table>
 ```
 
+### Backslash Escape
+Any character used in mrkdwn syntax can be escaped with `\` to produce the actual character and remove it's mrkdwn meaning. This includes `\, *, _, {}, [], (), #, +, -, ., !`.
+##### mrkdwn
+```
+\*Actual asterisk surrounded text\*
+```
+##### html
+```
+&#42;Actual asterisk surrounded text&#42;
+```
+
 ### Tags
 ##### mrkdwn
 ```
 #tag
+```
+##### html
+```
+
+```
+
+### Authorship
+##### mrkdwn
+```
+@username
 ```
 ##### html
 ```
