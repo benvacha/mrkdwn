@@ -13,31 +13,35 @@ Proposed Syntax
 ---------------
 
 ### Paragraphs
+Plain text preceeded and followed by a blank line or block syntax will be wrapped in a paragraph. Manual line returns will be treated as manual breaks within a single paragraph.
 ##### mrkdwn
 ```
 The first paragraph
 
-This is split into two
-seperate paragraphs
+This is one paragraph
+with a manual break inserted
 ```
 ##### html
 ```
 <p>The first paragraph</p>
 
-<p>This is split into two</p>
-<p>seperate paragraphs</p>
+<p>This one paragraph<br />
+with a manual break inserted</p>
 ```
 
 ### Phrase Emphasis
+Phrase emphasis can be nested inside of any other syntax, except code blocks. Phrase emphasis is only translated when both starting end ending syntax is found. `_` is no longer valid syntax for phrase emphasis.
 ##### mrkdwn
 ```
 *italic*  **bold**  ***strong***
-****strikethrough****
+~italic~ ~~strikethrough~~
+~*italic bold*~
 ```
 ##### html
 ```
 <i>italic</i> <b>bold</b> <strong>strong</strong>
-<strike>strikethrough</strike>
+<i>italic</i> <strike>strikethrough</strike>
+<i><b>italic bold</b></i>
 ```
 
 ### Headers
@@ -91,7 +95,7 @@ Header 2
 
 > Block Quote
 > with citation
->[cite]
+>! cite
 ```
 ##### html
 ```
@@ -107,7 +111,19 @@ Header 2
 </blockquote>
 ```
 
+### Accordian
+##### mrkdwn
+```
+<! Visible Header
+< Hidden Text
+```
+##### html
+```
+
+```
+
 ### Unordered List
+Unordered ists must be denoted using `-`
 ##### mrkdwn
 ```
 - Item
@@ -339,5 +355,13 @@ The <code>&lt;body&gt;&lt;/body&gt;</code> tags
 </table>
 ```
 
+### Tags
+##### mrkdwn
+```
+#tag
+```
+##### html
+```
 
+```
 
