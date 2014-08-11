@@ -33,18 +33,21 @@ with a manual break inserted</p>
 Phrase formatting can be nested inside of any other syntax, except code blocks. Phrase formatting is only translated when both starting end ending syntax is found. `_` is no longer valid syntax for phrase formatting. Phrase formatting can be done inside of words. Phrase formatting surrounded with whitespace will not be translated as phrase formatting.
 ##### mrkdwn
 ```
-*emphasis*  **strong**
-~italic~ ~~strikethrough~~
+*emphasis*  **bold**  ***strong***
+~italic~  ~~strikethrough~~
 ~*italic bold*~
+^superscript^  ^^subscript^^
 ```
 ##### html
 ```
-<em>bold</em> <strong>strong</strong>
-<i>italic</i> <strike>strikethrough</strike>
+<em>emphasis</em>  <b>bold</b>  <strong>strong</strong>
+<i>italic</i>  <strike>strikethrough</strike>
 <i><b>italic bold</b></i>
+<sup>superscript</sup>  <sub>subscript</sub>
 ```
 
 ### Headers
+Headers are automatically given anchor links based on text content
 ##### mrkdwn
 ```
 Header 1
@@ -211,7 +214,7 @@ Numbering does not need to be unique or sequential. All numbering schemes will t
 </ul>
 ```
 
-### Task Lists
+### Task List
 ##### mrkdwn
 ```
 - [ ] Task 1
@@ -234,6 +237,19 @@ Numbering does not need to be unique or sequential. All numbering schemes will t
     </ul>
   </li>
 </ul>
+```
+
+### Definition List
+##### mrkdwn
+```
+: Term
+  : Definition
+: Term
+  : Definition
+```
+##### html
+```
+
 ```
 
 ### Inline Link
@@ -452,4 +468,32 @@ Any character used in mrkdwn syntax can be escaped with `\` to produce the actua
 ```
 
 ```
+
+### Document Attributes
+A mrkdwn document may begin with a section of attributes that may be used elsewhere in the document, but are not displayed where they are defined.
+##### mrkdwn
+```
+% title Page Title
+% author Author One Name
+% author Author Two Name
+% created Date Created
+% updated Date Updated
+% customAttribute Custom Value
+```
+```
+%[title]
+%[author]
+%[created] - %[updated]
+%[customAttribute]
+```
+##### html
+```
+Page Title
+Author One Name, Author Two Name
+Date Created - Date Updated
+Custom Value
+```
+
+
+
 
