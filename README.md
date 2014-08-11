@@ -11,38 +11,27 @@ Syntax
 ```
 The first paragraph
 
-The second paragraph
-on multiple different lines
+This is split into two
+seperate paragraphs
 ```
 ##### html
 ```
 <p>The first paragraph</p>
-<p>The second paragraph 
-on multiple different lines</p>
-```
 
-### Forced Line Breaks
-##### mrkdwn
-```
-Two spaces at the end of a line  
-forces a break.
-```
-##### html
-```
-<p>Two spaces at the end of a line<br />
-forces a break.</p>
+<p>This is split into two</p>
+<p>seperate paragraphs</p>
 ```
 
 ### Phrase Emphasis
 ##### mrkdwn
 ```
 *italic*  **bold**  ***strong***
-_italic_  __bold__  ___strong___
+****strikethrough****
 ```
 ##### html
 ```
 <i>italic</i> <b>bold</b> <strong>strong</strong>
-<i>italic</i> <b>bold</b> <strong>strong</strong>
+<strike>strikethrough</strike>
 ```
 
 ### Headers
@@ -115,9 +104,9 @@ Header 2
 ### Unordered List
 ##### mrkdwn
 ```
-* Item
-* Item
-* Item
+- Item
+- Item
+- Item
 ```
 ##### html
 ```
@@ -147,25 +136,25 @@ Header 2
 ### Nested Lists
 ##### mrkdwn
 ```
-* Item
+- Item
   1. One
   2. Two
-* Item
-  * Sub Item
+- Item
+  - Sub Item
     1. One
     2. Two
-* Item
+- Item
 ```
 ##### html
 ```
 <ul>
-  <li>
+  <li>Item
     <ol>
       <li>One</li>
       <li>Two</li>
     </ol>
   </li>
-  <li>
+  <li>Item
     <ul>
       <li>Sub Item
         <ul>
@@ -176,6 +165,31 @@ Header 2
     </ul>
   <li>
   <li>Item</li>
+</ul>
+```
+
+### Task Lists
+##### mrkdwn
+```
+- [ ] Task 1
+- [x] Task 2
+- [ ] Task 3
+  - [x] Sub Task 1
+  - [x] Sub Task 2
+  - [ ] Sub Task 3
+```
+##### html
+```
+<ul>
+  <li><input type="checkbox" /> Task 1</li>
+  <li><input type="checkbox" checked /> Task 2</li>
+  <li><input type="checkbox" /> Task 3
+    <ul>
+      <input type="checkbox" checked /> Sub Task 1</li>
+      <input type="checkbox" checked /> Sub Task 2</li>
+      <input type="checkbox" /> Sub Task 3</li>
+    </ul>
+  </li>
 </ul>
 ```
 
@@ -198,6 +212,28 @@ Header 2
 ##### html
 ```
 <a href="url" title="Title">text</a>
+```
+
+### Automatic Link
+##### mrkdwn
+```
+Go to <url.com>
+
+Go to http://url.com
+
+Email <addr@email.com>
+
+Email addr@email.com
+```
+##### html
+```
+Go to <a href="url.com">url.com</a>
+
+Go to <a href="http://url.com">http://url.com</a>
+
+Email <a href="mailto:addr@email.com">addr@email.com</a>
+
+Email <a href="mailto:addr@email.com">addr@email.com</a>
 ```
 
 ### Inline Image
@@ -236,7 +272,7 @@ The <code>&lt;body&gt;&lt;/body&gt;</code> tags
 <body></body>
 '''
   
-'''type
+'''syntax
 <body></body>
 '''
 ```
@@ -246,7 +282,56 @@ The <code>&lt;body&gt;&lt;/body&gt;</code> tags
 &lt;body&gt;&lt;/body&gt;
 </code>
 
-<code class="block type">
+<code class="block syntax">
 &lt;body&gt;&lt;/body&gt;
 </code>
 ```
+
+### Inline Table
+##### mrkdwn
+```
+| Header One | Header Two |
+| ---------- | ---------- |
+| Content    | Content    |
+
+| Left | Center | Right |
+| :--- | :----: | ----: |
+| Content    |   Content  |    Content |
+```
+##### html
+```
+<table>
+  <thead>
+    <tr>
+      <th>Header One</th>
+      <th>Header Two</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Content</td>
+      <td>Content</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Left</th>
+      <th>Center</th>
+      <th>Right</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="left">Content</td>
+      <td align="center">Content</td>
+      <td align="right">Content</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+
+
