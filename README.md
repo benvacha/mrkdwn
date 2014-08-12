@@ -126,7 +126,7 @@ Blockquotes can be nested as needed and can contain any other syntax. All lines 
 ```
 
 ### Detail
-The first line of a detail will always be used as it's summary. All lines in a detail must begin with `<`. Detail blocks can be nested as needed an can contain any other syntax.
+The first line of a detail will always be used as it's summary. All lines in a detail must begin with `<`. Detail blocks can be nested as needed and can contain any other syntax.
 ##### mrkdwn
 ```
 < summary
@@ -144,7 +144,7 @@ The first line of a detail will always be used as it's summary. All lines in a d
 ```
 
 ### Unordered List
-Unordered lists must be denoted using `-` or `--`, `*` and `+` will not be translated to unordered lists. Multiple line list items will be translated into paragraphs. `-` and `--` can be used interchangably in a single list. `--` can be used to signify the end of a list to prevent translation errors.
+Unordered lists must be denoted using `-`, `*` and `+` will not be translated to unordered lists. Multiple line list items will be translated into paragraphs. `--` can be used to signify the end of a list to prevent translation errors.
 ##### mrkdwn
 ```
 - Item
