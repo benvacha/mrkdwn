@@ -3,7 +3,7 @@ mrkdwn
 
 One Markdown To Rule Them All
 
-**mrkdwn** combines the original markdown specification created by John Gruber, the latest and greatest flavors of markdown, and new syntax for semantic notation. **mrkdwn** seeks to provide the most complete set of syntax while considering both backward compatibility and future need. 
+**mrkdwn** combines the original markdown specification created by John Gruber, the latest and greatest flavors of markdown, and new syntax for semantic notation. **mrkdwn** seeks to provide the most complete set of syntax while considering both backward compatibility and future need. While **mrkdwn** may stray from full backward compatability, it is with the goal of improving speed, reliability, and readability.
 
 **mrkdwn**'s ultimate goal is to the be the one markdown to rule them all, the one markdown to bring them all and in the darkness bind them. With this in mind, **mrkdwn** will work to provide translation packages in all major languages as well as GUI packages for live editing, including syntax highlighting and real time output.
 
@@ -13,7 +13,7 @@ Proposed Syntax
 ---------------
 
 ### Paragraphs
-Plain text preceeded and followed by a blank line or block syntax will be wrapped in a paragraph. Manual line returns will be treated as manual breaks within a single paragraph.
+Text followed by a blank line or block syntax will be wrapped in a paragraph. Line returns without following whitespace will be treated as breaks within a single paragraph.
 ##### mrkdwn
 ```
 The first paragraph
@@ -30,7 +30,7 @@ with a manual break inserted</p>
 ```
 
 ### Phrase Formatting
-Phrase formatting can be nested inside of any other syntax, except code blocks. Phrase formatting is only translated when both starting end ending syntax is found. Phrase formatting can be done inside of words, with the exception of underline. Phrase formatting surrounded with whitespace will not be translated as phrase formatting.
+Phrase formatting can be nested inside of any other syntax, except code blocks. Phrase formatting is only translated when both starting and ending syntax is found in the same paragraph. Phrase formatting can be inside of words, with the exception of underline. Phrase formatting surrounded with whitespace will not be translated as phrase formatting.
 ##### mrkdwn
 ```
 *emphasis*  **bold**  ***strong***
@@ -38,6 +38,8 @@ Phrase formatting can be nested inside of any other syntax, except code blocks. 
 ~*italic bold*~
 ^superscript^  ^^subscript^^
 _underline_
+some_file_name
+put a * in the **
 ```
 ##### html
 ```
@@ -46,10 +48,12 @@ _underline_
 <i><b>italic bold</b></i>
 <sup>superscript</sup>  <sub>subscript</sub>
 <u>underline</u>
+some_file_name
+put a * in the **
 ```
 
 ### Headers
-Headers are automatically given anchor links based on text content
+Headers are automatically given internal anchor links based on header text, or can be manually defined. Trailing `#` will not be translated.
 ##### mrkdwn
 ```
 Header 1
@@ -64,22 +68,27 @@ Header 2
 #### Header 4
 ##### Header 5
 ###### Header 6
+
+## [Header 2](!anchor)
 ```
 ##### html
 ```
-<h1>Header 1</h1>
+<h1><a name="header-1">Header 1</a></h1>
 
-<h2>Header 2</h2>
+<h2><a name="header-2">Header 2</a></h2>
 
-<h1>Header 1</h1>
-<h2>Header 2</h2>
-<h3>Header 3</h3>
-<h4>Header 4</h4>
-<h5>Header 5</h5>
-<h6>Header 6</h6>
+<h1><a name="header-1">Header 1</a></h1>
+<h2><a name="header-2">Header 2</a></h2>
+<h3><a name="header-3">Header 3</a></h3>
+<h4><a name="header-4">Header 4</a></h4>
+<h5><a name="header-5">Header 5</a></h5>
+<h6><a name="header-6">Header 6</a></h6>
+
+<h2><a name="anchor">Header 2</a></h2>
 ```
 
 ### Horizontal Rules
+Three or more `-` on a line, alone, will create a horizontal rule. '*' are not valid horizontal rule syntax.
 ##### mrkdwn
 ```
 ---
@@ -92,11 +101,12 @@ Header 2
 ```
 
 ### Blockquote
+Blockquotes can be nested as needed and can contain any other syntax. All lines in a blockquote must begin with a `>`.
 ##### mrkdwn
 ```
-> Block
-> Quoted
-> Lines
+> Paragraph one
+> 
+> Second paragraph
 
 > Block Quote
 > with citation
@@ -105,49 +115,49 @@ Header 2
 ##### html
 ```
 <blockquote>
- Block
- Quoted
- Lines
+  <p>Paragraph one</p>
+  <p>Second paragraph</p>
 </blockquote>
 
 <blockquote cite="cite">
- Block Quote
- with citation
+  <p>Block Quote<br />
+  with citation</p>
 </blockquote>
 ```
 
 ### Detail
-A detail block must start with `<!` or it will be translated as a accordian list.
+The first line of a detail will always be used as it's summary. All lines in a detail must begin with `<`. Detail blocks can be nested as needed an can contain any other syntax.
 ##### mrkdwn
 ```
-<! summary
-< Content
+< summary
+< Paragaph One
 <
-< Content
+< Second Paragraph
 ```
 ##### html
 ```
 <details>
   <summary>summary</summary>
-  <p>Content</p>
-  <p>Content</p>
+  <p>Paragraph One</p>
+  <p>Second Paragraph</p>
 </details>
 ```
 
 ### Unordered List
-Unordered lists must be denoted using `-`, `*` and `+` will not be translated to unordered lists. Multiple line list items will be translated into paragraphs.
+Unordered lists must be denoted using `-` or `--`, `*` and `+` will not be translated to unordered lists. Multiple line list items will be translated into paragraphs. `-` and `--` can be used interchangably in a single list. `--` can be used to signify the end of a list to prevent translation errors.
 ##### mrkdwn
 ```
 - Item
 - Item
-- Item
+-- Item
 
 - Item
 
 - Item
-  
-  With a second paragraph
-- Item
+   
+   With a second paragraph
+-- Item
+
 ```
 ##### html
 ```
@@ -172,12 +182,12 @@ Unordered lists must be denoted using `-`, `*` and `+` will not be translated to
 ```
 
 ### Ordered List
-Numbering does not need to be unique or sequential. The first number will be used as the starting value of the list.
+Numbering does not need to be unique or sequential. The first number will be used as the starting value of the list. Multiple line list items will be translated into paragraphs. A number with `..` instead of `.` can be used to signify the end of a list to prevent translation errors.
 ##### mrkdwn
 ```
 1. One
 2. Two
-3. Three
+3.. Three
 
 50. Fifty
 34. Fifty One
@@ -198,7 +208,83 @@ Numbering does not need to be unique or sequential. The first number will be use
 </ol>
 ```
 
+### Task List
+Task lists can be used as ordered or unordered lists, and follow their respective syntax.
+##### mrkdwn
+```
+- [ ] Task 1
+- [x] Task 2
+- [ ] Task 3
+  1. [x] Sub Task 1
+  2. [x] Sub Task 2
+  3. [ ] Sub Task 3
+```
+##### html
+```
+<ul>
+  <li><input type="checkbox" /> Task 1</li>
+  <li><input type="checkbox" checked /> Task 2</li>
+  <li><input type="checkbox" /> Task 3
+    <ol>
+      <li><input type="checkbox" checked /> Sub Task 1</li>
+      <li><input type="checkbox" checked /> Sub Task 2</li>
+      <li><input type="checkbox" /> Sub Task 3</li>
+    </ol>
+  </li>
+</ul>
+```
+
+### Accordian List
+Accordians can be used on ordered or unordered lists, and follow their respective syntax.
+##### mrkdwn
+```
+-< Visible
+  - Hidden
+- Item
+  1.< Visible
+    - Hidden
+  2. Item
+```
+##### html
+```
+<ul>
+  <li class="accordian">Visible
+    <ul>
+      <li>Hidden</li>
+    </ul>
+  </li>
+  <li>Item
+    <ol>
+      <li class="accordian">Visible
+        <ul>
+          <li>Hidden</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+```
+
+### Definition List
+##### mrkdwn
+```
+: Term
+  : Definition
+: Term
+  : Definition
+```
+##### html
+```
+<dl>
+  <dt>Term</dt>
+    <dd>Definition</dd>
+  <dt>Term</dt>
+    <dd>Defintion</dd>
+</dl>
+```
+
 ### Nested Lists
+All list types may be nested in each other.
 ##### mrkdwn
 ```
 - Item
@@ -230,73 +316,6 @@ Numbering does not need to be unique or sequential. The first number will be use
     </ul>
   <li>
   <li>Item</li>
-</ul>
-```
-
-### Task List
-##### mrkdwn
-```
-- [ ] Task 1
-- [x] Task 2
-- [ ] Task 3
-  - [x] Sub Task 1
-  - [x] Sub Task 2
-  - [ ] Sub Task 3
-```
-##### html
-```
-<ul>
-  <li><input type="checkbox" /> Task 1</li>
-  <li><input type="checkbox" checked /> Task 2</li>
-  <li><input type="checkbox" /> Task 3
-    <ul>
-      <input type="checkbox" checked /> Sub Task 1</li>
-      <input type="checkbox" checked /> Sub Task 2</li>
-      <input type="checkbox" /> Sub Task 3</li>
-    </ul>
-  </li>
-</ul>
-```
-
-### Definition List
-##### mrkdwn
-```
-: Term
-  : Definition
-: Term
-  : Definition
-```
-##### html
-```
-<dl>
-  <dt>Term</dt>
-    <dd>Definition</dd>
-  <dt>Term</dt>
-    <dd>Defintion</dd>
-</dl>
-```
-
-### Accordian List
-##### mrkdwn
-```
-< Visible
-  < Hidden
-< Visible
-  < Hidden
-```
-##### html
-```
-<ul class="accordian">
-  <li>Visible
-    <ul>
-      <li>Hidden</li>
-    </ul>
-  </li>
-  <li>Visible
-    <ul>
-      <li>Hidden</li>
-    </ul>
-  </li>
 </ul>
 ```
 
