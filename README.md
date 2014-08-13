@@ -101,12 +101,12 @@ Three or more `-` on a line, alone, will create a horizontal rule. '*' are not v
 ```
 
 ### Blockquote
-Blockquotes can be nested as needed and can contain any other syntax. All lines in a blockquote must begin with a `>`.
+Blockquotes can be nested as needed and can contain any other syntax. `>>` can be used to signify the end of a blockquote to avoid translation errors.
 ##### mrkdwn
 ```
 > Paragraph one
 > 
-> Second paragraph
+>> Second paragraph
 
 > Block Quote
 > with citation
@@ -126,7 +126,7 @@ Blockquotes can be nested as needed and can contain any other syntax. All lines 
 ```
 
 ### Detail
-The first line of a detail will always be used as it's summary. All lines in a detail must begin with `<`. Detail blocks can be nested as needed and can contain any other syntax.
+The first line of a detail will always be used as it's summary. `<<` can be used to signify the end of a detail to avoid translation errors. Detail blocks can be nested as needed and can contain any other syntax.
 ##### mrkdwn
 ```
 < summary
@@ -342,7 +342,7 @@ Brackets preceeded by whitespace and proceeded by parenthesis will be translated
 ```
 
 ### Anchor Links
-Parenthesis beginning with `!` will define an anchor. Parenthesis beginning with `#` will link to an anchor. Bracketed text preceeded and proceeded by whitespace and beginning with a `!` will define an anchor. Bracketed text preceeded and proceeded by whitespace and beginning with `#` will link to an anchor; text will be parsed based on `_` and `#`. The url can be absolute or relative.
+Parenthesis beginning with `!` will define an anchor. Parenthesis beginning with `#` will link to an anchor. Bracketed text preceeded and proceeded by whitespace and beginning with a `!` will define an anchor. Bracketed text preceeded and proceeded by whitespace and beginning with `#` will link to an anchor; text will be exploded based on `_` and `#`. The url can be absolute or relative.
 ##### mrkdwn
 ```
 Define a [text](!anchor)
@@ -396,17 +396,13 @@ Email addr@email.com
 ```
 ##### html
 ```
-Go to <a href="url.com">url.com</a>
-
 Go to <a href="http://url.com">http://url.com</a>
-
-Email <a href="mailto:addr@email.com">addr@email.com</a>
 
 Email <a href="mailto:addr@email.com">addr@email.com</a>
 ```
 
 ### Inline Image
-Bracketed text preceeded by `!` and proceeded by parenthesis will be translated as images. url can be absolute or relative. title, width, and height are optional.
+Bracketed text preceeded by `!` and proceeded by parenthesis will be translated as an image. url can be absolute or relative. title, width, and height are optional.
 ##### mrkdwn
 ```
 ![alt text](url title width height)
@@ -420,7 +416,7 @@ Bracketed text preceeded by `!` and proceeded by parenthesis will be translated 
 ```
 
 ### Reference Image
-Bracketed text preceeded by `!` and proceeded by bracketed text will be translated as a reference image. Bracketed text preceeded by `!` and proceeded by `:` will define a image reference and can be anywhere in the document.
+Bracketed text preceeded by `!` and proceeded by bracketed text will be translated as a reference image. Bracketed text preceeded by `!` and proceeded by `:` will define an image reference and can be anywhere in the document.
 ##### mrkdwn
 `![alt text][reference]`  
 `![reference]: url "Title" width height`
@@ -430,7 +426,7 @@ Bracketed text preceeded by `!` and proceeded by bracketed text will be translat
 ```
 
 ### Inline Macro
-Bracketed text preceeded by `@` and proceeded by parenthesis will be translated as a macro. Macros can be used to embed video or other media, or whatever else comes around. alt text is displayed is macro fails to return translation. The first argument in the parenthesis must be the macro name. Arguments after the first will vary with the macro.
+Bracketed text preceeded by `@` and proceeded by parenthesis will be translated as a macro. Macros can be used to embed video, other media, or whatever else comes around. alt text is displayed if a macro fails to return a translation. The first argument in the parenthesis must be the macro name. Any number and type of arguments can be included after the first depending on the macro.
 ##### mrkdwn
 ```
 @[alt text](macro arg1 arg2 arg3 ...)
@@ -453,7 +449,7 @@ varied based on macro
 ### Variables
 Bracketed text preceeded by `%` and proceeded by bracketed text will be translated as a variable. Bracketed text preceeded by `%` and proceeded by `:` will define a variable and can be anywhere in the document.
 ##### mrkdwn
-`Current version %[variable]`
+`Current version %[variable]`  
 `%[variable]: value`
 ##### html
 ```
@@ -488,7 +484,7 @@ The <pre>&lt;body&gt;&lt;/body&gt;</pre> tags
 ```
 
 ### Block Pre and Code
-Pairs of three backticks, alone on lines, will be translated as block pre. Pairs of three backticks, with text on the line, will be translated as block pre code. All special characters within a block are escaped to their ascii represenation. Reference syntax inside block code will not be translated as reference syntax. The absence of a syntax will translate the block without a code tag. The syntax does not need to be a valid syntax name to translate with the code tag.
+Pairs of three backticks, alone on lines, will be translated as block pre. Pairs of three backticks, with text on the first line, will be translated as block pre code. All special characters within a block are escaped to their ascii represenation. Reference syntax inside block code will not be translated as reference syntax. The absence of a syntax will translate the block without a code tag. The syntax does not need to be a valid syntax name to translate with the code tag.
 ##### mrkdwn
 ```
 '''
@@ -511,7 +507,7 @@ Pairs of three backticks, alone on lines, will be translated as block pre. Pairs
 ```
 
 ### Block Sample
-Pairs of four backticks, alone of lines, will be translated as block pre sample. All special characters within the block is escaped to it's ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
+Pairs of four backticks, alone on lines, will be translated as block pre sample. All special characters within the block are escaped to their ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
 ##### mrkdwn
 ```
 ''''
@@ -526,7 +522,7 @@ Pairs of four backticks, alone of lines, will be translated as block pre sample.
 ```
 
 ### Table
-Tables must have preceeding and proceeding `|`. Column text lenghts do not need to be equal between columns or rows.
+Tables must have preceeding and proceeding `|`. Column text lengths do not need to be equal between columns or rows.
 ##### mrkdwn
 ```
 | Header One | Header Two |
@@ -573,7 +569,7 @@ Tables must have preceeding and proceeding `|`. Column text lenghts do not need 
 ```
 
 ### Backslash Escape
-Any character used in mrkdwn syntax can be escaped with `\` to produce the actual character and remove it's mrkdwn meaning. This includes `\, *, _, {, }, [, ], (, ), <, >, #, +, -, ., !, :, @`.
+Any character used in mrkdwn syntax can be escaped with `\` to produce the ascii representation and remove it's mrkdwn meaning. This includes `\, *, _, {, }, [, ], (, ), <, >, #, +, -, ., !, :, @`.
 ##### mrkdwn
 ```
 \*Actual asterisk surrounded text\*
@@ -584,7 +580,7 @@ Any character used in mrkdwn syntax can be escaped with `\` to produce the actua
 ```
 
 ### Automatic Quotation
-Quotations marks will be automatically translated to use quotations tags.
+Quotations marks will be automatically translated to use the quotation tags.
 ##### mrkdwn
 ```
 He said "Something worth remembering".
@@ -595,7 +591,7 @@ He said <q>Something worth remembering</q>.
 ```
 
 ### Semantics and Meta
-`{ }` will be treated as meta or sematic data. It will be removed from the final translation, but can be retrieved and used for special magic. `( )` can be used to define an array. `[ ]` can be used to define a json-ish data structure. Whitespace within is ignored.
+`{ }` will be treated as meta or sematic data. Semantics can be used inline or in a block. It will be removed from the final translation, but can be retrieved and used for special machine magic. The parser can be configured to output sematics in a single html comment or multiple html comments.  `( )` can be used to define an array. `[ ]` can be used to define a json-ish data structure. Whitespace is used for parsing and is otherwise ignored.
 ##### mrkdwn
 ```
 {pageTitle "The page title"}
