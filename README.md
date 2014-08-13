@@ -266,20 +266,23 @@ Accordians can be used on ordered or unordered lists, and follow their respectiv
 ```
 
 ### Definition List
+A term may have multiple definitions. Multiple line list items will be translated into paragraphs.
 ##### mrkdwn
 ```
-: Term
+: Term One
   : Definition
-: Term
-  : Definition
+: Term Two
+  : Definition One
+  : Definition Two
 ```
 ##### html
 ```
 <dl>
-  <dt>Term</dt>
+  <dt>Term One</dt>
     <dd>Definition</dd>
-  <dt>Term</dt>
-    <dd>Defintion</dd>
+  <dt>Term Two</dt>
+    <dd>Definition One</dd>
+    <dd>Definition Two</dd>
 </dl>
 ```
 
@@ -320,42 +323,61 @@ All list types may be nested in each other.
 ```
 
 ### Inline Link
+Brackets preceeded by whitespace and proceeded by parenthesis will be translated as links. Bracketed text preceeded and proceeded by whitespace will be exploded on `_` and linked. The url can be absolute or relative.
 ##### mrkdwn
 ```
 [text](url)
 [text](url "Title")
+
+[url]
+[auto_parsed_url]
 ```
 ##### html
 ```
 <a href="url">text</a>
 <a href="url" title="Title">text</a>
+
+<a href="url">url</a>
+<a href="auto/parsed/url">auto parsed url</a>
 ```
 
 ### Anchor Links
+Parenthesis beginning with `!` will define an anchor. Parenthesis beginning with `#` will link to an anchor. Bracketed text preceeded and proceeded by whitespace and beginning with a `!` will define an anchor. Bracketed text preceeded and proceeded by whitespace and beginning with `#` will link to an anchor; text will be parsed based on `_` and `#`. The url can be absolute or relative.
 ##### mrkdwn
 ```
 Define a [text](!anchor)
 Define a [text](!anchor "Title")
+
+Define a [!anchor]
 
 Go to [text](#anchor) in same page
 Go to [text](#anchor "Title") in same page
 
 Go to [text](url#anchor) in external page
 Go to [text](url#anchor "Title") in external page
+
+[#anchor]
+[parsed_url#anchor]
 ```
 ##### html
 ```
 Define a <a name="anchor">text</a>
 Define a <a name="anchor" title="Title">text</a>
 
+Define a <a name="anchor">anchor</a>
+
 Go to <a href="#anchor">text</a> in same page
 Go to <a href="#anchor" title="Title">text</a> in same page
 
 Go to <a href="url#anchor">text</a> in external page
 Go to <a href="url#anchor" title="Title">text</a> in external page
+
+<a href="#anchor">anchor</a>
+<a href="parsed/url#anchor">parsed url anchor</a>
 ```
 
 ### Reference Link
+Bracketed text preceeded by whitespace and proceeded by bracketed text will be translated as a reference link. Bracketed text preceeded by whitespace and proceeded by `:` will define a link reference and can be anywhere in the document.
 ##### mrkdwn
 `[text][reference]`  
 `[reference]: url "Title"`
@@ -365,13 +387,10 @@ Go to <a href="url#anchor" title="Title">text</a> in external page
 ```
 
 ### Automatic Link
+Absolute urls and email addresses will be automatically linked.
 ##### mrkdwn
 ```
-Go to <url.com>
-
 Go to http://url.com
-
-Email <addr@email.com>
 
 Email addr@email.com
 ```
@@ -387,46 +406,78 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 ```
 
 ### Inline Image
+Bracketed text preceeded by `!` and proceeded by parenthesis will be translated as images. url can be absolute or relative. title, width, and height are optional.
 ##### mrkdwn
 ```
-![alt text](url "Title")
+![alt text](url title width height)
+![alt text](url "Title" 350px 100%)
+
 ```
 ##### html
 ```
-<img src="url" title="Title" alt="alt text" />
+<img src="url" title="title" alt="alt text" />
+<img src="url" title="Title" alt="alt text" width="350px" height="100%" />
 ```
 
 ### Reference Image
+Bracketed text preceeded by `!` and proceeded by bracketed text will be translated as a reference image. Bracketed text preceeded by `!` and proceeded by `:` will define a image reference and can be anywhere in the document.
 ##### mrkdwn
 `![alt text][reference]`  
-`[reference]: url "Title"`
+`![reference]: url "Title" width height`
 ##### html
 ```
-<img src="url" title="Title" alt="alt text" />
+<img src="url" title="Title" alt="alt text" width="width" height="height" />
 ```
 
-### Inline Video
-Video will be embedded based on video content provider
+### Inline Macro
+Bracketed text preceeded by `@` and proceeded by parenthesis will be translated as a macro. Macros can be used to embed video or other media, or whatever else comes around. alt text is displayed is macro fails to return translation. The first argument in the parenthesis must be the macro name. Arguments after the first will vary with the macro.
 ##### mrkdwn
 ```
-!![alt text](url "Title")
+@[alt text](macro arg1 arg2 arg3 ...)
 ```
 ##### html
 ```
-varied based on provider
+varied based on macro
 ```
 
-### Reference Video
+### Reference Macro
+Bracketed text preceeded by `@` and proceeded by bracketed text will be translated as a reference macro. Bracketed text preceeded by `@` and proceeded by `:` will define a macro reference and can be anywhere in the document.
 ##### mrkdwn
-`!![alt text][reference]`  
-`[reference]: url "Title"`
+`@[alt text][reference]`  
+`@[reference]: macro arg1 arg2 arg3 arg4`
 ##### html
 ```
-varied based on provider
+varied based on macro
+```
+
+### Variables
+Bracketed text preceeded by `%` and proceeded by bracketed text will be translated as a variable. Bracketed text preceeded by `%` and proceeded by `:` will define a variable and can be anywhere in the document.
+##### mrkdwn
+`Current version %[variable]`
+`%[variable]: value`
+##### html
+```
+Current version value
+```
+
+### Abbreviations
+Bracketed text preceeded by `+` and proceeded by `:` will define an abbreviation and can be anywhere in the document. Abbreviations are automatically applied to case sensative matching text anywhere in the document.
+##### mrkdwn
+```
+The HTML specification
+The Primary Standard is good
+
++[HTML]: Hyper Text Markup Language
++[Primary Standard]: Main Standard
+```
+##### html
+```
+The <abbr title="Hyper Text Markup Language">HTML</abbr> specification
+The <abbr title="Main Standard">Primary Standard</abbr> is good
 ```
 
 ### Inline Pre
-All special characters within an inline pre syntax is escaped to it's ascii representation.
+Pairs of single backticks will be translated as inline pre. All special characters within an inline pre syntax is escaped to it's ascii representation.
 ##### mrkdwn
 ```
 The `<body></body>` tags
@@ -437,7 +488,7 @@ The <pre>&lt;body&gt;&lt;/body&gt;</pre> tags
 ```
 
 ### Block Pre and Code
-All special characters within a block pre code syntax is escaped to it's ascii represenation. Reference syntax inside block code will not be translated as reference syntax. The absense of absence of a syntax will translate the block without a code tag. The syntax does not need to be a valid syntax name to translate with the code tag.
+Pairs of three backticks, alone on lines, will be translated as block pre. Pairs of three backticks, with text on the line, will be translated as block pre code. All special characters within a block are escaped to their ascii represenation. Reference syntax inside block code will not be translated as reference syntax. The absence of a syntax will translate the block without a code tag. The syntax does not need to be a valid syntax name to translate with the code tag.
 ##### mrkdwn
 ```
 '''
@@ -460,7 +511,7 @@ All special characters within a block pre code syntax is escaped to it's ascii r
 ```
 
 ### Block Sample
-All special characters within the block is escaped to it's ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
+Pairs of four backticks, alone of lines, will be translated as block pre sample. All special characters within the block is escaped to it's ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
 ##### mrkdwn
 ```
 ''''
@@ -474,7 +525,8 @@ All special characters within the block is escaped to it's ascii representation.
 </samp></pre>
 ```
 
-### Inline Table
+### Table
+Tables must have preceeding and proceeding `|`. Column text lenghts do not need to be equal between columns or rows.
 ##### mrkdwn
 ```
 | Header One | Header Two |
@@ -521,7 +573,7 @@ All special characters within the block is escaped to it's ascii representation.
 ```
 
 ### Backslash Escape
-Any character used in mrkdwn syntax can be escaped with `\` to produce the actual character and remove it's mrkdwn meaning. This includes `\, *, _, {, }, [, ], (, ), <, >, #, +, -, ., !, :`.
+Any character used in mrkdwn syntax can be escaped with `\` to produce the actual character and remove it's mrkdwn meaning. This includes `\, *, _, {, }, [, ], (, ), <, >, #, +, -, ., !, :, @`.
 ##### mrkdwn
 ```
 \*Actual asterisk surrounded text\*
@@ -531,27 +583,8 @@ Any character used in mrkdwn syntax can be escaped with `\` to produce the actua
 &#42;Actual asterisk surrounded text&#42;
 ```
 
-### Tags
-##### mrkdwn
-```
-#tag
-```
-##### html
-```
-
-```
-
-### Authorship
-##### mrkdwn
-```
-@username
-```
-##### html
-```
-
-```
-
 ### Automatic Quotation
+Quotations marks will be automatically translated to use quotations tags.
 ##### mrkdwn
 ```
 He said "Something worth remembering".
@@ -561,45 +594,32 @@ He said "Something worth remembering".
 He said <q>Something worth remembering</q>.
 ```
 
-### Document Attributes
-A mrkdwn document may begin with a section of attributes that may be used elsewhere in the document, but are not displayed where they are defined.
+### Semantics and Meta
+`{ }` will be treated as meta or sematic data. It will be removed from the final translation, but can be retrieved and used for special magic. `( )` can be used to define an array. `{ }` can be used to define a json-ish data structure. Whitespace within is ignored.
 ##### mrkdwn
 ```
-% title Page Title
-% author Author One Name
-% author Author Two Name
-% created Date Created
-% updated Date Updated
-% customAttribute Custom Value
-```
-```
-%[title]
-%[author]
-%[created] - %[updated]
-%[customAttribute]
+{pageTitle "The page title"}
+{author (
+  [
+    first: "Author",
+    last: "One",
+    role: "Contributor"
+  ],
+  [
+    first: "Author",
+    last: "Two",
+    role: "Editor"
+  ]
+)}
+{backPage url}
+{nextPage url}
+{siblings (Sibling One, Sibling Two)}
+{isA Object url}
+{hasA Object url}
 ```
 ##### html
 ```
-Page Title
-Author One Name, Author Two Name
-Date Created - Date Updated
-Custom Value
-```
 
-### Abbreviations
-Abbreviations can be defined anywhere and are automatically translated everyone in the document. Abbreviations are case sensative.
-##### mrkdwn
-```
-The HTML specification
-The Primary Standard is good
-
-+[HTML]: Hyper Text Markup Language
-+[Primary Standard]: Main Standard
-```
-##### html
-```
-The <abbr title="Hyper Text Markup Language">HTML</abbr> specification
-The <abbr title="Main Standard">Primary Standard</abbr> is good
 ```
 
 
