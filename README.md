@@ -595,7 +595,7 @@ He said <q>Something worth remembering</q>.
 ```
 
 ### Semantics and Meta
-`{ }` will be treated as meta or sematic data. It will be removed from the final translation, but can be retrieved and used for special magic. `( )` can be used to define an array. `{ }` can be used to define a json-ish data structure. Whitespace within is ignored.
+`{ }` will be treated as meta or sematic data. It will be removed from the final translation, but can be retrieved and used for special magic. `( )` can be used to define an array. `[ ]` can be used to define a json-ish data structure. Whitespace within is ignored.
 ##### mrkdwn
 ```
 {pageTitle "The page title"}
