@@ -46,17 +46,18 @@
             <textarea id="input"></textarea>
         </fieldset>
         <fieldset>
-            <legend>output</legend>
+            <legend id="output-legend">output</legend>
             <textarea id="output" disabled></textarea>
         </fieldset>
-        <input type="submit" value="Decode Input" onclick="decodeInput();" />
-        <input type="submit" value="Encode Input" onclick="encodeInput();" />
+        <input type="submit" value="Input To MRKDWN" onclick="getMrkdwn();" />
+        <input type="submit" value="Input To HTML" onclick="getHtml();" />
     </form>
     
     <script type="text/javascript">
         // common elements
         var input = document.getElementById('input'),
             output = document.getElementById('output'),
+            outputLegend = document.getElementById('output-legend'),
             storageKey = 'org.mrkdwn.demo.input';
         // set the input to the stored input value
         input.value = localStorage.getItem(storageKey);
@@ -64,13 +65,23 @@
         window.onbeforeunload = function(){
             localStorage.setItem(storageKey, input.value);
         };
-        // encode the input value and put it in the output
-        function encodeInput() {
-            output.value = mrkdwn.encode(input.value);
+        // get the html representation of the input value and put it in the output
+        function getHtml() {
+            var start, end;
+            outputLegend.innerHTML = 'translating...';
+            start = Date.now();
+            output.value = mrkdwn.getHtml(input.value);
+            end = Date.now();
+            outputLegend.innerHTML = 'html : ' + (end - start) + ' ms';
         }
-        // decode the input value and put it in the output
-        function decodeInput() {
-            output.value = mrkdwn.decode(input.value);
+        // get the mrkdwn representation of the input value and put it in the output
+        function getMrkdwn() {
+            var start, end;
+            outputLegend.innerHTML = 'translating...';
+            start = Date.now();
+            output.value = mrkdwn.getMrkdwn(input.value);
+            end = Date.now();
+            outputLegend.innerHTML = 'mrkdwn : ' + (end - start) + ' ms';
         }
     </script>
     

@@ -30,14 +30,14 @@ var mrkdwn = {
     
     /*
     */
-    encode: function(markdown) {
-        return 'encoded: \n' + markdown;
+    getHtml: function(markdown) {
+        return markdown;
     },
     
     /*
     */
-    decode: function(html) {
-        return 'decoded: \n' + html;
+    getMrkdwn: function(html) {
+        return html;
     }
     
 };
