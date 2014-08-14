@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>mrkdwn | js demo</title>
+    <script type="text/javascript" src="mrkdwn.js"></script>
+    <style type="text/css">
+        html, body {
+            margin:0px; width:100%; height:100% !important;
+            height:auto; min-height:100%;
+        }
+        .io, .io fieldset, .io legend, .io textarea, .io input {
+            -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;
+            -webkit-background-clip:padding; -moz-background-clip:padding; background-clip:padding-box;
+        }
+        .io {
+            position:relative; margin:0px; width:100%;
+            height:100%; padding:25px 25px 50px 25px;
+        }
+        .io fieldset {
+            position:relative; float:left; margin:0px;
+            width:50%; height:100%; padding:0px 0px 20px 0px;
+        } 
+        .io legend {
+            position:relative; margin:0px 15px;
+            padding:0px 5px;
+        }
+        .io textarea {
+            position:relative; margin:0px; width:100%; height:100%; padding:15px;
+            font-family:monospace; border:none; outline:none;
+        }
+        .io input {
+            position:relative; float:right; margin:10px 15px; width:auto; height:auto; 
+            padding:5px 10px; color:#333; background-color:#CCC; border:1px solid #999; 
+            -webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+        }
+        .io input:hover {
+            color:#CCC; background-color:#333;
+        }
+    </style>
+</head>
+<body>
+    
+    <form class="io" onsubmit="return false;">
+        <fieldset>
+            <legend>input</legend>
+            <textarea id="input"></textarea>
+        </fieldset>
+        <fieldset>
+            <legend>output</legend>
+            <textarea id="output" disabled></textarea>
+        </fieldset>
+        <input type="submit" value="Decode Input" onclick="decodeInput();" />
+        <input type="submit" value="Encode Input" onclick="encodeInput();" />
+    </form>
+    
+    <script type="text/javascript">
+        // common elements
+        var input = document.getElementById('input'),
+            output = document.getElementById('output'),
+            storageKey = 'org.mrkdwn.demo.input';
+        // set the input to the stored input value
+        input.value = localStorage.getItem(storageKey);
+        // on page reload or close store the input value, also disables alert
+        window.onbeforeunload = function(){
+            localStorage.setItem(storageKey, input.value);
+        };
+        // encode the input value and put it in the output
+        function encodeInput() {
+            output.value = mrkdwn.encode(input.value);
+        }
+        // decode the input value and put it in the output
+        function decodeInput() {
+            output.value = mrkdwn.decode(input.value);
+        }
+    </script>
+    
+</body>
+</html>
