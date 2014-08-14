@@ -65,6 +65,8 @@
         window.onbeforeunload = function(){
             localStorage.setItem(storageKey, input.value);
         };
+        // run get html on page load
+        getHtml();
         // get the html representation of the input value and put it in the output
         function getHtml() {
             var start, end;

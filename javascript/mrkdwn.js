@@ -29,15 +29,78 @@ SOFTWARE.
 var mrkdwn = {
     
     /*
-    */
+     * 
+     */
+    
+    // return the html representation of the markdown
     getHtml: function(markdown) {
+        markdown = mrkdwn.util.asciiEncodeEscapedChars(markdown);
         return markdown;
     },
     
-    /*
-    */
+    // return the mrkdwn representation of the html
     getMrkdwn: function(html) {
         return html;
-    }
+    },
     
+    /*
+     *
+     */
+    
+    util: {
+        
+        // return the ascii representation of escaped special charaters
+        asciiEncodeEscapedChars: function(str) {
+            return str.replace(/\\\!/g, '&#33;')
+                .replace(/\\\"/g, '&#34;')
+                .replace(/\\\#/g, '&#35;')
+                .replace(/\\\$/g, '&#36;')
+                .replace(/\\\%/g, '&#37;')
+                .replace(/\\\&/g, '&#38;')
+                .replace(/\\\(/g, '&#40;')
+                .replace(/\\\)/g, '&#41;')
+                .replace(/\\\*/g, '&#42;')
+                .replace(/\\\+/g, '&#43;')
+                .replace(/\\\-/g, '&#45;')
+                .replace(/\\\./g, '&#46;')
+                .replace(/\\\:/g, '&#58;')
+                .replace(/\\\=/g, '&#61;')
+                .replace(/\\\@/g, '&#64;')
+                .replace(/\\\[/g, '&#91;')
+                .replace(/\\\\/g, '&#92;')
+                .replace(/\\\]/g, '&#93;')
+                .replace(/\\\^/g, '&#94;')
+                .replace(/\\\_/g, '&#95;')
+                .replace(/\\\`/g, '&#96;')
+                .replace(/\\\{/g, '&#123;')
+                .replace(/\\\}/g, '&#125;')
+                .replace(/\\\~/g, '&#126;');
+        }
+        
+    }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
