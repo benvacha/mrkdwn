@@ -618,6 +618,61 @@ He said <q>Something worth remembering</q>.
 
 ```
 
+---
+
+Proposed Parse Order
+--------------------
+
+- escape
+  - characters
+  - pre
+  - pre code
+  - pre sample
+- semantics and meta
+- variables
+  - references
+  - translations
+- abbreviations
+  - references
+  - translations
+- references
+  - link
+  - image
+  - macro
+- inline elements
+  - phrase formatting
+  - pre
+  - quotation
+  - links
+    - inline
+    - anchor
+    - reference
+    - automatic
+  - images
+    - inline
+    - reference
+  - macros
+    - inline
+    - reference
+- block elements
+  - pre code
+  - pre sample
+  - headers
+  - horizontal rules
+  - blockquote
+  - detail
+  - list
+    - unordered list
+    - ordered list
+    - accordian
+    - task list
+    - definition list
+  - table
+- paragraphs
+
+
+
+
 
 
 
