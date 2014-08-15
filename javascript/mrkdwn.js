@@ -34,20 +34,20 @@ var mrkdwn = {
     
     // return the html representation of the markdown
     getHtml: function(markdown) {
-        markdown = mrkdwn.decode.escapedChars(markdown);
-        markdown = mrkdwn.decode.blockPreSample(markdown);
-        markdown = mrkdwn.decode.blockPreCode(markdown);
-        markdown = mrkdwn.decode.inlineCode(markdown);
-        markdown = mrkdwn.decode.removeSemantics(markdown);
-        markdown = mrkdwn.decode.variables(markdown);
-        markdown = mrkdwn.decode.abbreviations(markdown);
+        markdown = mrkdwn.markup.escapedChars(markdown);
+        markdown = mrkdwn.markup.blockPreSample(markdown);
+        markdown = mrkdwn.markup.blockPreCode(markdown);
+        markdown = mrkdwn.markup.inlineCode(markdown);
+        markdown = mrkdwn.markup.removeSemantics(markdown);
+        markdown = mrkdwn.markup.variables(markdown);
+        markdown = mrkdwn.markup.abbreviations(markdown);
         return markdown;
     },
     
     /*
     */
     
-    decode: {
+    markup: {
         
         // ascii encode all escaped characters
         escapedChars: function(markdown) {
