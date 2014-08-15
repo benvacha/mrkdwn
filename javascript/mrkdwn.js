@@ -34,8 +34,29 @@ var mrkdwn = {
     
     // return the html representation of the markdown
     getHtml: function(markdown) {
-        markdown = mrkdwn.util.asciiEncodeEscapedChars(markdown);
+        markdown = mrkdwn.decode.escapedChars(markdown);
+        markdown = mrkdwn.decode.inlineCode(markdown);
         return markdown;
+    },
+    
+    /*
+    */
+    
+    decode: {
+        
+        //
+        escapedChars: function(markdown) {
+            return mrkdwn.util.asciiEncodeEscapedChars(markdown);
+        },
+        
+        //
+        inlineCode: function(markdown) {
+            var onMatch = function(match, submatch, offset, full) {
+                return '<code>' + mrkdwn.util.asciiEncodeChars(submatch) + '</code>';
+            };
+            return markdown.replace(/`(.*?)`/g, onMatch);
+        }
+        
     },
     
     /*

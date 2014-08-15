@@ -472,19 +472,19 @@ The <abbr title="Hyper Text Markup Language">HTML</abbr> specification
 The <abbr title="Main Standard">Primary Standard</abbr> is good
 ```
 
-### Inline Pre
-Pairs of single backticks will be translated as inline pre. All special characters within an inline pre syntax is escaped to it's ascii representation.
+### Inline Code
+Pairs of single backticks will be translated as inline code. All special characters within an inline code syntax is escaped to its ascii representation.
 ##### mrkdwn
 ```
 The `<body></body>` tags
 ```
 ##### html
 ```
-The <pre>&lt;body&gt;&lt;/body&gt;</pre> tags
+The <code>&lt;body&gt;&lt;/body&gt;</code> tags
 ```
 
-### Block Pre and Code
-Pairs of three backticks, alone on lines, will be translated as block pre. Pairs of three backticks, with text on the first line, will be translated as block pre code. All special characters within a block are escaped to their ascii represenation. Reference syntax inside block code will not be translated as reference syntax. The absence of a syntax will translate the block without a code tag. The syntax does not need to be a valid syntax name to translate with the code tag.
+### Block Pre Code
+Pairs of three or more backticks, alone on lines, will be translated as block pre code. All special characters within a block pre code are escaped to their ascii represenation. Reference syntax inside block code will not be translated as reference syntax. 
 ##### mrkdwn
 ```
 '''
@@ -497,9 +497,9 @@ Pairs of three backticks, alone on lines, will be translated as block pre. Pairs
 ```
 ##### html
 ```
-<pre>
+<pre><code>
 &lt;body&gt;&lt;/body&gt;
-</pre>
+</code></pre>
 
 <pre><code class="syntax">
 &lt;body&gt;&lt;/body&gt;
@@ -507,12 +507,12 @@ Pairs of three backticks, alone on lines, will be translated as block pre. Pairs
 ```
 
 ### Block Sample
-Pairs of four backticks, alone on lines, will be translated as block pre sample. All special characters within the block are escaped to their ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
+Pairs of three or more backticks, alone on lines, with a `!` on the first line, will be translated as block pre sample. All special characters within the block are escaped to their ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
 ##### mrkdwn
 ```
-''''
+'''!
 > Output from a bash script
-''''
+'''
 ```
 ###### html
 ```
@@ -625,9 +625,10 @@ Proposed Parse Order
 
 - escape
   - characters
-  - pre
-  - pre code
-  - pre sample
+- preformated
+  - inline code
+  - pre code block
+  - pre sample block
 - semantics and meta
 - variables
   - references
@@ -641,7 +642,6 @@ Proposed Parse Order
   - macro
 - inline elements
   - phrase formatting
-  - pre
   - quotation
   - links
     - inline
@@ -655,8 +655,6 @@ Proposed Parse Order
     - inline
     - reference
 - block elements
-  - pre code
-  - pre sample
   - headers
   - horizontal rules
   - blockquote
