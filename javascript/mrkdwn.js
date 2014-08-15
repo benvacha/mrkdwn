@@ -39,6 +39,7 @@ var mrkdwn = {
         markdown = mrkdwn.decode.blockPreCode(markdown);
         markdown = mrkdwn.decode.inlineCode(markdown);
         markdown = mrkdwn.decode.removeSemantics(markdown);
+        markdown = mrkdwn.decode.variables(markdown);
         return markdown;
     },
     
@@ -81,7 +82,24 @@ var mrkdwn = {
         // replace inline and block sematic
         removeSemantics: function(markdown) {
             return markdown.replace(/\{[\s\S]*?\}/g, '');
-        }
+        },
+        
+        // remove and cache variable references, replace variables
+        variables: function(markdown) {
+            // variable references
+            var vars = {},
+                onMatch = function(match, $1, $2) {
+                    vars[$1] = $2.trim();
+                    return '';
+                };
+            markdown = markdown.replace(/%\[(.*?)\]:(.*)\n/g, onMatch);
+            // variable replace
+            onMatch = function(match, $1) {
+                if (vars[$1]) return vars[$1];
+                return '';
+            };
+            return markdown.replace(/%\[(.*?)\]/g, onMatch);
+        } 
         
     },
     

@@ -639,8 +639,8 @@ Proposed Parse Order
   - ~~pre code block~~
 - ~~semantics and meta~~
 - variables
-  - references
-  - translations
+  - ~~references~~
+  - ~~translations~~
 - abbreviations
   - references
   - translations
