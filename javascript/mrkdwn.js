@@ -38,6 +38,7 @@ var mrkdwn = {
         markdown = mrkdwn.decode.blockPreSample(markdown);
         markdown = mrkdwn.decode.blockPreCode(markdown);
         markdown = mrkdwn.decode.inlineCode(markdown);
+        markdown = mrkdwn.decode.removeSemantics(markdown);
         return markdown;
     },
     
@@ -75,6 +76,11 @@ var mrkdwn = {
                 return '<code>' + mrkdwn.util.asciiEncode($1, /([^\w\s&#;])/g) + '</code>';
             };
             return markdown.replace(/`(.*?)`/g, onMatch);
+        },
+        
+        // replace inline and block sematic
+        removeSemantics: function(markdown) {
+            return markdown.replace(/\{[\s\S]*?\}/g, '');
         }
         
     },

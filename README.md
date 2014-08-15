@@ -635,9 +635,9 @@ Proposed Parse Order
   - ~~characters~~
 - preformated
   - ~~inline code~~
-  - ~~pre code block~~
   - ~~pre sample block~~
-- semantics and meta
+  - ~~pre code block~~
+- ~~semantics and meta~~
 - variables
   - references
   - translations
