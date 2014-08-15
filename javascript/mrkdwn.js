@@ -35,6 +35,8 @@ var mrkdwn = {
     // return the html representation of the markdown
     getHtml: function(markdown) {
         markdown = mrkdwn.decode.escapedChars(markdown);
+        markdown = mrkdwn.decode.blockPreSample(markdown);
+        markdown = mrkdwn.decode.blockPreCode(markdown);
         markdown = mrkdwn.decode.inlineCode(markdown);
         return markdown;
     },
@@ -44,15 +46,33 @@ var mrkdwn = {
     
     decode: {
         
-        //
+        // ascii encode all escaped characters
         escapedChars: function(markdown) {
-            return mrkdwn.util.asciiEncodeEscapedChars(markdown);
+            return mrkdwn.util.asciiEncode(markdown, /\\(\S)/g);
         },
         
-        //
+        // create pre sample blocks, ascii encode most special characters inside the block
+        blockPreSample: function(markdown) {
+            var onMatch = function(match, $1, $2, $3) {
+                var openTags = ($2.trim()) ? '<pre><samp class="' + $2.trim() + '">' : '<pre><samp>';
+                return openTags + mrkdwn.util.asciiEncode($3, /([^\w\s&#;])/g) + '</samp></pre>';
+            };
+            return markdown.replace(/(```+)!(.*)\n([\s\S]*?)\1/g, onMatch);
+        },
+        
+        // create pre code blocks, ascii encode most special characters inside the block
+        blockPreCode: function(markdown) {
+            var onMatch = function(match, $1, $2, $3) {
+                var openTags = ($2.trim()) ? '<pre><code class="' + $2.trim() + '">' : '<pre><code>';
+                return openTags + mrkdwn.util.asciiEncode($3, /([^\w\s&#;])/g) + '</code></pre>';
+            };
+            return markdown.replace(/(```+)(.*)\n([\s\S]*?)\1/g, onMatch);
+        },
+        
+        // create inline code, ascii encode most special characters inside
         inlineCode: function(markdown) {
-            var onMatch = function(match, submatch, offset, full) {
-                return '<code>' + mrkdwn.util.asciiEncodeChars(submatch) + '</code>';
+            var onMatch = function(match, $1) {
+                return '<code>' + mrkdwn.util.asciiEncode($1, /([^\w\s&#;])/g) + '</code>';
             };
             return markdown.replace(/`(.*?)`/g, onMatch);
         }
@@ -65,38 +85,12 @@ var mrkdwn = {
     
     util: {
         
-        // return the ascii representation of special charaters
-        asciiEncodeChars: function(str) {
-            return str.replace(/\!/g, '&#33;').replace(/\"/g, '&#34;')
-                .replace(/\#/g, '&#35;').replace(/\$/g, '&#36;')
-                .replace(/\%/g, '&#37;').replace(/\&/g, '&#38;')
-                .replace(/\(/g, '&#40;').replace(/\)/g, '&#41;')
-                .replace(/\*/g, '&#42;').replace(/\+/g, '&#43;')
-                .replace(/\-/g, '&#45;').replace(/\./g, '&#46;')
-                .replace(/\:/g, '&#58;').replace(/\</g, '&#60;')
-                .replace(/\=/g, '&#61;').replace(/\>/g, '&#62;')
-                .replace(/\@/g, '&#64;').replace(/\[/g, '&#91;')
-                .replace(/\\/g, '&#92;').replace(/\]/g, '&#93;')
-                .replace(/\^/g, '&#94;').replace(/\_/g, '&#95;')
-                .replace(/\`/g, '&#96;').replace(/\{/g, '&#123;')
-                .replace(/\}/g, '&#125;').replace(/\~/g, '&#126;');
-        },
-        
-        // return the ascii representation of escaped special charaters
-        asciiEncodeEscapedChars: function(str) {
-            return str.replace(/\\\!/g, '&#33;').replace(/\\\"/g, '&#34;')
-                .replace(/\\\#/g, '&#35;').replace(/\\\$/g, '&#36;')
-                .replace(/\\\%/g, '&#37;').replace(/\\\&/g, '&#38;')
-                .replace(/\\\(/g, '&#40;').replace(/\\\)/g, '&#41;')
-                .replace(/\\\*/g, '&#42;').replace(/\\\+/g, '&#43;')
-                .replace(/\\\-/g, '&#45;').replace(/\\\./g, '&#46;')
-                .replace(/\\\:/g, '&#58;').replace(/\\\</g, '&#60;')
-                .replace(/\\\=/g, '&#61;').replace(/\\\>/g, '&#62;')
-                .replace(/\\\@/g, '&#64;').replace(/\\\[/g, '&#91;')
-                .replace(/\\\\/g, '&#92;').replace(/\\\]/g, '&#93;')
-                .replace(/\\\^/g, '&#94;').replace(/\\\_/g, '&#95;')
-                .replace(/\\\`/g, '&#96;').replace(/\\\{/g, '&#123;')
-                .replace(/\\\}/g, '&#125;').replace(/\\\~/g, '&#126;');
+        // ascii encode all characters matched by the regex
+        asciiEncode: function(str, regex) {
+            var onMatch = function(match, $1) {
+                    return '&#' + $1.charCodeAt() + ';';
+                };
+            return str.replace(regex, onMatch);
         }
         
     }

@@ -473,7 +473,7 @@ The <abbr title="Main Standard">Primary Standard</abbr> is good
 ```
 
 ### Inline Code
-Pairs of single backticks will be translated as inline code. All special characters within an inline code syntax is escaped to its ascii representation.
+Pairs of single backticks will be translated as inline code. Most special characters within an inline code syntax is escaped to its ascii representation.
 ##### mrkdwn
 ```
 The `<body></body>` tags
@@ -484,7 +484,7 @@ The <code>&lt;body&gt;&lt;/body&gt;</code> tags
 ```
 
 ### Block Pre Code
-Pairs of three or more backticks, alone on lines, will be translated as block pre code. All special characters within a block pre code are escaped to their ascii represenation. Reference syntax inside block code will not be translated as reference syntax. 
+Pairs of three or more backticks, alone on lines, will be translated as block pre code. Most special characters within a block pre code are escaped to their ascii represenation. Reference syntax inside block code will not be translated as reference syntax. 
 ##### mrkdwn
 ```
 '''
@@ -507,17 +507,25 @@ Pairs of three or more backticks, alone on lines, will be translated as block pr
 ```
 
 ### Block Sample
-Pairs of three or more backticks, alone on lines, with a `!` on the first line, will be translated as block pre sample. All special characters within the block are escaped to their ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
+Pairs of three or more backticks, alone on lines, with a `!` on the first line, will be translated as block pre sample. Most special characters within the block are escaped to their ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
 ##### mrkdwn
 ```
 '''!
 > Output from a bash script
 '''
+
+'''''! syntax
+sample output
+'''''
 ```
 ###### html
 ```
 <pre><samp>
 &gt; Output from a bash script
+</samp></pre>
+
+<pre><samp class="syntax">
+sample output
 </samp></pre>
 ```
 
@@ -624,11 +632,11 @@ Proposed Parse Order
 --------------------
 
 - escape
-  - characters
+  - ~~characters~~
 - preformated
-  - inline code
-  - pre code block
-  - pre sample block
+  - ~~inline code~~
+  - ~~pre code block~~
+  - ~~pre sample block~~
 - semantics and meta
 - variables
   - references
