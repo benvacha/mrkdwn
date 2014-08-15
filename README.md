@@ -628,7 +628,7 @@ He said <q>Something worth remembering</q>.
 
 ---
 
-Proposed Parse Order
+Proposed Markup Order
 --------------------
 
 - escape
@@ -637,13 +637,13 @@ Proposed Parse Order
   - ~~inline code~~
   - ~~pre sample block~~
   - ~~pre code block~~
-- ~~semantics and meta~~
+- ~~meta~~
 - variables
   - ~~references~~
   - ~~translations~~
 - abbreviations
-  - references
-  - translations
+  - ~~references~~
+  - ~~translations~~
 - references
   - link
   - image

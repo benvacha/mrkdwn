@@ -40,6 +40,7 @@ var mrkdwn = {
         markdown = mrkdwn.decode.inlineCode(markdown);
         markdown = mrkdwn.decode.removeSemantics(markdown);
         markdown = mrkdwn.decode.variables(markdown);
+        markdown = mrkdwn.decode.abbreviations(markdown);
         return markdown;
     },
     
@@ -95,11 +96,28 @@ var mrkdwn = {
             markdown = markdown.replace(/%\[(.*?)\]:(.*)\n/g, onMatch);
             // variable replace
             onMatch = function(match, $1) {
-                if (vars[$1]) return vars[$1];
+                if(vars[$1]) return vars[$1];
                 return '';
             };
             return markdown.replace(/%\[(.*?)\]/g, onMatch);
-        } 
+        },
+        
+        // remove and cache abbreviation references, markup abbreviations
+        abbreviations: function(markdown) {
+            // abbreviation references
+            var abbrs = {}, abbr, regex, replace,
+                onMatch = function(match, $1, $2) {
+                    abbrs[$1] = $2.trim();
+                    return '';
+                };
+            markdown = markdown.replace(/\+\[(.*?)\]:(.*)\n/g, onMatch);
+            // abbreviation markup
+            for(abbr in abbrs) {
+                markdown = markdown.replace(new RegExp('\\b'+abbr+'\\b'), 
+                    '<abbr title="' + abbrs[abbr] + '">' + abbr + '</abbr>');
+            }
+            return markdown;
+        }
         
     },
     
