@@ -41,6 +41,7 @@ var mrkdwn = {
         markdown = mrkdwn.markup.removeSemantics(markdown);
         markdown = mrkdwn.markup.variables(markdown);
         markdown = mrkdwn.markup.abbreviations(markdown);
+        markdown = mrkdwn.markup.images(markdown);
         return markdown;
     },
     
@@ -116,6 +117,42 @@ var mrkdwn = {
                 markdown = markdown.replace(new RegExp('\\b'+abbr+'\\b'), 
                     '<abbr title="' + abbrs[abbr] + '">' + abbr + '</abbr>');
             }
+            return markdown;
+        },
+        
+        // remove and cache image references, markup images
+        images: function(markdown) {
+            // image references
+            var tokens, refs = {}, ref,
+                src, title, alt, width, height,
+                onMatch = function(match, $1, $2) {
+                    tokens = $2.match(/([^"' ]|\s)*\w(?="|')|[^"' ]+/g);
+                    refs[$1] = {url: tokens[0], title: tokens[1], width: tokens[2], height: tokens[3]};
+                    return '';
+                };
+            markdown = markdown.replace(/\!\[(.*?)\]:(.*)\n/g, onMatch);
+            // image reference translation
+            onMatch = function(match, $1, $2) {
+                alt = ' alt="' + $1 + '"';
+                src = (refs[$2] && refs[$2].url) ? ' src="' + refs[$2].url + '"' : '';
+                title = (refs[$2] && refs[$2].title) ? ' title="' + refs[$2].title + '"' : '';
+                width = (refs[$2] && refs[$2].width) ? ' width="' + refs[$2].width + '"' : '';
+                height = (refs[$2] && refs[$2].height) ? ' height="' + refs[$2].height + '"' : '';
+                return '<img' + alt + src + title + width + height + ' />';
+            };
+            markdown = markdown.replace(/\!\[(.*?)\]\[(.*?)\]/g, onMatch);
+            // image inline translation
+            onMatch = function(match, $1, $2) {
+                tokens = $2.match(/([^"' ]|\s)*\w(?="|')|[^"' ]+/g);
+                alt = ' alt="' + $1 + '"';
+                src = (tokens[0]) ? ' src="' + tokens[0] + '"' : '';
+                title = (tokens[1]) ? ' title="' + tokens[1] + '"' : '';
+                width = (tokens[2]) ? ' width="' + tokens[2] + '"' : '';
+                height = (tokens[3]) ? ' height="' + tokens[3] + '"' : '';
+                return '<img' + alt + src + title + width + height + ' />';
+            };
+            markdown = markdown.replace(/\!\[(.*?)\]\((.*?)\)/g, onMatch);
+            //
             return markdown;
         }
         

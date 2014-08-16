@@ -640,40 +640,47 @@ Proposed Markup Order
 - ~~meta~~
 - variables
   - ~~references~~
-  - ~~translations~~
+  - ~~inline~~
 - abbreviations
   - ~~references~~
-  - ~~translations~~
-- references
-  - link
-  - image
-  - macro
-- inline elements
-  - phrase formatting
-  - quotation
-  - links
-    - inline
-    - anchor
-    - reference
-    - automatic
-  - images
-    - inline
-    - reference
-  - macros
-    - inline
-    - reference
-- block elements
-  - headers
-  - horizontal rules
-  - blockquote
-  - detail
-  - list
-    - unordered list
-    - ordered list
-    - accordian
-    - task list
-    - definition list
-  - table
+  - ~~inline~~
+- images
+  - references
+  - inline
+- macros
+  - references
+  - inline
+- links
+  - references
+    - href
+    - name
+    - email
+  - inline
+    - href
+    - name
+    - email
+  - bracketed
+    - href
+    - name
+    - email
+  - auto
+    - href
+    - email
+- headers
+  - linked
+  - auto link
+- horizontal rule
+- phrase formatting
+- auto quotation
+- blockquote
+- detail
+- list
+  - unordered list
+  - ordered list
+  - accordian
+  - task list
+  - definition list
+- table
 - paragraphs
 
 
