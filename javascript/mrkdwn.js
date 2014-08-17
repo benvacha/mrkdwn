@@ -50,11 +50,48 @@ var mrkdwn = {
     
     markup: {
         
-        // ascii encode all escaped characters
+        // change all syntax to markup
+        all: function(markdown) {
+            markdown = mrkdwn.markup.escapedChars(markdown);
+            markdown = mrkdwn.markup.inlineCodeSample(markdown);
+            markdown = mrkdwn.markup.blockCodeSample(markdown);
+            return markdown;
+        },
+        
+        // escaped chars >> ascii html encoding
         escapedChars: function(markdown) {
             return mrkdwn.util.asciiEncode(markdown, /\\(\S)/g);
         },
         
+        // pair of one or two backticks on a line >> <code></code>
+        // pair of one or two backticks with bang on a line >> <samp></samp>
+        inlineCodeSample: function(markdown) {
+            var onMatch = function(match, $1, $2, $3) {
+                if($2) {
+                    return '<samp>' + mrkdwn.util.asciiEncode($3, /([^\w\s&#;])/g) + '</samp>';
+                }
+                return '<code>' + mrkdwn.util.asciiEncode($3, /([^\w\s&#;])/g) + '</code>';
+            };
+            return markdown.replace(/(`{1,2})(?!`)(!|)(.*)\1/g, onMatch);
+        },
+        
+        // pair of three or more backticks on multiple lines >> <pre><code></code></pre>
+        // pair of three or more backticks with bang on multiple lines >> <pre><samp></samp></pre>
+        blockCodeSample: function(markdown) {
+            var onMatch = function(match, $1, $2, $3, $4) {
+                if($2 && $3) {
+                    return '<pre><samp class="' + $3.trim() + '">' + mrkdwn.util.asciiEncode($4, /([^\w\s&#;])/g) + '</samp></pre>';
+                } else if($2) {
+                    return '<pre><samp>' + mrkdwn.util.asciiEncode($4, /([^\w\s&#;])/g) + '</samp></pre>';
+                } else if($3) {
+                    return '<pre><code class="' + $3.trim() + '">' + mrkdwn.util.asciiEncode($4, /([^\w\s&#;])/g) + '</code></pre>';
+                }
+                return '<pre><code>' + mrkdwn.util.asciiEncode($4, /([^\w\s&#;])/g) + '</code></pre>';
+            };
+            return markdown.replace(/(```+)(?!`)(!|)(.*)\n([\s\S]*?)\1/g, onMatch);
+        }
+        
+        /*
         // create pre sample blocks, ascii encode most special characters inside the block
         blockPreSample: function(markdown) {
             var onMatch = function(match, $1, $2, $3) {
@@ -155,7 +192,7 @@ var mrkdwn = {
             //
             return markdown;
         }
-        
+        */
     },
     
     /*

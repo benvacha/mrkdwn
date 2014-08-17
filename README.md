@@ -473,14 +473,29 @@ The <abbr title="Main Standard">Primary Standard</abbr> is good
 ```
 
 ### Inline Code
-Pairs of single backticks will be translated as inline code. Most special characters within an inline code syntax is escaped to its ascii representation.
+Pairs of single or double backticks will be translated as inline code. Most special characters within an inline code syntax is escaped to its ascii representation.
 ##### mrkdwn
 ```
 The `<body></body>` tags
+Encase `` `ticks` ``
 ```
 ##### html
 ```
 The <code>&lt;body&gt;&lt;/body&gt;</code> tags
+Encase <code> &#96;ticks&#96; </code>
+```
+
+### Inline Sample
+Pairs of single or double backticks with a bang will be translated as inline sample. Most special characters within an inline sample syntax is escaped to its ascii representation.
+##### mrkdwn
+```
+The `!<body></body>` tags
+Encase ``! `ticks` ``
+```
+##### html
+```
+The <samp>&lt;body&gt;&lt;/body&gt;</samp> tags
+Encase <samp> &#96;ticks&#96; </samp>
 ```
 
 ### Block Pre Code
@@ -631,12 +646,9 @@ He said <q>Something worth remembering</q>.
 Proposed Markup Order
 --------------------
 
-- escape
-  - ~~characters~~
-- preformated
-  - ~~inline code~~
-  - ~~pre sample block~~
-  - ~~pre code block~~
+- ~~escaped characters~~
+- ~~inline code and sample~~
+- ~~block code and sample~~
 - ~~meta~~
 - variables
   - ~~references~~

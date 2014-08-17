@@ -42,48 +42,48 @@
     
     <form class="io" onsubmit="return false;">
         <fieldset>
-            <legend id="input-legend">mrkdwn</legend>
-            <textarea id="input"></textarea>
+            <legend id="markdown-legend">mrkdwn</legend>
+            <textarea id="markdown"></textarea>
         </fieldset>
         <fieldset>
-            <legend id="translation-legend">translation</legend>
-            <textarea id="translation" disabled></textarea>
+            <legend id="markup-legend">markup</legend>
+            <textarea id="markup" disabled></textarea>
         </fieldset>
         <fieldset>
             <legend id="preview-legend">preview</legend>
             <div id="preview"></div>
         </fieldset>
-        <input type="submit" value="Translate" onclick="translateInput();" />
+        <input type="submit" value="Translate" onclick="markupMarkdown();" />
     </form>
     
     <script type="text/javascript">
         // common elements
-        var input = document.getElementById('input'),
-            translation = document.getElementById('translation'),
+        var markdown = document.getElementById('markdown'),
+            markdownLegend = document.getElementById('markdown-legend'),
+            markup = document.getElementById('markup'),
+            markupLegend = document.getElementById('markup-legend'),
             preview = document.getElementById('preview'),
-            inputLegend = document.getElementById('input-legend'),
-            translationLegend = document.getElementById('translation-legend'),
             previewLegend = document.getElementById('preview-legend'),
-            storageKey = 'org.mrkdwn.demo.input';
-        // set the input to the stored input value
-        input.value = localStorage.getItem(storageKey);
-        // on page reload or close store the input value, also disables alert
+            storageKey = 'org.mrkdwn.demo.markdown';
+        // set the markdown to the stored markdown value
+        markdown.value = localStorage.getItem(storageKey);
+        // on page reload or close store the markdown value, also disables alert
         window.onbeforeunload = function(){
-            localStorage.setItem(storageKey, input.value);
+            localStorage.setItem(storageKey, markdown.value);
         };
         // translate input on page load
-        translateInput();
-        // get the html representation of the input value and put it in the output
-        function translateInput() {
+        markupMarkdown();
+        // get the html representation of the markdown value and put it in the markup and preview
+        function markupMarkdown() {
             var html, start, end;
-            translation.value = '';
-            translationLegend.innerHTML = 'translating...';
+            markup.value = '';
+            markupLegend.innerHTML = 'markuping...';
             preview.innerHTML = '';
             start = Date.now();
-            html = mrkdwn.getHtml(input.value);
+            html = mrkdwn.markup.all(markdown.value);
             end = Date.now();
-            translation.value = html;
-            translationLegend.innerHTML = 'translation : ' + (end - start) + ' ms';
+            markup.value = html;
+            markupLegend.innerHTML = 'markup : ' + (end - start) + ' ms';
             preview.innerHTML = html;
         }
     </script>
