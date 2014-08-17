@@ -643,19 +643,20 @@ He said <q>Something worth remembering</q>.
 
 ---
 
-Proposed Markup Order
---------------------
+Markup Notes and Tracking
+-------------------------
 
 - ~~escaped characters~~
+  - is ran first by markup.all, so translates everywhere without exception
 - ~~inline code and sample~~
 - ~~block code and sample~~
 - ~~meta~~
-- variables
-  - ~~references~~
-  - ~~inline~~
+  - TODO: parse meta into a html comment block
+- ~~variables~~
+  - TODO: add ability to pass in key value pairs to include in translation at runtime
 - abbreviations
-  - ~~references~~
-  - ~~inline~~
+  - references
+  - inline
 - images
   - references
   - inline
