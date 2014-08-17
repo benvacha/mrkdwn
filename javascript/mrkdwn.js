@@ -42,6 +42,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.meta(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
+            markdown = mrkdwn.markup.images(markdown);
             return markdown;
         },
         
@@ -86,8 +87,8 @@ var mrkdwn = {
         
         // percent square brackets colon >> nothing
         // percent square brackets >> text
-        variables: function(markdown, runtimeDefinitions) {
-            // TODO: include runtimeDefinitions
+        variables: function(markdown) {
+            // TODO: include passed runtime definitions
             // find, cache, remove definitions
             var defs = {},
                 onMatch = function(match, $1, $2) {
@@ -105,8 +106,8 @@ var mrkdwn = {
         
         // plus square brackets colon >> nothing
         // matching text >> <abbr></abbr>
-        abbreviations: function(markdown, runtimeDefinitions) {
-            // TODO: include runtimeDefinitions
+        abbreviations: function(markdown) {
+            // TODO: include passed runtime definitions
             // find, cache, remove definitions
             var defs = {}, def,
                 onMatch = function(match, $1, $2) {
@@ -120,33 +121,35 @@ var mrkdwn = {
                     '<abbr title="' + defs[def] + '">' + def + '</abbr>');
             }
             return markdown;
-        }
+        },
         
-        /*
-        // remove and cache image references, markup images
+        // bang square brackets color >> nothing
+        // bang square brackets square brackets >> <img />
+        // bang square brackets round brackets >> <img />
         images: function(markdown) {
-            // image references
-            var tokens, refs = {}, ref,
+            // TODO: include passed runtime definitions
+            // find, cache, remove definitions
+            var tokens, defs = {},
                 src, title, alt, width, height,
                 onMatch = function(match, $1, $2) {
-                    tokens = $2.match(/([^"' ]|\s)*\w(?="|')|[^"' ]+/g);
-                    refs[$1] = {url: tokens[0], title: tokens[1], width: tokens[2], height: tokens[3]};
+                    tokens = mrkdwn.util.tokenize($2);
+                    defs[$1] = {url: tokens[0], title: tokens[1], width: tokens[2], height: tokens[3]};
                     return '';
                 };
             markdown = markdown.replace(/\!\[(.*?)\]:(.*)\n/g, onMatch);
-            // image reference translation
+            // find, replace reference usage
             onMatch = function(match, $1, $2) {
                 alt = ' alt="' + $1 + '"';
-                src = (refs[$2] && refs[$2].url) ? ' src="' + refs[$2].url + '"' : '';
-                title = (refs[$2] && refs[$2].title) ? ' title="' + refs[$2].title + '"' : '';
-                width = (refs[$2] && refs[$2].width) ? ' width="' + refs[$2].width + '"' : '';
-                height = (refs[$2] && refs[$2].height) ? ' height="' + refs[$2].height + '"' : '';
+                src = (defs[$2] && defs[$2].url) ? ' src="' + defs[$2].url + '"' : '';
+                title = (defs[$2] && defs[$2].title) ? ' title="' + defs[$2].title + '"' : '';
+                width = (defs[$2] && defs[$2].width) ? ' width="' + defs[$2].width + '"' : '';
+                height = (defs[$2] && defs[$2].height) ? ' height="' + defs[$2].height + '"' : '';
                 return '<img' + alt + src + title + width + height + ' />';
             };
             markdown = markdown.replace(/\!\[(.*?)\]\[(.*?)\]/g, onMatch);
-            // image inline translation
+            // find, replace inline usage
             onMatch = function(match, $1, $2) {
-                tokens = $2.match(/([^"' ]|\s)*\w(?="|')|[^"' ]+/g);
+                tokens = mrkdwn.util.tokenize($2);
                 alt = ' alt="' + $1 + '"';
                 src = (tokens[0]) ? ' src="' + tokens[0] + '"' : '';
                 title = (tokens[1]) ? ' title="' + tokens[1] + '"' : '';
@@ -158,7 +161,7 @@ var mrkdwn = {
             //
             return markdown;
         }
-        */
+        
     },
     
     /*
@@ -173,6 +176,11 @@ var mrkdwn = {
                     return '&#' + $1.charCodeAt() + ';';
                 };
             return str.replace(regex, onMatch);
+        },
+        
+        // tokenize based on white space and quotations
+        tokenize: function(str) {
+            return str.match(/([^"' ]|\s)*\w(?="|')|[^"' ]+/g);
         }
         
     }

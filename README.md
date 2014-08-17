@@ -656,9 +656,8 @@ Markup Notes and Tracking
   - TODO: add ability to pass in key value pairs to include in translation at runtime
 - ~~abbreviations~~
   - TODO: add ability to pass in key value pairs to include in translation at runtime
-- images
-  - references
-  - inline
+- ~~images~~
+  - TODO: add ability to pass in key value pairs to include in translation at runtime
 - macros
   - references
   - inline
