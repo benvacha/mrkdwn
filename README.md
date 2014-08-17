@@ -591,8 +591,8 @@ Tables must have preceeding and proceeding `|`. Column text lengths do not need 
 </table>
 ```
 
-### Backslash Escape
-Any character used in mrkdwn syntax can be escaped with `\` to produce the ascii representation and remove it's mrkdwn meaning. This includes `\, *, _, {, }, [, ], (, ), <, >, #, +, -, ., !, :, @`.
+### Backslash Character Escape
+Any character can be escaped with `\` to produce the ascii representation and remove its mrkdwn meaning. This includes at least `\, *, _, {, }, [, ], (, ), <, >, #, +, -, ., !, :, @`. This is applied to escaped characters anywhere, without exception.
 ##### mrkdwn
 ```
 \*Actual asterisk surrounded text\*

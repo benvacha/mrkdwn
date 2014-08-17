@@ -51,10 +51,11 @@ var mrkdwn = {
     markup: {
         
         // change all syntax to markup
-        all: function(markdown) {
+        all: function(markdown, metaComments) {
             markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.inlineCodeSample(markdown);
             markdown = mrkdwn.markup.blockCodeSample(markdown);
+            markdown = mrkdwn.markup.meta(markdown, metaComments);
             return markdown;
         },
         
@@ -89,6 +90,12 @@ var mrkdwn = {
                 return '<pre><code>' + mrkdwn.util.asciiEncode($4, /([^\w\s&#;])/g) + '</code></pre>';
             };
             return markdown.replace(/(```+)(?!`)(!|)(.*)\n([\s\S]*?)\1/g, onMatch);
+        },
+        
+        // meta >> nothing or comments
+        meta: function(markdown, comments) {
+            // TODO: if comments then parse meta and insert comment block
+            return markdown.replace(/\{[\s\S]*?\}/g, '');
         }
         
         /*
