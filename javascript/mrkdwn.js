@@ -43,6 +43,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
             markdown = mrkdwn.markup.images(markdown);
+            markdown = mrkdwn.markup.macros(markdown);
             return markdown;
         },
         
@@ -160,6 +161,67 @@ var mrkdwn = {
             markdown = markdown.replace(/\!\[(.*?)\]\((.*?)\)/g, onMatch);
             //
             return markdown;
+        },
+        
+        // at square brackets color >> nothing
+        // at square brackets square brackets >> <img />
+        // at square brackets round brackets >> <img />
+        macros: function(markdown) {
+            // TODO: include passed runtime definitions
+            // find, cache, remove definitions
+            var tokens, macro, defs = {},
+                onMatch = function(match, $1, $2) {
+                    tokens = mrkdwn.util.tokenize($2);
+                    macro = tokens.shift();
+                    defs[$1] = {macro: macro, args: tokens};
+                    return '';
+                };
+            markdown = markdown.replace(/\@\[(.*?)\]:(.*)\n/g, onMatch);
+            // find, replace reference usage
+            onMatch = function(match, $1, $2) {
+                if(defs[$2] && mrkdwn.macro[defs[$2].macro]) {
+                    return mrkdwn.macro[defs[$2].macro].apply(null, defs[$2].args);
+                }
+                return $1;
+            };
+            markdown = markdown.replace(/\@\[(.*?)\]\[(.*?)\]/g, onMatch);
+            // find, replace inline usage
+            onMatch = function(match, $1, $2) {
+                tokens = mrkdwn.util.tokenize($2);
+                macro = tokens.shift();
+                if(mrkdwn.macro[macro]) {
+                    return mrkdwn.macro[macro].apply(null, tokens);
+                }
+                return $1;
+            };
+            markdown = markdown.replace(/\@\[(.*?)\]\((.*?)\)/g, onMatch);
+            //
+            return markdown;
+        }
+        
+    },
+    
+    /*
+     *
+     */
+    
+    macro: {
+        
+        // get the CSV of the arguments
+        csv: function() {
+            var i, str = '';
+            for(i=0; i<arguments.length; i++) {
+                str += ',' + arguments[i];
+            }
+            return str.substring(1);
+        },
+        
+        // embed youtube video
+        youtube: function(videoId, width, height) {
+            if(!videoId) return '';
+            width = (width) ? ' width="' + width + '"' : '';
+            height = (height) ? ' height="' + height + '"' : '';
+            return '<iframe src="http://www.youtube.com/embed/' + videoId + '"' + width + height + ' frameborder="0" allowfullscreen></iframe>';
         }
         
     },
