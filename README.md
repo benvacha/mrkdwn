@@ -654,9 +654,8 @@ Markup Notes and Tracking
   - TODO: parse meta into a html comment block
 - ~~variables~~
   - TODO: add ability to pass in key value pairs to include in translation at runtime
-- abbreviations
-  - references
-  - inline
+- ~~abbreviations~~
+  - TODO: add ability to pass in key value pairs to include in translation at runtime
 - images
   - references
   - inline

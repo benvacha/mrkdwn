@@ -32,31 +32,16 @@ var mrkdwn = {
      * 
      */
     
-    // return the html representation of the markdown
-    getHtml: function(markdown) {
-        markdown = mrkdwn.markup.escapedChars(markdown);
-        markdown = mrkdwn.markup.blockPreSample(markdown);
-        markdown = mrkdwn.markup.blockPreCode(markdown);
-        markdown = mrkdwn.markup.inlineCode(markdown);
-        markdown = mrkdwn.markup.removeSemantics(markdown);
-        markdown = mrkdwn.markup.variables(markdown);
-        markdown = mrkdwn.markup.abbreviations(markdown);
-        markdown = mrkdwn.markup.images(markdown);
-        return markdown;
-    },
-    
-    /*
-    */
-    
     markup: {
         
         // change all syntax to markup
-        all: function(markdown, insertMetaComments, runtimeVariables) {
+        all: function(markdown) {
             markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.inlineCodeSample(markdown);
             markdown = mrkdwn.markup.blockCodeSample(markdown);
-            markdown = mrkdwn.markup.meta(markdown, insertMetaComments);
-            markdown = mrkdwn.markup.variables(markdown, runtimeVariables);
+            markdown = mrkdwn.markup.meta(markdown);
+            markdown = mrkdwn.markup.variables(markdown);
+            markdown = mrkdwn.markup.abbreviations(markdown);
             return markdown;
         },
         
@@ -118,25 +103,26 @@ var mrkdwn = {
             return markdown.replace(/%\[(.*?)\]/g, onMatch);
         },
         
-        /*
-                
-        // remove and cache abbreviation references, markup abbreviations
-        abbreviations: function(markdown) {
-            // abbreviation references
-            var abbrs = {}, abbr, regex, replace,
+        // plus square brackets colon >> nothing
+        // matching text >> <abbr></abbr>
+        abbreviations: function(markdown, runtimeDefinitions) {
+            // TODO: include runtimeDefinitions
+            // find, cache, remove definitions
+            var defs = {}, def,
                 onMatch = function(match, $1, $2) {
-                    abbrs[$1] = $2.trim();
+                    defs[$1] = $2.trim();
                     return '';
                 };
             markdown = markdown.replace(/\+\[(.*?)\]:(.*)\n/g, onMatch);
-            // abbreviation markup
-            for(abbr in abbrs) {
-                markdown = markdown.replace(new RegExp('\\b'+abbr+'\\b'), 
-                    '<abbr title="' + abbrs[abbr] + '">' + abbr + '</abbr>');
+            // find, markup usage
+            for(def in defs) {
+                markdown = markdown.replace(new RegExp('\\b'+def+'\\b'), 
+                    '<abbr title="' + defs[def] + '">' + def + '</abbr>');
             }
             return markdown;
-        },
+        }
         
+        /*
         // remove and cache image references, markup images
         images: function(markdown) {
             // image references
