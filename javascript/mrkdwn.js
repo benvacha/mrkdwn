@@ -87,8 +87,8 @@ var mrkdwn = {
             return markdown.replace(/\{[\s\S]*?\}/g, '');
         },
         
-        // percent square brackets colon >> nothing
-        // percent square brackets >> text
+        // dollar square brackets colon >> nothing
+        // dollar square brackets >> text
         variables: function(markdown) {
             // TODO: include passed runtime definitions
             // find, cache, remove definitions
@@ -97,13 +97,13 @@ var mrkdwn = {
                     defs[$1] = $2.trim();
                     return '';
                 };
-            markdown = markdown.replace(/%\[(.*?)\]:(.*)\n/g, onMatch);
+            markdown = markdown.replace(/\$\[(.*?)\]:(.*)\n/g, onMatch);
             // find, replace usage
             onMatch = function(match, $1) {
                 if(defs[$1]) return defs[$1];
                 return '';
             };
-            return markdown.replace(/%\[(.*?)\]/g, onMatch);
+            return markdown.replace(/\$\[(.*?)\]/g, onMatch);
         },
         
         // plus square brackets colon >> nothing
@@ -164,9 +164,9 @@ var mrkdwn = {
             return markdown;
         },
         
-        // amp square brackets colon >> nothing
-        // amp square brackets square brackets >> <img />
-        // amp square brackets round brackets >> <img />
+        // percent square brackets colon >> nothing
+        // percent square brackets square brackets >> <img />
+        // percent square brackets round brackets >> <img />
         macros: function(markdown) {
             // TODO: include passed runtime definitions
             // find, cache, remove definitions
@@ -177,7 +177,7 @@ var mrkdwn = {
                     defs[$1] = {macro: macro, args: tokens};
                     return '';
                 };
-            markdown = markdown.replace(/\&\[(.*?)\]:(.*)\n/g, onMatch);
+            markdown = markdown.replace(/\%\[(.*?)\]:(.*)\n/g, onMatch);
             // find, replace reference usage
             onMatch = function(match, $1, $2) {
                 if(defs[$2] && mrkdwn.macro[defs[$2].macro]) {
@@ -185,7 +185,7 @@ var mrkdwn = {
                 }
                 return $1;
             };
-            markdown = markdown.replace(/\&\[(.*?)\]\[(.*?)\]/g, onMatch);
+            markdown = markdown.replace(/\%\[(.*?)\]\[(.*?)\]/g, onMatch);
             // find, replace inline usage
             onMatch = function(match, $1, $2) {
                 tokens = mrkdwn.util.tokenize($2);
@@ -195,7 +195,7 @@ var mrkdwn = {
                 }
                 return $1;
             };
-            markdown = markdown.replace(/\&\[(.*?)\]\((.*?)\)/g, onMatch);
+            markdown = markdown.replace(/\%\[(.*?)\]\((.*?)\)/g, onMatch);
             //
             return markdown;
         },
@@ -207,7 +207,7 @@ var mrkdwn = {
             // TODO: include passed runtime definitions
             // TODO: replace bannedChars with negative lookbehind in supported languages
             // find, cache, remove definitions
-            var bannedChars = {'!':true,'@':true,'%':true,'+':true}, 
+            var bannedChars = {'!':true,'@':true,'%':true,'&':true,'$':true,'+':true}, 
                 tokens, url, name, email, title, defs = {},
                 onMatch = function(match, $1, $2, $3) {
                     if($1 in bannedChars) return match;
