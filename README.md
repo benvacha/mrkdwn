@@ -374,9 +374,9 @@ Bracketed text preceeded by whitespace and proceeded by bracketed text will be t
 Absolute urls and email addresses will be automatically linked.
 ##### mrkdwn
 ```
+Go to index.html
 Go to http://url.com
 Email addr@email.com
-
 
 [url]
 [auto_parsed_url]
@@ -387,6 +387,7 @@ Email addr@email.com
 ```
 ##### html
 ```
+Go to index.html
 Go to <a href="http://url.com">http://url.com</a>
 Email <a href="mailto:addr@email.com">addr@email.com</a>
 
