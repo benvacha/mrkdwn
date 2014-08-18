@@ -44,6 +44,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.abbreviations(markdown);
             markdown = mrkdwn.markup.images(markdown);
             markdown = mrkdwn.markup.macros(markdown);
+            markdown = mrkdwn.markup.links(markdown);
             return markdown;
         },
         
@@ -124,7 +125,7 @@ var mrkdwn = {
             return markdown;
         },
         
-        // bang square brackets color >> nothing
+        // bang square brackets colon >> nothing
         // bang square brackets square brackets >> <img />
         // bang square brackets round brackets >> <img />
         images: function(markdown) {
@@ -163,7 +164,7 @@ var mrkdwn = {
             return markdown;
         },
         
-        // at square brackets color >> nothing
+        // at square brackets colon >> nothing
         // at square brackets square brackets >> <img />
         // at square brackets round brackets >> <img />
         macros: function(markdown) {
@@ -196,6 +197,62 @@ var mrkdwn = {
             };
             markdown = markdown.replace(/\@\[(.*?)\]\((.*?)\)/g, onMatch);
             //
+            return markdown;
+        },
+        
+        // square brackets colon >> nothing
+        // square brackets square brackets >> <a></a>
+        // square brackets round brackets >> <a></a>
+        links: function(markdown) {
+            // TODO: include passed runtime definitions
+            // TODO: replace bannedChars with negative lookbehind in supported languages
+            // find, cache, remove definitions
+            var bannedChars = {'!':true,'@':true,'%':true,'+':true}, 
+                tokens, url, name, email, title, defs = {},
+                onMatch = function(match, $1, $2, $3) {
+                    if($1 in bannedChars) return match;
+                    tokens = mrkdwn.util.tokenize($3);
+                    url = name = email = undefined;
+                    if(tokens[0].charAt(0) === '!') {
+                        name = tokens[0].substring(1);
+                    } else if(tokens[0].indexOf('@') > 0) {
+                        email = tokens[0];
+                    } else {
+                        url = tokens[0];
+                    }
+                    defs[$2] = {url: url, name: name, email: email, title: tokens[1]};
+                    return $1;
+                };
+            markdown = markdown.replace(/(.?)\[(.*?)\]:(.*)\n/g, onMatch);
+            // find, replace reference usage
+            onMatch = function(match, $1, $2, $3) {
+                if($1 in bannedChars) return match;
+                url = (defs[$3] && defs[$3].url) ? ' href="' + defs[$3].url + '"' : '';
+                name = (defs[$3] && defs[$3].name) ? ' name="' + defs[$3].name + '"' : '';
+                email = (defs[$3] && defs[$3].email) ? ' href="mailto:' + defs[$3].email + '"' : '';
+                title = (defs[$3] && defs[$3].title) ? ' title="' + defs[$3].title + '"' : '';
+                return $1 + '<a' + url + name + email + title + '>' + $2 + '</a>';
+            }
+            markdown = markdown.replace(/(.?)\[(.*?)\]\[(.*?)\]/g, onMatch);
+            // find, replace inline usage
+            onMatch = function(match, $1, $2, $3) {
+                if($1 in bannedChars) return match;
+                tokens = mrkdwn.util.tokenize($3);
+                url = name = email = title = undefined;
+                if(tokens[0].charAt(0) === '!') {
+                    name = tokens[0].substring(1);
+                } else if(tokens[0].indexOf('@') > 0) {
+                    email = tokens[0];
+                } else {
+                    url = tokens[0];
+                }
+                url = (url) ? ' href="' + url + '"' : '';
+                name = (name) ? ' name="' + name + '"' : '';
+                email = (email) ? ' href="mailto:' + email + '"' : '';
+                title = (tokens[1]) ? ' title="' + tokens[1] + '"' : '';
+                return $1 + '<a' + url + name + email + title + '>' + $2 + '</a>';
+            }
+            markdown = markdown.replace(/(.?)\[(.*?)\]\((.*?)\)/g, onMatch);
             return markdown;
         }
         

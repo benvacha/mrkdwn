@@ -328,17 +328,11 @@ Brackets preceeded by whitespace and proceeded by parenthesis will be translated
 ```
 [text](url)
 [text](url "Title")
-
-[url]
-[auto_parsed_url]
 ```
 ##### html
 ```
 <a href="url">text</a>
 <a href="url" title="Title">text</a>
-
-<a href="url">url</a>
-<a href="auto/parsed/url">auto parsed url</a>
 ```
 
 ### Anchor Links
@@ -348,32 +342,22 @@ Parenthesis beginning with `!` will define an anchor. Parenthesis beginning with
 Define a [text](!anchor)
 Define a [text](!anchor "Title")
 
-Define a [!anchor]
-
 Go to [text](#anchor) in same page
 Go to [text](#anchor "Title") in same page
 
 Go to [text](url#anchor) in external page
 Go to [text](url#anchor "Title") in external page
-
-[#anchor]
-[parsed_url#anchor]
 ```
 ##### html
 ```
 Define a <a name="anchor">text</a>
 Define a <a name="anchor" title="Title">text</a>
 
-Define a <a name="anchor">anchor</a>
-
 Go to <a href="#anchor">text</a> in same page
 Go to <a href="#anchor" title="Title">text</a> in same page
 
 Go to <a href="url#anchor">text</a> in external page
 Go to <a href="url#anchor" title="Title">text</a> in external page
-
-<a href="#anchor">anchor</a>
-<a href="parsed/url#anchor">parsed url anchor</a>
 ```
 
 ### Reference Link
@@ -391,14 +375,26 @@ Absolute urls and email addresses will be automatically linked.
 ##### mrkdwn
 ```
 Go to http://url.com
-
 Email addr@email.com
+
+
+[url]
+[auto_parsed_url]
+[!anchor]
+[#anchor]
+[parsed_url#anchor]
+
 ```
 ##### html
 ```
 Go to <a href="http://url.com">http://url.com</a>
-
 Email <a href="mailto:addr@email.com">addr@email.com</a>
+
+<a href="url">url</a>
+<a href="auto/parsed/url">auto parsed url</a>
+<a name="anchor">anchor</a>
+<a href="#anchor">anchor</a>
+<a href="parsed/url#anchor">parsed url anchor</a>
 ```
 
 ### Inline Image
@@ -647,35 +643,18 @@ Markup Notes and Tracking
 -------------------------
 
 - ~~escaped characters~~
-  - is ran first by markup.all, so translates everywhere without exception
+  - where possible, should be run first to ensure translation everywhere without exception
 - ~~inline code and sample~~
 - ~~block code and sample~~
 - ~~meta~~
-  - TODO: parse meta into a html comment block
 - ~~variables~~
-  - TODO: add ability to pass in key value pairs to include in translation at runtime
 - ~~abbreviations~~
-  - TODO: add ability to pass in key value pairs to include in translation at runtime
 - ~~images~~
-  - TODO: add ability to pass in key value pairs to include in translation at runtime
 - ~~macros~~
-  - TODO: add ability to pass in key value pairs to include in translation at runtime
-- links
-  - references
-    - href
-    - name
-    - email
-  - inline
-    - href
-    - name
-    - email
-  - bracketed
-    - href
-    - name
-    - email
-  - auto
-    - href
-    - email
+- ~~links~~
+  - where possible, should be run after other square bracket syntax for performance
+- auto links
+  - where possible, should be ran after other square bracket syntax for performance
 - headers
   - linked
   - auto link
