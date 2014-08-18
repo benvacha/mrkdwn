@@ -69,7 +69,7 @@ Header 2
 ##### Header 5
 ###### Header 6
 
-## [Header 2](!anchor)
+##(!anchor) Header 2
 ```
 ##### html
 ```
@@ -322,56 +322,32 @@ All list types may be nested in each other.
 </ul>
 ```
 
-### Inline Link
-Brackets preceeded by whitespace and proceeded by parenthesis will be translated as links. Bracketed text preceeded and proceeded by whitespace will be exploded on `_` and linked. The url can be absolute or relative.
+### Links
+Square brackets preceeded by whitespace and proceeded by parenthesis or square brackets will be translated as links. Square brackets preceeded by whitespace and procedded by `:` will be translated as a link reference. A url beginning with `!` will define an anchor. A url beginning with `#` will link to an anchor. The url can be absolute or relative.
 ##### mrkdwn
 ```
 [text](url)
 [text](url "Title")
+
+[text](!anchor title)
+[text](#anchor title)
+
+[text][reference]
+[reference]: url title
 ```
 ##### html
 ```
 <a href="url">text</a>
 <a href="url" title="Title">text</a>
+
+<a name="anchor" title="title">text</a>
+<a href="#anchor" title="title">text</a>
+
+<a href="url" title="title">text</a>
 ```
 
-### Anchor Links
-Parenthesis beginning with `!` will define an anchor. Parenthesis beginning with `#` will link to an anchor. Bracketed text preceeded and proceeded by whitespace and beginning with a `!` will define an anchor. Bracketed text preceeded and proceeded by whitespace and beginning with `#` will link to an anchor; text will be exploded based on `_` and `#`. The url can be absolute or relative.
-##### mrkdwn
-```
-Define a [text](!anchor)
-Define a [text](!anchor "Title")
-
-Go to [text](#anchor) in same page
-Go to [text](#anchor "Title") in same page
-
-Go to [text](url#anchor) in external page
-Go to [text](url#anchor "Title") in external page
-```
-##### html
-```
-Define a <a name="anchor">text</a>
-Define a <a name="anchor" title="Title">text</a>
-
-Go to <a href="#anchor">text</a> in same page
-Go to <a href="#anchor" title="Title">text</a> in same page
-
-Go to <a href="url#anchor">text</a> in external page
-Go to <a href="url#anchor" title="Title">text</a> in external page
-```
-
-### Reference Link
-Bracketed text preceeded by whitespace and proceeded by bracketed text will be translated as a reference link. Bracketed text preceeded by whitespace and proceeded by `:` will define a link reference and can be anywhere in the document.
-##### mrkdwn
-`[text][reference]`  
-`[reference]: url "Title"`
-##### html
-```
-<a href="url" title="Title">text</a>
-```
-
-### Automatic Link
-Absolute urls and email addresses will be automatically linked.
+### Automatic Links
+Absolute urls and email addresses will be automatically linked. Text in square brackets will be automatically linked to itself.
 ##### mrkdwn
 ```
 Go to index.html
@@ -398,56 +374,83 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 <a href="parsed/url#anchor">parsed url anchor</a>
 ```
 
-### Inline Image
-Bracketed text preceeded by `!` and proceeded by parenthesis will be translated as an image. url can be absolute or relative. title, width, and height are optional.
+### Images
+Bracketed text preceeded by `!` and proceeded by parenthesis or brackets will be translated as an image. Square brackets preceeded by `!` and proceeded by `:` will be translated as an image reference. url can be absolute or relative. title, width, and height are optional.
 ##### mrkdwn
 ```
 ![alt text](url title width height)
 ![alt text](url "Title" 350px 100%)
-
 ```
+`![alt text][reference]`  
+`![reference]: url "Title" width height`
 ##### html
 ```
 <img src="url" title="title" alt="alt text" />
 <img src="url" title="Title" alt="alt text" width="350px" height="100%" />
 ```
-
-### Reference Image
-Bracketed text preceeded by `!` and proceeded by bracketed text will be translated as a reference image. Bracketed text preceeded by `!` and proceeded by `:` will define an image reference and can be anywhere in the document.
-##### mrkdwn
-`![alt text][reference]`  
-`![reference]: url "Title" width height`
-##### html
 ```
 <img src="url" title="Title" alt="alt text" width="width" height="height" />
 ```
 
-### Inline Macro
-Bracketed text preceeded by `&` and proceeded by parenthesis will be translated as a macro. Macros can be used to embed video, other media, or whatever else comes around. alt text is displayed if a macro is invalid. The first argument in the parenthesis must be the macro name. Any number and type of arguments can be included after the first depending on the macro.
+### Macros
+Bracketed text preceeded by `%` and proceeded by parenthesis or square brackets will be translated as a macro. Square brackets preceeded by `%` and proceeded by `:` will be translated as a macro reference. Macros can be used to embed video, other media, or whatever else comes around. alt text is displayed if a macro is invalid. The first argument must be the macro name. Any number and type of arguments can be included after the first depending on the macro.
 ##### mrkdwn
 ```
-&[alt text](macro arg1 arg2 arg3 ...)
+%[alt text](macro arg1 arg2 arg3 ...)
 ```
+`%[alt text][reference]`  
+`%[reference]: macro arg1 arg2 arg3 arg4`
 ##### html
+```
+varied based on macro
+```
 ```
 varied based on macro
 ```
 
-### Reference Macro
-Bracketed text preceeded by `&` and proceeded by bracketed text will be translated as a reference macro. Bracketed text preceeded by `&` and proceeded by `:` will define a macro reference and can be anywhere in the document.
+### Citations
+Square brackets preceeded by `@`. Square brackets preceeded by `@` and proceeded by `:` will be translated as a citation reference. A `@` proceeded by a citation reference will be translated as a citation. Citation references must be placed together in the document where they should be displayed and will be translated as a list. Citations are automatically numbered based list order.
 ##### mrkdwn
-`&[alt text][reference]`  
-`&[reference]: macro arg1 arg2 arg3 arg4`
+```
+This sentence is from something trustworthy @[author]. This sentence is way less trustworthy @description. Use a specific value in the citation text @[description](special text).
+
+@[author]: type arg1 arg2
+@[description]: type arg1 arg2 arg3
+```
 ##### html
 ```
-varied based on macro
+This sentence is from something trustworthy<sup class="citation"><a href="#cite-1">1</a></sup>. This sentence is way less trustworthy<sup class="citation"><a href="#cite-2">2</a></sup>. Use a specific value in the citation text<sup class="citation"><a href="#cite-2">special text</a></sup>.
+
+<ol>
+  <li><a name="cite-1">bibliography based on type</a></li>
+  <li><a name="cite-2">bibliography based on type</a></li>
+</ol>
+```
+
+### Notes
+Square brackets preceeded by `&`. Square brackets preceeded by `&` and proceeded by `:` will be translated as a note reference. A `&` proceeded by a note reference will be translated as a note. Note references must be placed together in the document where they should be displayed and will be translated as a list. Notes are automatically numbered based on list order.
+##### mrkdwn
+```
+This sentence needs a note &[refOne]. This sentence also needs a note &refTwo. This sentence gets a fancy note &[refTwo](special text).
+
+&[refOne]: note text
+&[refTwo]: note text
+```
+##### html
+```
+This sentence needs a note<sup class="note"><a href="#note-1">1</a></sup>. This sentence also needs a note<sup class="note"><a href="#note-2">2</a></sup>. This sentence gets a fancy note<sup class="note"><a href="#note-2">special text</a></sup>.
+
+<ol>
+  <li><a name="note-1">note text</a></li>
+  <li><a name="note-2">note text</a></li>
+</ol>
 ```
 
 ### Variables
-Bracketed text preceeded by `%` and proceeded by bracketed text will be translated as a variable. Bracketed text preceeded by `%` and proceeded by `:` will define a variable and can be anywhere in the document.
+Bracketed text preceeded by `$` and proceeded by bracketed text will be translated as a variable. Bracketed text preceeded by `$` and proceeded by `:` will define a variable and can be anywhere in the document.
 ##### mrkdwn
-`Current version %[variable]`  
-`%[variable]: value`
+`Current version $[variable]`  
+`$[variable]: value`
 ##### html
 ```
 Current version value
@@ -518,7 +521,7 @@ Pairs of three or more backticks, alone on lines, will be translated as block pr
 </code></pre>
 ```
 
-### Block Sample
+### Block Pre Sample
 Pairs of three or more backticks, alone on lines, with a `!` on the first line, will be translated as block pre sample. Most special characters within the block are escaped to their ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
 ##### mrkdwn
 ```
@@ -610,6 +613,23 @@ He said "Something worth remembering".
 He said <q>Something worth remembering</q>.
 ```
 
+### Comments
+Comments not inside code or sample blocks are removed from translation. 
+##### mrkdwn
+```
+Hide /* the comment */ from this sentence.
+
+/*
+Hide this block.
+*/
+```
+##### html
+```
+Hide  from this sentence.
+
+
+```
+
 ### Semantics and Meta
 `{ }` will be treated as meta or sematic data. Semantics can be used inline or in a block. It will be removed from the final translation, but can be retrieved and used for special machine magic. The parser can be configured to output sematics in a single html comment or multiple html comments.  `( )` can be used to define an array. `[ ]` can be used to define a json-ish data structure. Whitespace is used for parsing and is otherwise ignored.
 ##### mrkdwn
@@ -645,6 +665,8 @@ Markup Notes and Tracking
 
 - ~~escaped characters~~
   - where possible, should be run first to ensure translation everywhere without exception
+- comments 
+  - should be run as early as possible to prevent unneeded translation of other syntax
 - ~~inline code and sample~~
 - ~~block code and sample~~
 - ~~meta~~
@@ -652,6 +674,8 @@ Markup Notes and Tracking
 - ~~abbreviations~~
 - ~~images~~
 - ~~macros~~
+- citations
+- notes
 - ~~links~~
   - where possible, should be run after other square bracket syntax for performance
 - auto links
