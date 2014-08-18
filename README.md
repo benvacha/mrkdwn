@@ -423,10 +423,10 @@ Bracketed text preceeded by `!` and proceeded by bracketed text will be translat
 ```
 
 ### Inline Macro
-Bracketed text preceeded by `@` and proceeded by parenthesis will be translated as a macro. Macros can be used to embed video, other media, or whatever else comes around. alt text is displayed if a macro is invalid. The first argument in the parenthesis must be the macro name. Any number and type of arguments can be included after the first depending on the macro.
+Bracketed text preceeded by `&` and proceeded by parenthesis will be translated as a macro. Macros can be used to embed video, other media, or whatever else comes around. alt text is displayed if a macro is invalid. The first argument in the parenthesis must be the macro name. Any number and type of arguments can be included after the first depending on the macro.
 ##### mrkdwn
 ```
-@[alt text](macro arg1 arg2 arg3 ...)
+&[alt text](macro arg1 arg2 arg3 ...)
 ```
 ##### html
 ```
@@ -434,10 +434,10 @@ varied based on macro
 ```
 
 ### Reference Macro
-Bracketed text preceeded by `@` and proceeded by bracketed text will be translated as a reference macro. Bracketed text preceeded by `@` and proceeded by `:` will define a macro reference and can be anywhere in the document.
+Bracketed text preceeded by `&` and proceeded by bracketed text will be translated as a reference macro. Bracketed text preceeded by `&` and proceeded by `:` will define a macro reference and can be anywhere in the document.
 ##### mrkdwn
-`@[alt text][reference]`  
-`@[reference]: macro arg1 arg2 arg3 arg4`
+`&[alt text][reference]`  
+`&[reference]: macro arg1 arg2 arg3 arg4`
 ##### html
 ```
 varied based on macro

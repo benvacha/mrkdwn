@@ -164,9 +164,9 @@ var mrkdwn = {
             return markdown;
         },
         
-        // at square brackets colon >> nothing
-        // at square brackets square brackets >> <img />
-        // at square brackets round brackets >> <img />
+        // amp square brackets colon >> nothing
+        // amp square brackets square brackets >> <img />
+        // amp square brackets round brackets >> <img />
         macros: function(markdown) {
             // TODO: include passed runtime definitions
             // find, cache, remove definitions
@@ -177,7 +177,7 @@ var mrkdwn = {
                     defs[$1] = {macro: macro, args: tokens};
                     return '';
                 };
-            markdown = markdown.replace(/\@\[(.*?)\]:(.*)\n/g, onMatch);
+            markdown = markdown.replace(/\&\[(.*?)\]:(.*)\n/g, onMatch);
             // find, replace reference usage
             onMatch = function(match, $1, $2) {
                 if(defs[$2] && mrkdwn.macro[defs[$2].macro]) {
@@ -185,7 +185,7 @@ var mrkdwn = {
                 }
                 return $1;
             };
-            markdown = markdown.replace(/\@\[(.*?)\]\[(.*?)\]/g, onMatch);
+            markdown = markdown.replace(/\&\[(.*?)\]\[(.*?)\]/g, onMatch);
             // find, replace inline usage
             onMatch = function(match, $1, $2) {
                 tokens = mrkdwn.util.tokenize($2);
@@ -195,7 +195,7 @@ var mrkdwn = {
                 }
                 return $1;
             };
-            markdown = markdown.replace(/\@\[(.*?)\]\((.*?)\)/g, onMatch);
+            markdown = markdown.replace(/\&\[(.*?)\]\((.*?)\)/g, onMatch);
             //
             return markdown;
         },
