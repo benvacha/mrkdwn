@@ -380,15 +380,15 @@ Bracketed text preceeded by `!` and proceeded by parenthesis or brackets will be
 ```
 ![alt text](url title width height)
 ![alt text](url "Title" 350px 100%)
+
+![alt text][reference]
+![reference]: url "Title" width height
 ```
-`![alt text][reference]`  
-`![reference]: url "Title" width height`
 ##### html
 ```
 <img src="url" title="title" alt="alt text" />
 <img src="url" title="Title" alt="alt text" width="350px" height="100%" />
-```
-```
+
 <img src="url" title="Title" alt="alt text" width="width" height="height" />
 ```
 
@@ -397,14 +397,14 @@ Bracketed text preceeded by `%` and proceeded by parenthesis or square brackets 
 ##### mrkdwn
 ```
 %[alt text](macro arg1 arg2 arg3 ...)
+
+%[alt text][reference]
+%[reference]: macro arg1 arg2 arg3 arg4
 ```
-`%[alt text][reference]`  
-`%[reference]: macro arg1 arg2 arg3 arg4`
 ##### html
 ```
 varied based on macro
-```
-```
+
 varied based on macro
 ```
 
@@ -412,14 +412,18 @@ varied based on macro
 Square brackets preceeded by `@`. Square brackets preceeded by `@` and proceeded by `:` will be translated as a citation reference. A `@` proceeded by a citation reference will be translated as a citation. Citation references must be placed together in the document where they should be displayed and will be translated as a list. Citations are automatically numbered based list order.
 ##### mrkdwn
 ```
-This sentence is from something trustworthy @[author]. This sentence is way less trustworthy @description. Use a specific value in the citation text @[description](special text).
+This sentence is from something trustworthy @[author]. 
+This sentence is way less trustworthy @description. 
+Use a specific value in the citation text @[description](special text).
 
 @[author]: type arg1 arg2
 @[description]: type arg1 arg2 arg3
 ```
 ##### html
 ```
-This sentence is from something trustworthy<sup class="citation"><a href="#cite-1">1</a></sup>. This sentence is way less trustworthy<sup class="citation"><a href="#cite-2">2</a></sup>. Use a specific value in the citation text<sup class="citation"><a href="#cite-2">special text</a></sup>.
+This sentence is from something trustworthy<sup class="citation"><a href="#cite-1">1</a></sup>. 
+This sentence is way less trustworthy<sup class="citation"><a href="#cite-2">2</a></sup>. 
+Use a specific value in the citation text<sup class="citation"><a href="#cite-2">special text</a></sup>.
 
 <ol>
   <li><a name="cite-1">bibliography based on type</a></li>
@@ -431,14 +435,18 @@ This sentence is from something trustworthy<sup class="citation"><a href="#cite-
 Square brackets preceeded by `&`. Square brackets preceeded by `&` and proceeded by `:` will be translated as a note reference. A `&` proceeded by a note reference will be translated as a note. Note references must be placed together in the document where they should be displayed and will be translated as a list. Notes are automatically numbered based on list order.
 ##### mrkdwn
 ```
-This sentence needs a note &[refOne]. This sentence also needs a note &refTwo. This sentence gets a fancy note &[refTwo](special text).
+This sentence needs a note &[refOne]. 
+This sentence also needs a note &refTwo. 
+This sentence gets a fancy note &[refTwo](special text).
 
 &[refOne]: note text
 &[refTwo]: note text
 ```
 ##### html
 ```
-This sentence needs a note<sup class="note"><a href="#note-1">1</a></sup>. This sentence also needs a note<sup class="note"><a href="#note-2">2</a></sup>. This sentence gets a fancy note<sup class="note"><a href="#note-2">special text</a></sup>.
+This sentence needs a note<sup class="note"><a href="#note-1">1</a></sup>. 
+This sentence also needs a note<sup class="note"><a href="#note-2">2</a></sup>. 
+This sentence gets a fancy note<sup class="note"><a href="#note-2">special text</a></sup>.
 
 <ol>
   <li><a name="note-1">note text</a></li>
