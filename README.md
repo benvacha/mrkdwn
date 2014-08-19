@@ -427,7 +427,7 @@ This sentence is way less trustworthy<sup class="citation"><a href="#cite-2">2</
 <ol>
   <li><a name="cite-1">bibliography based on type</a></li>
   <li><a name="cite-2">bibliography based on type</a></li>
-  <li><a name="cite-2">A preformatted citation</a></li>
+  <li><a name="cite-3">A preformatted citation</a></li>
 </ol>
 ```
 
@@ -692,7 +692,7 @@ Markup Notes and Tracking
 - ~~abbreviations~~
 - ~~images~~
 - ~~macros~~
-- citations
+- ~~citations~~
 - notes
 - ~~links~~
   - where possible, should be run after other square bracket syntax for performance
