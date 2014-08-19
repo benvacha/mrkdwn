@@ -622,20 +622,31 @@ He said <q>Something worth remembering</q>.
 ```
 
 ### Comments
-Comments not inside code or sample blocks are removed from translation. 
+Three or more `/` will be removed from translation. Three or more '/' with a '!' will be translated to a comment. 
 ##### mrkdwn
 ```
-Hide /* the comment */ from this sentence.
+Hide /// the comment /// from this sentence.
 
-/*
+///
 Hide this block.
-*/
+///
+
+Put in a ///! comment ///
+
+///!
+Comment block
+///
 ```
 ##### html
 ```
 Hide  from this sentence.
 
 
+Put in a <!-- comment -->
+
+<!--
+Comment Block
+-->
 ```
 
 ### Semantics and Meta
@@ -673,8 +684,7 @@ Markup Notes and Tracking
 
 - ~~escaped characters~~
   - where possible, should be run first to ensure translation everywhere without exception
-- comments 
-  - should be run as early as possible to prevent unneeded translation of other syntax
+- ~~comments~~ 
 - ~~inline code and sample~~
 - ~~block code and sample~~
 - ~~meta~~

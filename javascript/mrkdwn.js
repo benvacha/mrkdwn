@@ -37,8 +37,9 @@ var mrkdwn = {
         // change all syntax to markup
         all: function(markdown) {
             markdown = mrkdwn.markup.escapedChars(markdown);
-            markdown = mrkdwn.markup.inlineCodeSample(markdown);
-            markdown = mrkdwn.markup.blockCodeSample(markdown);
+            markdown = mrkdwn.markup.comments(markdown);
+            markdown = mrkdwn.markup.inlineCodeSamples(markdown);
+            markdown = mrkdwn.markup.blockCodeSamples(markdown);
             markdown = mrkdwn.markup.meta(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
@@ -53,9 +54,21 @@ var mrkdwn = {
             return mrkdwn.util.asciiEncode(markdown, /\\(\S)/g);
         },
         
+        // pair of three or more slashes >> nothing
+        // pair of three or more slashes with bang >> <!-- -->
+        comments: function(markdown) {
+            var onMatch = function(match, $1, $2, $3) {
+                if($2) {
+                    return '<!-- ' + $3 + ' -->';
+                }
+                return '';
+            };
+            return markdown.replace(/(\/\/\/+)(?!\/)(!|)([\s\S]*?)\1/g, onMatch);
+        },
+        
         // pair of one or two backticks on a line >> <code></code>
         // pair of one or two backticks with bang on a line >> <samp></samp>
-        inlineCodeSample: function(markdown) {
+        inlineCodeSamples: function(markdown) {
             var onMatch = function(match, $1, $2, $3) {
                 if($2) {
                     return '<samp>' + mrkdwn.util.asciiEncode($3, /([^\w\s&#;])/g) + '</samp>';
@@ -67,7 +80,7 @@ var mrkdwn = {
         
         // pair of three or more backticks on multiple lines >> <pre><code></code></pre>
         // pair of three or more backticks with bang on multiple lines >> <pre><samp></samp></pre>
-        blockCodeSample: function(markdown) {
+        blockCodeSamples: function(markdown) {
             var onMatch = function(match, $1, $2, $3, $4) {
                 if($2 && $3) {
                     return '<pre><samp class="' + $3.trim() + '">' + mrkdwn.util.asciiEncode($4, /([^\w\s&#;])/g) + '</samp></pre>';
