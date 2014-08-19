@@ -409,25 +409,25 @@ varied based on macro
 ```
 
 ### Citations
-Square brackets preceeded by `@`. Square brackets preceeded by `@` and proceeded by `:` will be translated as a citation reference. A `@` proceeded by a citation reference will be translated as a citation. Citation references must be placed together in the document where they should be displayed and will be translated as a list. Citations are automatically numbered based list order.
+Square brackets preceeded by `@`. Square brackets preceeded by `@` and proceeded by `:` will be translated as a citation reference. A `@` proceeded by a citation reference will be translated as a citation. Citation references must be placed together in the document where they should be displayed and will be translated as a list. Citations are automatically numbered based on list order. If the first argument in a citation reference is a known type of citation its arguments will be used to autoformat a citation in MLA. If the first argument is not a known citation type, the string will be used directly.
 ##### mrkdwn
 ```
-This sentence is from something trustworthy @[author]. 
-This sentence is way less trustworthy @description. 
-Use a specific value in the citation text @[description](special text).
+This sentence is from something trustworthy @[refOne]. 
+This sentence is way less trustworthy @refTwo.
 
-@[author]: type arg1 arg2
-@[description]: type arg1 arg2 arg3
+@[refOne]: type arg1 arg2
+@[refTwo]: type arg1 arg2 arg3
+@[refThree]: A preformated citation
 ```
 ##### html
 ```
 This sentence is from something trustworthy<sup class="citation"><a href="#cite-1">1</a></sup>. 
-This sentence is way less trustworthy<sup class="citation"><a href="#cite-2">2</a></sup>. 
-Use a specific value in the citation text<sup class="citation"><a href="#cite-2">special text</a></sup>.
+This sentence is way less trustworthy<sup class="citation"><a href="#cite-2">2</a></sup>.
 
 <ol>
   <li><a name="cite-1">bibliography based on type</a></li>
   <li><a name="cite-2">bibliography based on type</a></li>
+  <li><a name="cite-2">A preformatted citation</a></li>
 </ol>
 ```
 

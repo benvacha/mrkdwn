@@ -45,6 +45,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.abbreviations(markdown);
             markdown = mrkdwn.markup.images(markdown);
             markdown = mrkdwn.markup.macros(markdown);
+            markdown = mrkdwn.markup.citations(markdown);
             markdown = mrkdwn.markup.links(markdown);
             return markdown;
         },
@@ -213,6 +214,39 @@ var mrkdwn = {
             return markdown;
         },
         
+        // at square brackets colon >> citation list
+        // at square brackets >> <sup><a></a></sup>
+        // at text >> <sup><a></a></sup>
+        citations: function(markdown) {
+            // TODO: allow cite- to be replaced with custom string in anchors
+            // find, cache, create list
+            var id = 0, tokens, type, bib, defs = {}, def,
+                onMatch = function(match, $1, $2) {
+                    tokens = mrkdwn.util.tokenize($2);
+                    type = tokens.shift();
+                    if(mrkdwn.citation[type]) {
+                        bib = mrkdwn.citation[type].apply(null, tokens);
+                    } else {
+                        bib = $2;
+                    }
+                    defs[$1] = {id: ++id, type: type, bib: bib};
+                    return '<ol><li><a name="cite-' + id + '">' + bib + '</a></li></ol>';
+                };
+            markdown = markdown.replace(/\@\[(.*?)\]:(.*)\n/g, onMatch);
+            // clean up list
+            markdown = markdown.replace(/<\/ol>\s?<ol>/g, '');
+            // find, markup usage
+            onMatch = function(match, $1) {
+                if(defs[$1]) {
+                    return '<sup class="citation"><a href="#cite-' + defs[$1].id + '">' + defs[$1].id + '</a></sup>';
+                }
+                return '';
+            };
+            markdown = markdown.replace(/\s\@\[(.*?)\]/g, onMatch);
+            markdown = markdown.replace(/\s\@(.+?)\b/g, onMatch);
+            return markdown;
+        },
+        
         // square brackets colon >> nothing
         // square brackets square brackets >> <a></a>
         // square brackets round brackets >> <a></a>
@@ -292,6 +326,24 @@ var mrkdwn = {
             width = (width) ? ' width="' + width + '"' : '';
             height = (height) ? ' height="' + height + '"' : '';
             return '<iframe src="http://www.youtube.com/embed/' + videoId + '"' + width + height + ' frameborder="0" allowfullscreen></iframe>';
+        }
+        
+    },
+    
+    /*
+     *
+     */
+    
+    citation: {
+        
+        // citation for a website
+        web: function(url, accessDate, pageTitle, websiteTitle, author) {
+            author = (author) ? author + '. ' : '';
+            pageTitle = (pageTitle) ? '"' + pageTitle + '." ' : '';
+            websiteTitle = (websiteTitle) ? '<i>' + websiteTitle + '.</i> ' : '';
+            accessDate = (accessDate) ? accessDate + '. ' : '';
+            url = (url) ? '<br /><<a href="' + url + '">' + url + '</a>>.' : '';
+            return author + pageTitle + websiteTitle + accessDate + url;
         }
         
     },
