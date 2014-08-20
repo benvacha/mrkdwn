@@ -46,6 +46,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.images(markdown);
             markdown = mrkdwn.markup.macros(markdown);
             markdown = mrkdwn.markup.citations(markdown);
+            markdown = mrkdwn.markup.notes(markdown);
             markdown = mrkdwn.markup.links(markdown);
             return markdown;
         },
@@ -238,12 +239,40 @@ var mrkdwn = {
             // find, markup usage
             onMatch = function(match, $1) {
                 if(defs[$1]) {
-                    return '<sup class="citation"><a href="#cite-' + defs[$1].id + '">' + defs[$1].id + '</a></sup>';
+                    return '<sup class="citation"><a href="#cite-' + defs[$1].id + '" title="' + 
+                        mrkdwn.util.asciiEncode(defs[$1].bib, /([>"'])/g) + '">' + defs[$1].id + '</a></sup>';
                 }
                 return '';
             };
             markdown = markdown.replace(/\s\@\[(.*?)\]/g, onMatch);
             markdown = markdown.replace(/\s\@(.+?)\b/g, onMatch);
+            return markdown;
+        },
+        
+        // amp square brackets colon >> note list
+        // amp square brackets >> <sup><a></a></sup>
+        // amp text >> <sup><a></a></sup>
+        notes: function(markdown) {
+            // TODO: allow note- to be replaced with custom string in anchors
+            // find, cache, create list
+            var id = 0, defs = {}, def,
+                onMatch = function(match, $1, $2) {
+                    defs[$1] = {id: ++id, note: $2};
+                    return '<ol><li><a name="note-' + id + '">' + $2 + '</a></li></ol>';
+                };
+            markdown = markdown.replace(/\&\[(.*?)\]:(.*)/g, onMatch);
+            // clean up list
+            markdown = markdown.replace(/<\/ol>\s?<ol>/g, '');
+            // find, markup usage
+            onMatch = function(match, $1) {
+                if(defs[$1]) {
+                    return '<sup class="note"><a href="#note-' + defs[$1].id + '" title="' + 
+                        mrkdwn.util.asciiEncode(defs[$1].note, /([>"'])/g) + '">' + defs[$1].id + '</a></sup>';
+                }
+                return '';
+            };
+            markdown = markdown.replace(/\s\&\[(.*?)\]/g, onMatch);
+            markdown = markdown.replace(/\s\&(.+?)\b/g, onMatch);
             return markdown;
         },
         

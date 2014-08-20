@@ -421,8 +421,8 @@ This sentence is way less trustworthy @refTwo.
 ```
 ##### html
 ```
-This sentence is from something trustworthy<sup class="citation"><a href="#cite-1">1</a></sup>. 
-This sentence is way less trustworthy<sup class="citation"><a href="#cite-2">2</a></sup>.
+This sentence is from something trustworthy<sup class="citation"><a href="#cite-1" title="bibliography">1</a></sup>. 
+This sentence is way less trustworthy<sup class="citation"><a href="#cite-2" title="bibliography">2</a></sup>.
 
 <ol>
   <li><a name="cite-1">bibliography based on type</a></li>
@@ -444,9 +444,9 @@ This sentence gets a fancy note &[refTwo](special text).
 ```
 ##### html
 ```
-This sentence needs a note<sup class="note"><a href="#note-1">1</a></sup>. 
-This sentence also needs a note<sup class="note"><a href="#note-2">2</a></sup>. 
-This sentence gets a fancy note<sup class="note"><a href="#note-2">special text</a></sup>.
+This sentence needs a note<sup class="note"><a href="#note-1" title="note text">1</a></sup>. 
+This sentence also needs a note<sup class="note"><a href="#note-2" title="note text">2</a></sup>. 
+This sentence gets a fancy note<sup class="note"><a href="#note-2" title="note text">special text</a></sup>.
 
 <ol>
   <li><a name="note-1">note text</a></li>
@@ -693,7 +693,7 @@ Markup Notes and Tracking
 - ~~images~~
 - ~~macros~~
 - ~~citations~~
-- notes
+- ~~notes~~
 - ~~links~~
   - where possible, should be run after other square bracket syntax for performance
 - auto links
