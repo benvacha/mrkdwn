@@ -293,7 +293,7 @@ var mrkdwn = {
                     tokens = mrkdwn.util.tokenize($3);
                     url = name = email = undefined;
                     if(tokens[0].charAt(0) === '!') {
-                        name = tokens[0].substring(1);
+                        name = tokens[0].substring(1).replace(' ', '-').toLowerCase();
                     } else if(tokens[0].indexOf('@') > 0) {
                         email = tokens[0];
                     } else {
@@ -319,7 +319,7 @@ var mrkdwn = {
                 tokens = mrkdwn.util.tokenize($3);
                 url = name = email = title = undefined;
                 if(tokens[0].charAt(0) === '!') {
-                    name = tokens[0].substring(1);
+                    name = tokens[0].substring(1).replace(' ', '-').toLowerCase();
                 } else if(tokens[0].indexOf('@') > 0) {
                     email = tokens[0];
                 } else {
@@ -337,13 +337,13 @@ var mrkdwn = {
                 if($1 in bannedChars) return match;
                 url = name = email = title = undefined;
                 if($2.charAt(0) === '!') {
-                    name = $2.substring(1);
-                    title = name;
+                    name = $2.substring(1).replace(' ', '-').toLowerCase();
+                    title = $2.substring(1);
                 } else if($2.indexOf('@') > 0) {
                     email = $2;
                     title = email;
                 } else if($2.charAt(0) === '#') {
-                    url = $2;
+                    url = $2.replace(' ', '-').toLowerCase();
                     title = $2.substring(1);
                 } else {
                     url = $2.replace(/_/g, '/');
@@ -376,20 +376,20 @@ var mrkdwn = {
         headers: function(markdown) {
             // find, replace ===
             var onMatch = function(match, $1) {
-                    return '\n<h1><a name="' + escape($1.toLowerCase()) + '" title="' + $1 + '">' + $1 + '</a></h1>\n';
+                    return '\n<h1><a name="' + $1.replace(' ', '-').toLowerCase() + '" title="' + $1 + '">' + $1 + '</a></h1>\n';
                 };
             markdown = markdown.replace(/\n([\S ]+?)\n===+\n/g, onMatch);
             // find, replace ---
             onMatch = function(match, $1) {
-                return '\n<h2><a name="' + escape($1.toLowerCase()) + '" title="' + $1 + '">' + $1 + '</a></h2>\n';
+                return '\n<h2><a name="' + $1.replace(' ', '-').toLowerCase() + '" title="' + $1 + '">' + $1 + '</a></h2>\n';
             };
             markdown = markdown.replace(/\n([\S ]+?)\n---+\n/g, onMatch);
             // find, replace #s
             onMatch = function(match, $1, $2, $3, $4) {
                 if($3) {
-                    return '<h' + $1.length + '><a name="' + escape($3.toLowerCase()) + '" title="' + $3 + '">' + $4 + '</a></h' + $1.length + '>\n';
+                    return '<h' + $1.length + '><a name="' + $3.replace(' ', '-').toLowerCase() + '" title="' + $4 + '">' + $4 + '</a></h' + $1.length + '>\n';
                 }
-                return '<h' + $1.length + '><a name="' + escape($4.toLowerCase()) + '" title="' + $4 + '">' + $4 + '</a></h' + $1.length + '>\n';
+                return '<h' + $1.length + '><a name="' + $4.replace(' ', '-').toLowerCase() + '" title="' + $4 + '">' + $4 + '</a></h' + $1.length + '>\n';
             }
             markdown = markdown.replace(/(\#+)(\(\!(.*)?\))? ([\S ]+?)\n/g, onMatch);
             //
