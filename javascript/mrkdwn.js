@@ -48,6 +48,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.citations(markdown);
             markdown = mrkdwn.markup.notes(markdown);
             markdown = mrkdwn.markup.links(markdown);
+            markdown = mrkdwn.markup.autoLinks(markdown);
             return markdown;
         },
         
@@ -279,6 +280,7 @@ var mrkdwn = {
         // square brackets colon >> nothing
         // square brackets square brackets >> <a></a>
         // square brackets round brackets >> <a></a>
+        // square brackets >> <a></a>
         links: function(markdown) {
             // TODO: include passed runtime definitions
             // TODO: replace bannedChars with negative lookbehind in supported languages
@@ -329,6 +331,41 @@ var mrkdwn = {
                 return $1 + '<a' + url + name + email + title + '>' + $2 + '</a>';
             }
             markdown = markdown.replace(/(.?)\[(.*?)\]\((.*?)\)/g, onMatch);
+            // find, replace simple usage
+            onMatch = function(match, $1, $2, $3) {
+                if($1 in bannedChars) return match;
+                url = name = email = title = undefined;
+                if($2.charAt(0) === '!') {
+                    name = $2.substring(1);
+                    title = name;
+                } else if($2.indexOf('@') > 0) {
+                    email = $2;
+                    title = email;
+                } else if($2.charAt(0) === '#') {
+                    url = $2;
+                    title = $2.substring(1);
+                } else {
+                    url = $2.replace(/_/g, '/');
+                    title = $2.replace(/_/g, ' ');
+                }
+                url = (url) ? ' href="' + url + '"' : '';
+                name = (name) ? ' name="' + name + '"' : '';
+                email = (email) ? ' href="mailto:' + email + '"' : '';
+                return $1 + '<a' + url + name + email + ' title="' + title + '">' + title + '</a>' + $3; 
+            }
+            markdown = markdown.replace(/(.?)\[(.*?)\](.?)/g, onMatch);
+            //
+            return markdown;
+        },
+        
+        // absolute links >> <a></a>
+        // email addresses >> <a></a>
+        autoLinks: function(markdown) {
+            // find, replace absolute links
+            markdown = markdown.replace(/(\s)(http[s]?:\/\/.*?)(\s)/g, '$1<a href="$2" title="$2">$2</a>$3');
+            // find, replace email addresses
+            markdown = markdown.replace(/(\s)([\w._-]+?\@[\w._-]+?\.[\w._-]+?)(\s)/g, '$1<a href="mailto:$2" title="$2">$2</a>$3');
+            //
             return markdown;
         }
         

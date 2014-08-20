@@ -334,6 +334,12 @@ Square brackets preceeded by whitespace and proceeded by parenthesis or square b
 
 [text][reference]
 [reference]: url title
+
+[url]
+[auto_parsed_url]
+[!anchor]
+[#anchor]
+[parsed_url#anchor]
 ```
 ##### html
 ```
@@ -344,6 +350,12 @@ Square brackets preceeded by whitespace and proceeded by parenthesis or square b
 <a href="#anchor" title="title">text</a>
 
 <a href="url" title="title">text</a>
+
+<a href="url">url</a>
+<a href="auto/parsed/url">auto parsed url</a>
+<a name="anchor">anchor</a>
+<a href="#anchor">anchor</a>
+<a href="parsed/url#anchor">parsed url anchor</a>
 ```
 
 ### Automatic Links
@@ -353,25 +365,12 @@ Absolute urls and email addresses will be automatically linked. Text in square b
 Go to index.html
 Go to http://url.com
 Email addr@email.com
-
-[url]
-[auto_parsed_url]
-[!anchor]
-[#anchor]
-[parsed_url#anchor]
-
 ```
 ##### html
 ```
 Go to index.html
 Go to <a href="http://url.com">http://url.com</a>
 Email <a href="mailto:addr@email.com">addr@email.com</a>
-
-<a href="url">url</a>
-<a href="auto/parsed/url">auto parsed url</a>
-<a name="anchor">anchor</a>
-<a href="#anchor">anchor</a>
-<a href="parsed/url#anchor">parsed url anchor</a>
 ```
 
 ### Images
@@ -696,7 +695,7 @@ Markup Notes and Tracking
 - ~~notes~~
 - ~~links~~
   - where possible, should be run after other square bracket syntax for performance
-- auto links
+- ~~auto links~~
   - where possible, should be ran after other square bracket syntax for performance
 - headers
   - linked
