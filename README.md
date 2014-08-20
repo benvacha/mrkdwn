@@ -696,10 +696,7 @@ Markup Notes and Tracking
 - ~~links~~
   - where possible, should be run after other square bracket syntax for performance
 - ~~auto links~~
-  - where possible, should be ran after other square bracket syntax for performance
-- headers
-  - linked
-  - auto link
+- ~~headers~~
 - horizontal rule
 - phrase formatting
 - auto quotation

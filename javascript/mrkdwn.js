@@ -49,6 +49,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.notes(markdown);
             markdown = mrkdwn.markup.links(markdown);
             markdown = mrkdwn.markup.autoLinks(markdown);
+            markdown = mrkdwn.markup.headers(markdown);
             return markdown;
         },
         
@@ -365,6 +366,32 @@ var mrkdwn = {
             markdown = markdown.replace(/(\s)(http[s]?:\/\/.*?)(\s)/g, '$1<a href="$2" title="$2">$2</a>$3');
             // find, replace email addresses
             markdown = markdown.replace(/(\s)([\w._-]+?\@[\w._-]+?\.[\w._-]+?)(\s)/g, '$1<a href="mailto:$2" title="$2">$2</a>$3');
+            //
+            return markdown;
+        },
+        
+        // === >> <h1><a></a></h1>
+        // --- >> <h2><a></a><h2>
+        // ### >> <h#><a></a><h#>
+        headers: function(markdown) {
+            // find, replace ===
+            var onMatch = function(match, $1) {
+                    return '\n<h1><a name="' + escape($1.toLowerCase()) + '" title="' + $1 + '">' + $1 + '</a></h1>\n';
+                };
+            markdown = markdown.replace(/\n([\S ]+?)\n===+\n/g, onMatch);
+            // find, replace ---
+            onMatch = function(match, $1) {
+                return '\n<h2><a name="' + escape($1.toLowerCase()) + '" title="' + $1 + '">' + $1 + '</a></h2>\n';
+            };
+            markdown = markdown.replace(/\n([\S ]+?)\n---+\n/g, onMatch);
+            // find, replace #s
+            onMatch = function(match, $1, $2, $3, $4) {
+                if($3) {
+                    return '<h' + $1.length + '><a name="' + escape($3.toLowerCase()) + '" title="' + $3 + '">' + $4 + '</a></h' + $1.length + '>\n';
+                }
+                return '<h' + $1.length + '><a name="' + escape($4.toLowerCase()) + '" title="' + $4 + '">' + $4 + '</a></h' + $1.length + '>\n';
+            }
+            markdown = markdown.replace(/(\#+)(\(\!(.*)?\))? ([\S ]+?)\n/g, onMatch);
             //
             return markdown;
         }
