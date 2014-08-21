@@ -150,11 +150,11 @@ Blockquotes can be nested as needed and can contain any other syntax. `>>` can b
 </blockquote>
 ```
 
-### Detail
-The first line of a detail will always be used as it's summary. `<<` can be used to signify the end of a detail to avoid translation errors. Detail blocks can be nested as needed and can contain any other syntax.
+### Details
+The first line of a details must include `!` and will always be used as its summary. `<<` can be used to signify the end of a details, including nested details, to avoid translation errors. Detail blocks can be nested up to 10 times and can contain any other syntax.
 ##### mrkdwn
 ```
-< summary
+<! summary
 < Paragaph One
 <
 < Second Paragraph
@@ -714,7 +714,7 @@ Markup Notes and Tracking
 - ~~horizontal rule~~
 - ~~phrase formatting~~
 - ~~blockquote~~
-- detail
+- ~~detail~~
 - list
   - unordered list
   - ordered list
