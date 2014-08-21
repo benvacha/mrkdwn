@@ -40,7 +40,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.inlineCodeSamples(markdown);
             markdown = mrkdwn.markup.blockCodeSamples(markdown);
-            markdown = mrkdwn.markup.meta(markdown);
+            markdown = mrkdwn.markup.metas(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
             markdown = mrkdwn.markup.images(markdown);
@@ -51,6 +51,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.autoLinks(markdown);
             markdown = mrkdwn.markup.headers(markdown);
             markdown = mrkdwn.markup.horizontalRules(markdown);
+            markdown = mrkdwn.markup.phraseFormattings(markdown);
             return markdown;
         },
         
@@ -100,7 +101,7 @@ var mrkdwn = {
         },
         
         // curly brackets >> nothing or comments
-        meta: function(markdown, insertComments) {
+        metas: function(markdown, insertComments) {
             // TODO: if comments then parse meta and insert comment block
             return markdown.replace(/\{[\s\S]*?\}/g, '');
         },
@@ -401,6 +402,48 @@ var mrkdwn = {
         horizontalRules: function(markdown) {
             // find, replace ---
             return markdown.replace(/\n\n ?- ?- ?-[- ]*/g, '\n\n<hr />');
+        },
+        
+        // *t*, **t**, ***t*** >> bold, strong, emphasis
+        // ~t~, ~~t~~, ~~~t~~~ >> italic, strike, mark
+        // ^t^, ^^t&& >> superscript, subscript
+        // _t_ >> underline
+        phraseFormattings: function(markdown) {
+            // find, replace emphasis, strong, bold
+            markdown = markdown.replace(/(\*+)([^\*\s].*?)\1(?!\*)/g, function(match, $1, $2) {
+                if($1.length === 1) {
+                    return '<b>' + $2 + '</b>';
+                } else if($1.length === 2) {
+                    return '<strong>' + $2 + '</strong>';
+                } else if($1.length === 3) {
+                    return '<em>' + $2 + '</em>';
+                }
+                return match;
+            });
+            // find, replace mark, strike, italic
+            markdown = markdown.replace(/(\~+)([^\~\s].*?)\1(?!\~)/g, function(match, $1, $2) {
+                if($1.length === 1) {
+                    return '<i>' + $2 + '</i>';
+                } else if($1.length === 2) {
+                    return '<strike>' + $2 + '</strike>';
+                } else if($1.length === 3) {
+                    return '<mark>' + $2 + '</mark>';
+                }
+                return match;
+            });
+            // find, replace subscript, superscript
+            markdown = markdown.replace(/(\^+)([^\^\s].*?)\1(?!\^)/g, function(match, $1, $2) {
+                if($1.length === 1) {
+                    return '<sup>' + $2 + '</sup>';
+                } else if($1.length === 2) {
+                    return '<sub>' + $2 + '</sub>';
+                }
+                return match;
+            });
+            // find, replace underline
+            markdown = markdown.replace(/(\s)(\_+)([^\_\s].*?)\2(?!\S)/g, "$1<u>$3</u>");
+            //
+            return markdown;
         }
         
     },

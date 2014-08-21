@@ -30,15 +30,16 @@ with a manual break inserted</p>
 ```
 
 ### Phrase Formatting
-Phrase formatting can be nested inside of any other syntax, except code blocks. Phrase formatting is only translated when both starting and ending syntax is found in the same paragraph. Phrase formatting can be inside of words, with the exception of underline. Phrase formatting surrounded with whitespace will not be translated as phrase formatting.
+Phrase formatting can be nested inside of any other syntax, except code or sample blocks. Phrase formatting is only translated when both starting and ending syntax is found in the same paragraph. Phrase formatting can be inside of words, with the exception of underline. Opening phrase formatting followed by whitespace will not be translated as phrase formatting.
 ##### mrkdwn
 ```
-*emphasis*  **bold**  ***strong***
-~italic~  ~~mark~~  ~~~strikethrough~~~~
+*bold*  **strong**  ***emphasis***
+~italic~  ~~strikethrough~~  ~~~mark~~~~
 ~*italic bold*~
 ^superscript^  ^^subscript^^
 _underline_
 some_file_name
+some_file_ name
 put a * in the **
 ```
 ##### html
@@ -49,6 +50,7 @@ put a * in the **
 <sup>superscript</sup>  <sub>subscript</sub>
 <u>underline</u>
 some_file_name
+some_file_ name
 put a * in the **
 ```
 
@@ -687,7 +689,7 @@ Markup Notes and Tracking
 - ~~auto links~~
 - ~~headers~~
 - ~~horizontal rule~~
-- phrase formatting
+- ~~phrase formatting~~
 - blockquote
 - detail
 - list
