@@ -88,7 +88,7 @@ Header 2
 ```
 
 ### Horizontal Rules
-Three or more `-` on a line, alone, will create a horizontal rule. '*' are not valid horizontal rule syntax.
+Three or more `-` on a line, alone, preceeded by a blank line, will create a horizontal rule. '*' are not valid horizontal rule syntax.
 ##### mrkdwn
 ```
 ---
@@ -609,17 +609,6 @@ Any character can be escaped with `\` to produce the ascii representation and re
 &#42;Actual asterisk surrounded text&#42;
 ```
 
-### Automatic Quotation
-Quotations marks will be automatically translated to use the quotation tags.
-##### mrkdwn
-```
-He said "Something worth remembering".
-```
-##### html
-```
-He said <q>Something worth remembering</q>.
-```
-
 ### Comments
 Three or more `/` will be removed from translation. Three or more '/' with a '!' will be translated to a comment. 
 ##### mrkdwn
@@ -697,9 +686,8 @@ Markup Notes and Tracking
   - where possible, should be run after other square bracket syntax for performance
 - ~~auto links~~
 - ~~headers~~
-- horizontal rule
+- ~~horizontal rule~~
 - phrase formatting
-- auto quotation
 - blockquote
 - detail
 - list
