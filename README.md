@@ -103,27 +103,50 @@ Three or more `-` on a line, alone, preceeded by a blank line, will create a hor
 ```
 
 ### Blockquote
-Blockquotes can be nested as needed and can contain any other syntax. `>>` can be used to signify the end of a blockquote to avoid translation errors.
+Blockquotes can be nested as needed and can contain any other syntax. `>>` can be used to signify the end of a blockquote, including nested blockquotes, to avoid translation errors. Blockquotes can be nested a max of 10 times.
 ##### mrkdwn
 ```
 > Paragraph one
 > 
 >> Second paragraph
 
+>! cite 
 > Block Quote
-> with citation
->! cite
+>> with citation
+
+> level one
+> >! cite
+> > level two
+> > also level two
+> back on level one
+> >> level two again
+> > level two, but not the same as the above line
 ```
 ##### html
 ```
 <blockquote>
   <p>Paragraph one</p>
   <p>Second paragraph</p>
-</blockquote>
+</blockquote>&nbsp;
 
 <blockquote cite="cite">
   <p>Block Quote<br />
   with citation</p>
+</blockquote>&nbsp;
+
+<blockquote>
+  <p>level one</p>
+  <blockquote cite="cite">
+    <p>level two<br />
+    also level two</p>
+  </blockquote>
+  <p>back on level two</p>
+  <blockquote>
+    <p>level two again</p>
+  </blockquote>&nbsp;
+  <blockquote>
+    <p>level two, but not the same as the above live</p>
+  </blockquote>
 </blockquote>
 ```
 
@@ -690,7 +713,7 @@ Markup Notes and Tracking
 - ~~headers~~
 - ~~horizontal rule~~
 - ~~phrase formatting~~
-- blockquote
+- ~~blockquote~~
 - detail
 - list
   - unordered list
