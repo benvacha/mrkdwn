@@ -22,6 +22,8 @@ var fs = require('fs'),
     jsdiff = require('diff'),
     mrkdwn = require('./mrkdwn.js');
 
+
+/*
 // declare global variables
 var testDirectory = '../test/',
     testCSV, i, lines, tokens,
@@ -94,3 +96,4 @@ for(test in tests) {
 
 // give a little breathing room
 process.stdout.write('\n');
+*/
