@@ -54,6 +54,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.phraseFormattings(markdown);
             markdown = mrkdwn.markup.blockquotes(markdown);
             markdown = mrkdwn.markup.details(markdown);
+            //markdown = mrkdwn.markup.lists(markdown);
             return markdown;
         },
         
@@ -498,6 +499,38 @@ var mrkdwn = {
             while(markdown.search(/<\/details>(\s*?)<details>/g) > -1 && n--) {
                 markdown = markdown.replace(/<\/details>(\s*?)<details>/g, '$1');
             }
+            //
+            return markdown;
+        },
+        
+        // - >> <ul></ul>
+        // #. >> <ol></ol>
+        // : >> <dl></dl>
+        lists: function(markdown) {
+            // find, replace nested lists
+            // TODO: add custom or dynamic indentSpaceCount
+            // TODO: better document this recursive nightmare
+            // TODO: better find and document edge cases
+            var n = 10, indentSpaceCount = 1,
+                onMatch = function(match, space, number, marker, ender, accordian, content) {
+                    if(space.length) {
+                        content = onMatch(match, space.substring(indentSpaceCount), number, marker, '', accordian, content);
+                    }
+                    ender = (ender) ? '<!-- -->' : '';
+                    accordian = (accordian) ? ' class="accordian"' : '';
+                    if(marker === '-') {
+                        return '<ul><li' + accordian + '>' + content + '</li></ul>' + ender;
+                    } else {
+                        number = (number)? ' start="' + number + '"' : '';
+                        return '<ol' + number + '><li' + accordian + '>' + content + '</li></ol>' + ender;
+                    }
+                };
+            markdown = markdown.replace(/([\t ]*)(\d+)?(-|\.)(-|\.)?(\<)? ?(.*)/g, onMatch);
+            //
+            while(markdown.search(/<\/(?:ul|ol)>(?:<\/li>)?(\s*?)(?:<li.*?>)?<(?:ul|ol).*?>/g) > -1 && n--) {
+                markdown = markdown.replace(/<\/(?:ul|ol)>(?:<\/li>)?(\s*?)(?:<li.*?>)?<(?:ul|ol).*?>/g, '$1');
+            }
+            markdown = markdown.replace(/<\/li>(\s*?)<li.*?>(<(?:ul|ol).*?>)/g, '$1$2');
             //
             return markdown;
         }
