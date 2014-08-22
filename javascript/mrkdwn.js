@@ -1,4 +1,4 @@
-/* mrkdwn v0.1.0 : github.com/benvacha/mrkdwn /*
+/* mrkdwn v0.1.0 : github.com/benvacha/mrkdwn */
 
 /*
 The MIT License (MIT)

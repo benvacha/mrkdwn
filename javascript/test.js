@@ -8,95 +8,137 @@ Requires:
     colors : https://github.com/Marak/colors.js
     diff : https://github.com/kpdecker/jsdiff
 
-Initial Setup (from javascript directory)
+Initial Setup
     npm install colors
     npm install diff
-Run All Tests (from javascript directory)
-    node test.js
+    
+Run All Tests, prints pass or fail
+    node path/test.js path/test/
+    
+Run A Test, prints pass or fail and diff
+    node path/test.js path/test/ testName
+    
+Run Multiple Tests, prints pass or fail and diff
+    node path/test.js path/test/ testName testName testName
 
 */
 
-// parse command line arguements
-
+/*
+ *
+*/
 
 // import node modules
 var fs = require('fs'),
     colors = require('colors'),
     jsdiff = require('diff'),
     mrkdwn = require('./mrkdwn.js');
+    
+// parse command line arguements
+var testDirectory = process.argv[2],
+    testRuns = [];
+for(var i=3; i<process.argv.length; i++) {
+    testRuns.push(process.argv[i]);
+}
 
+// exit if missing or invalid test directory, ensure trailing slash
+if(!testDirectory) {
+    console.log('# Missing test directory');
+    console.log('# Usage: node path/test.js path/test/ [[[testName] testName] ...]');
+    process.exit();
+}
+if(testDirectory.charAt(testDirectory.length-1) !== '/') {
+    testDirectory += '/';
+}
+if(!fs.existsSync(testDirectory)) {
+    console.log('# Invalid test directory');
+    console.log('# Usage: node path/test.js path/test/ [[[testName] testName] ...]');
+    process.exit();
+}
 
 /*
-// declare global variables
-var testDirectory = '../test/',
-    testCSV, i, lines, tokens,
-    test, tests = {},
-    markdown, markup, translation,
-    diff, cache, failed;
+ *
+*/
 
-// translator to method mapping
-var translator, translatorMethods = {
-    escapedChars: mrkdwn.markup.escapedChars
-};
-
-// load available tests
-testCSV = fs.readFileSync(testDirectory + 'tests.csv', {encoding:'utf8'});
-// parse tests CSV
-lines = testCSV.split('\n');
-for(i = 0; i < lines.length; i++) {
-    //
-    if(lines[i].charAt(0) === '#') continue;
-    //
-    tokens = lines[i].split(',');
-    test = tokens[0];
-    tests[test] = {
-        markdown: testDirectory + test + '.markdown',
-        markup: testDirectory + test + '.markup',
-        translators: tokens.slice(1)
-    };
-}
-
-// run all available tests
-for(test in tests) {
-    // reset loop variants
-    cache = ''; failed = false;
-    // load markdown and markup files
-    markdown = fs.readFileSync(tests[test].markdown, {encoding:'utf8'});
-    markup = fs.readFileSync(tests[test].markup, {encoding:'utf8'});
-    // run each translator defined by the test
-    translation = markdown;
-    for(i = 0; i < tests[test].translators.length; i++) {
-        translator = tests[test].translators[i];
-        if(translatorMethods[translator]) {
-            translation = translatorMethods[translator](translation);
+var utils = {
+    
+    // return blank string if invalid file, else return file contents as string
+    readFile: function(fileName) {
+        fileName = testDirectory + fileName;
+        if(!fs.existsSync(fileName)) {
+            console.log('## Invalid File: ' + fileName);
+            return '';
+        }
+        return fs.readFileSync(fileName, {encoding:'utf8'})
+    },
+    
+    // print if the test passed or failed, print color coded diff
+    printDiff: function(testName, diff) {
+        utils.printPassFail(testName, diff);
+        diff.forEach(function(part){
+            if(part.added || part.removed) {
+                part.value = part.value.replace(/ /g, '_');
+            }
+            process.stdout.write(part.value.replace(/\n/g, '\\n\n')[part.added ? 'green' : part.removed ? 'red' : 'grey']);
+        });
+        console.log('\n# End Test: ' + testName);
+    },
+    
+    // print if the test passed or failed
+    printPassFail: function(testName, diff) {
+        if(diff.length === 1) {
+            console.log('# Passed Test: ' + testName);
         } else {
-            failed = true;
-            cache += '## Translator Not Found: ' + tests[test].translators[i] + '\n';
+            console.log('# Failed Test: ' + testName);
         }
-    }
-    // diff the markup vs the translation
-    diff = jsdiff.diffChars(markup, translation);
-    // for each part, if there is a difference, fail the test,
-    // change value to make \n and space visible in output
-    diff.forEach(function(part){
-        if(part.added || part.removed) {
-            failed = true;
-            part.value = part.value.replace(/ /g, '_');
-        }
-        cache += part.value.replace(/\n/g, '\\n\n')[part.added ? 'green' : part.removed ? 'red' : 'grey'];
-    });
-    // if no differences, pass test
-    // if differences, fail test and print diff
-    if(!failed) {
-        process.stdout.write('\n### Passed Test: ' + test + '\n');
-    } else {
-        process.stdout.write('\n##### Failed Test: ' + test + '\n');
-        process.stdout.write(cache);
-        process.stdout.write('\n#####\n');
     }
     
-}
+};
 
-// give a little breathing room
-process.stdout.write('\n');
+/*
+ *
 */
+
+var tests = {
+    
+    // compairs the files, intended to fail
+    fail: function() {
+        var markdown = utils.readFile('fail.markdown'),
+            markup = utils.readFile('fail.markup');
+        return jsdiff.diffChars(markup, markdown);
+    },
+    
+    // compairs the files, intended to pass
+    pass: function() {
+        var markdown = utils.readFile('pass.markdown'),
+            markup = utils.readFile('pass.markup');
+        return jsdiff.diffChars(markup, markdown);
+    }
+    
+};
+
+/*
+ *
+*/
+
+// if tests specified, run just those and print pass or fail and diff
+// if no tests specified, run all tests and print pass or fail only
+var diff;
+if(testRuns.length) {
+    console.log('');
+    for(var i=0; i<testRuns.length; i++) {
+        if(tests[testRuns[i]]) {
+            diff = tests[testRuns[i]]();
+            utils.printDiff(testRuns[i], diff);
+        } else {
+            console.log('# Invalid Test: ' + testRuns[i]);
+        }
+        console.log('');
+    }
+} else {
+    console.log('');
+    for(var test in tests) {
+        diff = tests[test]();
+        utils.printPassFail(test, diff);
+    }
+    console.log('');
+}
