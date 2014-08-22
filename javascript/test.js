@@ -8,25 +8,31 @@ Requires:
     colors : https://github.com/Marak/colors.js
     diff : https://github.com/kpdecker/jsdiff
 
-Initial Setup (from root directory)
+Initial Setup (from javascript directory)
     npm install colors
     npm install diff
-Run All Tests (from root directory)
-    node javascript/test.js
+Run All Tests (from javascript directory)
+    node test.js
 
 */
 
 // import node modules
 var fs = require('fs'),
     colors = require('colors'),
-    jsdiff = require('diff');
+    jsdiff = require('diff'),
+    mrkdwn = require('./mrkdwn.js');
 
 // declare global variables
-var testDirectory = 'test/',
+var testDirectory = '../test/',
     testCSV, i, lines, tokens,
     test, tests = {},
     markdown, markup, translation,
     diff, cache, failed;
+
+// translator to method mapping
+var translator, translatorMethods = {
+    escapedChars: mrkdwn.markup.escapedChars
+};
 
 // load available tests
 testCSV = fs.readFileSync(testDirectory + 'tests.csv', {encoding:'utf8'});
@@ -37,24 +43,36 @@ for(i = 0; i < lines.length; i++) {
     if(lines[i].charAt(0) === '#') continue;
     //
     tokens = lines[i].split(',');
-    tests[tokens[0]] = {
-        markdown: tokens[1],
-        markup: tokens[2]
+    test = tokens[0];
+    tests[test] = {
+        markdown: testDirectory + test + '.markdown',
+        markup: testDirectory + test + '.markup',
+        translators: tokens.slice(1)
     };
 }
 
 // run all available tests
 for(test in tests) {
+    // reset loop variants
+    cache = ''; failed = false;
     // load markdown and markup files
-    markdown = fs.readFileSync(testDirectory + tests[test].markdown, {encoding:'utf8'});
-    markup = fs.readFileSync(testDirectory + tests[test].markup, {encoding:'utf8'});
-    // TODO: actually run translation, actually do the test
+    markdown = fs.readFileSync(tests[test].markdown, {encoding:'utf8'});
+    markup = fs.readFileSync(tests[test].markup, {encoding:'utf8'});
+    // run each translator defined by the test
     translation = markdown;
-    // diff the strings
+    for(i = 0; i < tests[test].translators.length; i++) {
+        translator = tests[test].translators[i];
+        if(translatorMethods[translator]) {
+            translation = translatorMethods[translator](translation);
+        } else {
+            failed = true;
+            cache += '## Translator Not Found: ' + tests[test].translators[i] + '\n';
+        }
+    }
+    // diff the markup vs the translation
     diff = jsdiff.diffChars(markup, translation);
     // for each part, if there is a difference, fail the test,
     // change value to make \n and space visible in output
-    cache = ''; failed = false;
     diff.forEach(function(part){
         if(part.added || part.removed) {
             failed = true;

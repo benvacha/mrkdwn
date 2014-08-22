@@ -1,2 +1,2 @@
-# test-name,markdown-file-name,markup-file-name
-test-one,test-one.markdown,test-one.markup
+# test-name,translation,translation,...
+escaped-characters,escapedChars,baller

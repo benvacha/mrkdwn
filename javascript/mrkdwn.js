@@ -602,8 +602,14 @@ var mrkdwn = {
     }
 };
 
+/*
+ *
+*/
 
-
+// if available, node module definition
+if(typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = mrkdwn;
+}
 
 
 
