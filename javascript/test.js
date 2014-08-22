@@ -16,6 +16,9 @@ Run All Tests (from javascript directory)
 
 */
 
+// parse command line arguements
+
+
 // import node modules
 var fs = require('fs'),
     colors = require('colors'),
