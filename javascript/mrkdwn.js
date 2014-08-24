@@ -37,6 +37,7 @@ var mrkdwn = {
         // change all syntax to markup
         all: function(markdown) {
             markdown = mrkdwn.markup.escapedChars(markdown);
+            markdown = mrkdwn.markup.comments(markdown);
             return markdown;
         },
         
@@ -50,13 +51,10 @@ var mrkdwn = {
         // pair of three or more slashes >> nothing
         // pair of three or more slashes with bang >> <!-- -->
         comments: function(markdown) {
-            var onMatch = function(match, $1, $2, $3) {
-                if($2) {
-                    return '<!-- ' + $3 + ' -->';
-                }
+            return markdown.replace(/(\/{3,})(!|)([\s\S]*?)\1/g, function(match, slashes, bang, content) {
+                if(bang) return '<!-- ' + content + ' -->';
                 return '';
-            };
-            return markdown.replace(/(\/\/\/+)(?!\/)(!|)([\s\S]*?)\1/g, onMatch);
+            });
         },
         
         // pair of one or two backticks on a line >> <code></code>

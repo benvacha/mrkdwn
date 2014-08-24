@@ -13,16 +13,53 @@ Proposed Syntax
 ---------------
 
 ### Backslash Escaped Characters
-* Any non whitespace character can be escaped with `\` to produce the ascii representation and remove its mrkdwn meaning. 
+* Any non whitespace character can be escaped with `\` to markup the ascii representation and remove its mrkdwn meaning.
 * Applied to escaped characters anywhere, without exception.
 
 ##### mrkdwn
 ```
 \*Actual asterisk surrounded text\*
 ```
-##### html
+##### markup
 ```
 &#42;Actual asterisk surrounded text&#42;
+```
+
+### Comments
+* Pairs of three or more `/` will be removed from markup.
+* Pairs of three or more '/' with a '!' will be markuped to a html comment.
+* Can be applied inline or block.
+* Pairs of n or more '/' can be used to comment n - 1 '/'
+* Applied anywhere, without exception
+
+##### mrkdwn
+```
+Hide /// the comment /// from this sentence.
+
+///
+Hide this block.
+///
+
+Put in a ///! comment ///
+
+///!
+Comment block
+///
+
+Comment out three //// /// //// slashes
+```
+##### markup
+```
+Hide  from this sentence.
+
+
+Put in a <!-- comment -->
+
+<!--
+Comment Block
+-->
+
+Comment out three  slashes
 ```
 
 ### Paragraphs
@@ -636,34 +673,6 @@ Tables must have preceeding and proceeding `|`. Column text lengths do not need 
 </table>
 ```
 
-### Comments
-Three or more `/` will be removed from translation. Three or more '/' with a '!' will be translated to a comment. 
-##### mrkdwn
-```
-Hide /// the comment /// from this sentence.
-
-///
-Hide this block.
-///
-
-Put in a ///! comment ///
-
-///!
-Comment block
-///
-```
-##### html
-```
-Hide  from this sentence.
-
-
-Put in a <!-- comment -->
-
-<!--
-Comment Block
--->
-```
-
 ### Semantics and Meta
 `{ }` will be treated as meta or sematic data. Semantics can be used inline or in a block. It will be removed from the final translation, but can be retrieved and used for special machine magic. The parser can be configured to output sematics in a single html comment or multiple html comments.  `( )` can be used to define an array. `[ ]` can be used to define a json-ish data structure. Whitespace is used for parsing and is otherwise ignored.
 ##### mrkdwn
@@ -699,7 +708,7 @@ Markup Notes and Tracking
 
 - ~~escaped characters~~
   - where possible, should be run first to ensure translation everywhere without exception
-- comments
+- ~~comments~~
 - inline code and sample
 - block code and sample
 - meta
