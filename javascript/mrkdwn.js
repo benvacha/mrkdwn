@@ -37,30 +37,14 @@ var mrkdwn = {
         // change all syntax to markup
         all: function(markdown) {
             markdown = mrkdwn.markup.escapedChars(markdown);
-            markdown = mrkdwn.markup.comments(markdown);
-            markdown = mrkdwn.markup.inlineCodeSamples(markdown);
-            markdown = mrkdwn.markup.blockCodeSamples(markdown);
-            markdown = mrkdwn.markup.metas(markdown);
-            markdown = mrkdwn.markup.variables(markdown);
-            markdown = mrkdwn.markup.abbreviations(markdown);
-            markdown = mrkdwn.markup.images(markdown);
-            markdown = mrkdwn.markup.macros(markdown);
-            markdown = mrkdwn.markup.citations(markdown);
-            markdown = mrkdwn.markup.notes(markdown);
-            markdown = mrkdwn.markup.links(markdown);
-            markdown = mrkdwn.markup.autoLinks(markdown);
-            markdown = mrkdwn.markup.headers(markdown);
-            markdown = mrkdwn.markup.horizontalRules(markdown);
-            markdown = mrkdwn.markup.phraseFormattings(markdown);
-            markdown = mrkdwn.markup.blockquotes(markdown);
-            markdown = mrkdwn.markup.details(markdown);
-            //markdown = mrkdwn.markup.lists(markdown);
             return markdown;
         },
         
-        // escaped chars >> ascii html encoding
+        // escaped non whitespace chars >> ascii html encoding
         escapedChars: function(markdown) {
-            return mrkdwn.util.asciiEncode(markdown, /\\(\S)/g);
+            return markdown.replace(/\\(\S)/g, function(match, escapedChar) {
+                return '&#' + escapedChar.charCodeAt() + ';';
+            });
         },
         
         // pair of three or more slashes >> nothing

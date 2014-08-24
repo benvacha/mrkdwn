@@ -100,18 +100,11 @@ var utils = {
 
 var tests = {
     
-    // compairs the files, intended to fail
-    fail: function() {
-        var markdown = utils.readFile('fail.markdown'),
-            markup = utils.readFile('fail.markup');
-        return jsdiff.diffChars(markup, markdown);
-    },
-    
-    // compairs the files, intended to pass
-    pass: function() {
-        var markdown = utils.readFile('pass.markdown'),
-            markup = utils.readFile('pass.markup');
-        return jsdiff.diffChars(markup, markdown);
+    // test mrkdwn.markup.escapedChars
+    escapedChars: function() {
+        var markdown = utils.readFile('escaped-chars.markdown'),
+            markup = utils.readFile('escaped-chars.markup');
+        return jsdiff.diffChars(markup, mrkdwn.markup.escapedChars(markdown));
     }
     
 };

@@ -697,24 +697,24 @@ Markup Notes and Tracking
 
 - ~~escaped characters~~
   - where possible, should be run first to ensure translation everywhere without exception
-- ~~comments~~ 
-- ~~inline code and sample~~
-- ~~block code and sample~~
-- ~~meta~~
-- ~~variables~~
-- ~~abbreviations~~
-- ~~images~~
-- ~~macros~~
-- ~~citations~~
-- ~~notes~~
-- ~~links~~
+- comments
+- inline code and sample
+- block code and sample
+- meta
+- variables
+- abbreviations
+- images
+- macros
+- citations
+- notes
+- links
   - where possible, should be run after other square bracket syntax for performance
-- ~~auto links~~
-- ~~headers~~
-- ~~horizontal rule~~
-- ~~phrase formatting~~
-- ~~blockquote~~
-- ~~detail~~
+- auto links
+- headers
+- horizontal rule
+- phrase formatting
+- blockquote
+- detail
 - list
   - unordered list
   - ordered list
