@@ -15,6 +15,7 @@ Proposed Syntax
 ### Backslash Escaped Characters
 * Any non whitespace character can be escaped with `\` to produce the ascii representation and remove its mrkdwn meaning. 
 * Applied to escaped characters anywhere, without exception.
+
 ##### mrkdwn
 ```
 \*Actual asterisk surrounded text\*
