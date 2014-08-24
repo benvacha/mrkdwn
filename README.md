@@ -12,6 +12,18 @@ One Markdown To Rule Them All
 Proposed Syntax
 ---------------
 
+### Backslash Escaped Characters
+* Any non whitespace character can be escaped with `\` to produce the ascii representation and remove its mrkdwn meaning. 
+* Applied to escaped characters anywhere, without exception.
+##### mrkdwn
+```
+\*Actual asterisk surrounded text\*
+```
+##### html
+```
+&#42;Actual asterisk surrounded text&#42;
+```
+
 ### Paragraphs
 Text followed by a blank line or block syntax will be wrapped in a paragraph. Line returns without following whitespace will be treated as breaks within a single paragraph.
 ##### mrkdwn
@@ -621,17 +633,6 @@ Tables must have preceeding and proceeding `|`. Column text lengths do not need 
     </tr>
   </tbody>
 </table>
-```
-
-### Backslash Character Escape
-Any character can be escaped with `\` to produce the ascii representation and remove its mrkdwn meaning. This includes at least `\, *, _, {, }, [, ], (, ), <, >, #, +, -, ., !, :, @`. This is applied to escaped characters anywhere, without exception.
-##### mrkdwn
-```
-\*Actual asterisk surrounded text\*
-```
-##### html
-```
-&#42;Actual asterisk surrounded text&#42;
 ```
 
 ### Comments
