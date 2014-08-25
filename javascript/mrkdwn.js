@@ -84,34 +84,6 @@ var mrkdwn = {
          *
         */
         
-        // pair of one or two backticks on a line >> <code></code>
-        // pair of one or two backticks with bang on a line >> <samp></samp>
-        inlineCodeSamples: function(markdown) {
-            var onMatch = function(match, $1, $2, $3) {
-                if($2) {
-                    return '<samp>' + mrkdwn.util.asciiEncode($3, /([^\w\s&#;])/g) + '</samp>';
-                }
-                return '<code>' + mrkdwn.util.asciiEncode($3, /([^\w\s&#;])/g) + '</code>';
-            };
-            return markdown.replace(/(`{1,2})(?!`)(!|)(.*)\1/g, onMatch);
-        },
-        
-        // pair of three or more backticks on multiple lines >> <pre><code></code></pre>
-        // pair of three or more backticks with bang on multiple lines >> <pre><samp></samp></pre>
-        blockCodeSamples: function(markdown) {
-            var onMatch = function(match, $1, $2, $3, $4) {
-                if($2 && $3) {
-                    return '<pre><samp class="' + $3.trim() + '">' + mrkdwn.util.asciiEncode($4, /([^\w\s&#;])/g) + '</samp></pre>';
-                } else if($2) {
-                    return '<pre><samp>' + mrkdwn.util.asciiEncode($4, /([^\w\s&#;])/g) + '</samp></pre>';
-                } else if($3) {
-                    return '<pre><code class="' + $3.trim() + '">' + mrkdwn.util.asciiEncode($4, /([^\w\s&#;])/g) + '</code></pre>';
-                }
-                return '<pre><code>' + mrkdwn.util.asciiEncode($4, /([^\w\s&#;])/g) + '</code></pre>';
-            };
-            return markdown.replace(/(```+)(?!`)(!|)(.*)\n([\s\S]*?)\1/g, onMatch);
-        },
-        
         // curly brackets >> nothing or comments
         metas: function(markdown, insertComments) {
             // TODO: if comments then parse meta and insert comment block
