@@ -503,6 +503,7 @@ varied based on macro
 * `@citationReference` will be markuped to a superscript numbered anchor linked to the citation in page.
 * `@[citationReference]: type arg1 ...` will be markuped depending on type, and will define a citation.
 * Citation references must be placed together in the document where they should be displayed and will be translated as a list. 
+* Citation reference names must begin with an alphanumeric character, contain no spaces, and are case sensative. 
 * Citations are automatically numbered based on list order. 
 * Any number and type of arguments can be included after the first argument depending on the citation type.
 * If the first argument in a citation reference is a known type of citation its arguments will be used to autoformat a citation in MLA. 
@@ -531,21 +532,26 @@ This sentence is way less trustworthy<sup class="citation"><a href="#cite-2" tit
 
 
 ### Notes
-Square brackets preceeded by `&`. Square brackets preceeded by `&` and proceeded by `:` will be translated as a note reference. A `&` proceeded by a note reference will be translated as a note. Note references must be placed together in the document where they should be displayed and will be translated as a list. Notes are automatically numbered based on list order.
+* `&[noteReference]` will be markuped to a superscript numbered anchor linked to the note in page.
+* `&noteReference` will be markuped to a superscript numbered anchor linked to the note in page.
+* `&[noteReference]: note text` will be markuped as a list, and will define a citation.
+* Note references must be placed together in the document where they should be displayed and will be translated as a list.
+* Note reference names must begin with an alphanumeric character, contain no spaces, and are case sensative. 
+* Notes are automatically numbered based on list order.
+
 ##### mrkdwn
 ```
 This sentence needs a note &[refOne]. 
 This sentence also needs a note &refTwo. 
-This sentence gets a fancy note &[refTwo](special text).
+This sentence gets a fancy note &[refTwo].
 
 &[refOne]: note text
 &[refTwo]: note text
 ```
-##### html
+##### markup
 ```
 This sentence needs a note<sup class="note"><a href="#note-1" title="note text">1</a></sup>. 
-This sentence also needs a note<sup class="note"><a href="#note-2" title="note text">2</a></sup>. 
-This sentence gets a fancy note<sup class="note"><a href="#note-2" title="note text">special text</a></sup>.
+This sentence also needs a note<sup class="note"><a href="#note-2" title="note text">2</a></sup>.
 
 <ol>
   <li><a name="note-1">note text</a></li>
@@ -785,7 +791,7 @@ Markup Notes and Tracking
 - ~~images~~
 - ~~macros~~
 - ~~citations~~
-- notes
+- ~~notes~~
 - links
   - where possible, should be run after other square bracket syntax for performance
 - auto links

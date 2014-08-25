@@ -45,6 +45,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.images(markdown);
             markdown = mrkdwn.markup.macros(markdown);
             markdown = mrkdwn.markup.citations(markdown);
+            markdown = mrkdwn.markup.notes(markdown);
             return markdown;
         },
         
@@ -202,12 +203,12 @@ var mrkdwn = {
         citations: function(markdown, linkPrefix) {
             var linkPrefix = (linkPrefix) ? linkPrefix : 'cite-',
                 defCount = 0, defs = {},
-                buildTags = function(name) {
+                buildTags = function(altText, name) {
                     if(defs[name]) {
                         return '<sup class="citation"><a href="#' + linkPrefix + defs[name].id + '" title="' + 
                             mrkdwn.util.asciiEncode(defs[name].bib) + '">' + defs[name].id + '</a></sup>';
                     }
-                    return '';
+                    return altText;
                 };
             // find, cache, create list
             markdown = markdown.replace(/\@\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
@@ -216,7 +217,7 @@ var mrkdwn = {
                 if(mrkdwn.citation[type]) {
                     bib = mrkdwn.citation[type].apply(null, tokens);
                 } else {
-                    bib = value;
+                    bib = value.trim();
                 }
                 defs[name] = {id: ++defCount, bib: bib};
                 return '<ol><li><a name="' + linkPrefix + defCount + '">' + bib + '</a></li></ol>';
@@ -225,10 +226,40 @@ var mrkdwn = {
             markdown = markdown.replace(/<\/ol>\s{0,2}<ol>/g, '');
             // find, replace inline usage
             markdown = markdown.replace(/\s?\@\[(.*?)\]/g, function(match, name) {
-                return buildTags(name);
+                return buildTags(match, name);
             });
-            markdown = markdown.replace(/\s?\@(\S+?)\b/g, function(match, name) {
-                return buildTags(name);
+            markdown = markdown.replace(/\s?\@(\w\S+?)\b/g, function(match, name) {
+                return buildTags(match, name);
+            });
+            return markdown;
+        },
+        
+        // amp square brackets colon >> note list
+        // amp square brackets >> <sup><a></a></sup>
+        // amp text >> <sup><a></a></sup>
+        notes: function(markdown, linkPrefix) {
+            var linkPrefix = (linkPrefix) ? linkPrefix : 'note-',
+                defCount = 0, defs = {},
+                buildTags = function(altText, name) {
+                    if(defs[name]) {
+                        return '<sup class="note"><a href="#' + linkPrefix + defs[name].id + '" title="' + 
+                            mrkdwn.util.asciiEncode(defs[name].note) + '">' + defs[name].id + '</a></sup>';
+                    }
+                    return altText;
+                };
+            // find, cache, create list
+            markdown = markdown.replace(/\&\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
+                defs[name] = {id: ++defCount, note: value};
+                return '<ol><li><a name="' + linkPrefix + defCount + '">' + value.trim() + '</a></li></ol>';
+            });
+            // clean up list
+            markdown = markdown.replace(/<\/ol>\s{0,2}<ol>/g, '');
+            // find, replace inline usage
+            markdown = markdown.replace(/\s?\&\[(.*?)\]/g, function(match, name) {
+                return buildTags(match, name);
+            });
+            markdown = markdown.replace(/\s?\&(\w\S+?)\b/g, function(match, name) {
+                return buildTags(match, name);
             });
             return markdown;
         },
@@ -236,33 +267,6 @@ var mrkdwn = {
         /*
          *
         */
-        
-        // amp square brackets colon >> note list
-        // amp square brackets >> <sup><a></a></sup>
-        // amp text >> <sup><a></a></sup>
-        notes: function(markdown) {
-            // TODO: allow note- to be replaced with custom string in anchors
-            // find, cache, create list
-            var id = 0, defs = {}, def,
-                onMatch = function(match, $1, $2) {
-                    defs[$1] = {id: ++id, note: $2};
-                    return '<ol><li><a name="note-' + id + '">' + $2 + '</a></li></ol>';
-                };
-            markdown = markdown.replace(/\&\[(.*?)\]:(.*)/g, onMatch);
-            // clean up list
-            markdown = markdown.replace(/<\/ol>\s?<ol>/g, '');
-            // find, markup usage
-            onMatch = function(match, $1) {
-                if(defs[$1]) {
-                    return '<sup class="note"><a href="#note-' + defs[$1].id + '" title="' + 
-                        mrkdwn.util.asciiEncode(defs[$1].note, /([>"'])/g) + '">' + defs[$1].id + '</a></sup>';
-                }
-                return '';
-            };
-            markdown = markdown.replace(/\s\&\[(.*?)\]/g, onMatch);
-            markdown = markdown.replace(/\s\&(.+?)\b/g, onMatch);
-            return markdown;
-        },
         
         // square brackets colon >> nothing
         // square brackets square brackets >> <a></a>
