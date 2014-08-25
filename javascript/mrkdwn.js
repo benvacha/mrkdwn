@@ -52,7 +52,7 @@ var mrkdwn = {
         // pair of three or more slashes >> nothing
         // pair of three or more slashes with bang >> <!-- -->
         comments: function(markdown) {
-            return markdown.replace(/(\/{3,})(!|)([\s\S]*?)\1/g, function(match, slashes, bang, content) {
+            return markdown.replace(/(\/{3,})(!)?([^\/][\s\S]*?)\1/g, function(match, slashes, bang, content) {
                 if(bang) return '<!-- ' + content + ' -->';
                 return '';
             });

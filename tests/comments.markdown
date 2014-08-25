@@ -2,6 +2,10 @@
 
 // show show //
 
+/// ///
+
+///!///
+
 /// hide hide ///
 
 //// hide /// hide ////
@@ -23,6 +27,8 @@ hide /// hide
 ////
 
 ///! comment ///
+
+///! ///
 
 ///!
 comment
