@@ -118,6 +118,10 @@ var testFiles = {
     metas: {
         markdown: 'metas.markdown',
         markup: 'metas.markup'
+    },
+    variables: {
+        markdown: 'variables.markdown',
+        markup: 'variables.markup'
     }
 }
 
@@ -127,8 +131,8 @@ var tests = {
     all: function() {
         var testFile, markdown, markup;
         for(testFile in testFiles) {
-            markdown += utils.readFile(testFiles[testFile].markdown) + '\n',
-            markup += utils.readFile(testFiles[testFile].markup) + '\n';
+            markdown += '\n' + utils.readFile(testFiles[testFile].markdown),
+            markup += '\n' + utils.readFile(testFiles[testFile].markup);
         }
         return jsdiff.diffChars(markup, mrkdwn.markup.all(markdown));
     },
@@ -166,6 +170,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.metas.markdown),
             markup = utils.readFile(testFiles.metas.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.metas(markdown));
+    },
+    
+    // test mrkdwn.markup.variables(markdown)
+    variables: function() {
+        var markdown = utils.readFile(testFiles.variables.markdown),
+            markup = utils.readFile(testFiles.variables.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.variables(markdown));
     }
     
 };

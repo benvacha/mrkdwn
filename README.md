@@ -528,15 +528,22 @@ This sentence gets a fancy note<sup class="note"><a href="#note-2" title="note t
 </ol>
 ```
 
+
 ### Variables
-Bracketed text preceeded by `$` and proceeded by bracketed text will be translated as a variable. Bracketed text preceeded by `$` and proceeded by `:` will define a variable and can be anywhere in the document.
+* `$[variableName]` will be markuped to the variable value, or variable name if definition not found
+* `$[variableName]: variable value` will be removed from markup, but used to define a variable
+* Variable definitions can be anywhere in the markdown and will be markuped before any variable usage
+* Variable definitions are case sensative
+* Duplicate variable definitions will overwrite previous values
+
 ##### mrkdwn
 `Current version $[variable]`  
 `$[variable]: value`
-##### html
+##### markup
 ```
 Current version value
 ```
+
 
 ### Abbreviations
 Bracketed text preceeded by `+` and proceeded by `:` will define an abbreviation and can be anywhere in the document. Abbreviations are automatically applied to case sensative matching text anywhere in the document.
@@ -742,7 +749,7 @@ Markup Notes and Tracking
 - ~~inline and block code~~
 - ~~inline and block sample~~
 - ~~meta~~
-- variables
+- ~~variables~~
 - abbreviations
 - images
 - macros

@@ -40,6 +40,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.codesSamples(markdown);
             markdown = mrkdwn.markup.metas(markdown);
+            markdown = mrkdwn.markup.variables(markdown);
             return markdown;
         },
         
@@ -91,28 +92,24 @@ var mrkdwn = {
             });
         },
         
+        // dollar square brackets colon >> nothing
+        // dollar square brackets >> text
+        variables: function(markdown, runtimeDefinitions) {
+            var defs = (runtimeDefinitions) ? runtimeDefinitions : {},
+            // find, cache, remove definitions
+            markdown = markdown.replace(/\$\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
+                defs[name] = value.trim();
+                return '';
+            });
+            // find, replace usage
+            return markdown.replace(/\$\[(.*?)\]/g, function(match, name) {
+                return (defs[name]) ? defs[name] : name;
+            });
+        },
+        
         /*
          *
         */
-        
-        // dollar square brackets colon >> nothing
-        // dollar square brackets >> text
-        variables: function(markdown) {
-            // TODO: include passed runtime definitions
-            // find, cache, remove definitions
-            var defs = {},
-                onMatch = function(match, $1, $2) {
-                    defs[$1] = $2.trim();
-                    return '';
-                };
-            markdown = markdown.replace(/\$\[(.*?)\]:(.*)\n/g, onMatch);
-            // find, replace usage
-            onMatch = function(match, $1) {
-                if(defs[$1]) return defs[$1];
-                return '';
-            };
-            return markdown.replace(/\$\[(.*?)\]/g, onMatch);
-        },
         
         // plus square brackets colon >> nothing
         // matching text >> <abbr></abbr>
