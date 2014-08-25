@@ -44,6 +44,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.abbreviations(markdown);
             markdown = mrkdwn.markup.images(markdown);
             markdown = mrkdwn.markup.macros(markdown);
+            markdown = mrkdwn.markup.citations(markdown);
             return markdown;
         },
         
@@ -195,43 +196,46 @@ var mrkdwn = {
             return markdown;
         },
         
-        /*
-         *
-        */
-        
         // at square brackets colon >> citation list
         // at square brackets >> <sup><a></a></sup>
         // at text >> <sup><a></a></sup>
-        citations: function(markdown) {
-            // TODO: allow cite- to be replaced with custom string in anchors
-            // find, cache, create list
-            var id = 0, tokens, type, bib, defs = {}, def,
-                onMatch = function(match, $1, $2) {
-                    tokens = mrkdwn.util.tokenize($2);
-                    type = tokens.shift();
-                    if(mrkdwn.citation[type]) {
-                        bib = mrkdwn.citation[type].apply(null, tokens);
-                    } else {
-                        bib = $2;
+        citations: function(markdown, linkPrefix) {
+            var linkPrefix = (linkPrefix) ? linkPrefix : 'cite-',
+                defCount = 0, defs = {},
+                buildTags = function(name) {
+                    if(defs[name]) {
+                        return '<sup class="citation"><a href="#' + linkPrefix + defs[name].id + '" title="' + 
+                            mrkdwn.util.asciiEncode(defs[name].bib) + '">' + defs[name].id + '</a></sup>';
                     }
-                    defs[$1] = {id: ++id, type: type, bib: bib};
-                    return '<ol><li><a name="cite-' + id + '">' + bib + '</a></li></ol>';
+                    return '';
                 };
-            markdown = markdown.replace(/\@\[(.*?)\]:(.*)\n/g, onMatch);
-            // clean up list
-            markdown = markdown.replace(/<\/ol>\s?<ol>/g, '');
-            // find, markup usage
-            onMatch = function(match, $1) {
-                if(defs[$1]) {
-                    return '<sup class="citation"><a href="#cite-' + defs[$1].id + '" title="' + 
-                        mrkdwn.util.asciiEncode(defs[$1].bib, /([>"'])/g) + '">' + defs[$1].id + '</a></sup>';
+            // find, cache, create list
+            markdown = markdown.replace(/\@\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
+                var tokens = mrkdwn.util.tokenize(value),
+                    type = tokens.shift(), bib;
+                if(mrkdwn.citation[type]) {
+                    bib = mrkdwn.citation[type].apply(null, tokens);
+                } else {
+                    bib = value;
                 }
-                return '';
-            };
-            markdown = markdown.replace(/\s\@\[(.*?)\]/g, onMatch);
-            markdown = markdown.replace(/\s\@(.+?)\b/g, onMatch);
+                defs[name] = {id: ++defCount, bib: bib};
+                return '<ol><li><a name="' + linkPrefix + defCount + '">' + bib + '</a></li></ol>';
+            });
+            // clean up list
+            markdown = markdown.replace(/<\/ol>\s{0,2}<ol>/g, '');
+            // find, replace inline usage
+            markdown = markdown.replace(/\s?\@\[(.*?)\]/g, function(match, name) {
+                return buildTags(name);
+            });
+            markdown = markdown.replace(/\s?\@(\S+?)\b/g, function(match, name) {
+                return buildTags(name);
+            });
             return markdown;
         },
+        
+        /*
+         *
+        */
         
         // amp square brackets colon >> note list
         // amp square brackets >> <sup><a></a></sup>

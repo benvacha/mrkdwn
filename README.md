@@ -451,7 +451,7 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 
 ### Images
 * `![alt text](url title width height)` will be markuped to img tags.
-* `![alt text][imageReference] will be markuped to img tags.
+* `![alt text][imageReference]` will be markuped to img tags.
 * `![imageReference]: url title width height` will be removed from markup, but will define an image.
 * url's can be absolute or relative.
 * title, width, and height are optional.
@@ -476,7 +476,7 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 
 ### Macros
 * `%[alt text](macro arg1 ...)` will be markuped depending on the macro.
-* `%[alt text][macroReference] will be markuped depending on the macro.
+* `%[alt text][macroReference]` will be markuped depending on the macro.
 * `%[macroReference]: macro arg1 ...` will be removed from markup, but will define a macro.
 * Macros can be used to embed video, other media, or custom markups.
 * Usage of an undefined or invalid macroReference will be markuped to the alt text.
@@ -499,7 +499,15 @@ varied based on macro
 
 
 ### Citations
-Square brackets preceeded by `@`. Square brackets preceeded by `@` and proceeded by `:` will be translated as a citation reference. A `@` proceeded by a citation reference will be translated as a citation. Citation references must be placed together in the document where they should be displayed and will be translated as a list. Citations are automatically numbered based on list order. If the first argument in a citation reference is a known type of citation its arguments will be used to autoformat a citation in MLA. If the first argument is not a known citation type, the string will be used directly.
+* `@[citationReference]` will be markuped to a superscript numbered anchor linked to the citation in page.
+* `@citationReference` will be markuped to a superscript numbered anchor linked to the citation in page.
+* `@[citationReference]: type arg1 ...` will be markuped depending on type, and will define a citation.
+* Citation references must be placed together in the document where they should be displayed and will be translated as a list. 
+* Citations are automatically numbered based on list order. 
+* Any number and type of arguments can be included after the first argument depending on the citation type.
+* If the first argument in a citation reference is a known type of citation its arguments will be used to autoformat a citation in MLA. 
+* If the first argument is not a known citation type, the string will be used directly.
+
 ##### mrkdwn
 ```
 This sentence is from something trustworthy @[refOne]. 
@@ -509,7 +517,7 @@ This sentence is way less trustworthy @refTwo.
 @[refTwo]: type arg1 arg2 arg3
 @[refThree]: A preformated citation
 ```
-##### html
+##### markup
 ```
 This sentence is from something trustworthy<sup class="citation"><a href="#cite-1" title="bibliography">1</a></sup>. 
 This sentence is way less trustworthy<sup class="citation"><a href="#cite-2" title="bibliography">2</a></sup>.
@@ -520,6 +528,7 @@ This sentence is way less trustworthy<sup class="citation"><a href="#cite-2" tit
   <li><a name="cite-3">A preformatted citation</a></li>
 </ol>
 ```
+
 
 ### Notes
 Square brackets preceeded by `&`. Square brackets preceeded by `&` and proceeded by `:` will be translated as a note reference. A `&` proceeded by a note reference will be translated as a note. Note references must be placed together in the document where they should be displayed and will be translated as a list. Notes are automatically numbered based on list order.
@@ -775,7 +784,7 @@ Markup Notes and Tracking
 - ~~abbreviations~~
 - ~~images~~
 - ~~macros~~
-- citations
+- ~~citations~~
 - notes
 - links
   - where possible, should be run after other square bracket syntax for performance
