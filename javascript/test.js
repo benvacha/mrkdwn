@@ -130,6 +130,10 @@ var testFiles = {
     images: {
         markdown: 'images.markdown',
         markup: 'images.markup'
+    },
+    macros: {
+        markdown: 'macros.markdown',
+        markup: 'macros.markup'
     }
 }
 
@@ -199,6 +203,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.images.markdown),
             markup = utils.readFile(testFiles.images.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.images(markdown));
+    },
+    
+    // test mrkdwn.markup.macros(markdown)
+    macros: function() {
+        var markdown = utils.readFile(testFiles.macros.markdown),
+            markup = utils.readFile(testFiles.macros.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.macros(markdown));
     }
     
 };

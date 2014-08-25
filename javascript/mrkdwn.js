@@ -43,6 +43,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
             markdown = mrkdwn.markup.images(markdown);
+            markdown = mrkdwn.markup.macros(markdown);
             return markdown;
         },
         
@@ -161,45 +162,42 @@ var mrkdwn = {
             return markdown;
         },
         
-        /*
-         *
-        */
-        
         // percent square brackets colon >> nothing
-        // percent square brackets square brackets >> <img />
-        // percent square brackets round brackets >> <img />
-        macros: function(markdown) {
-            // TODO: include passed runtime definitions
-            // find, cache, remove definitions
-            var tokens, macro, defs = {},
-                onMatch = function(match, $1, $2) {
-                    tokens = mrkdwn.util.tokenize($2);
-                    macro = tokens.shift();
-                    defs[$1] = {macro: macro, args: tokens};
-                    return '';
-                };
-            markdown = markdown.replace(/\%\[(.*?)\]:(.*)\n/g, onMatch);
-            // find, replace reference usage
-            onMatch = function(match, $1, $2) {
-                if(defs[$2] && mrkdwn.macro[defs[$2].macro]) {
-                    return mrkdwn.macro[defs[$2].macro].apply(null, defs[$2].args);
-                }
-                return $1;
-            };
-            markdown = markdown.replace(/\%\[(.*?)\]\[(.*?)\]/g, onMatch);
-            // find, replace inline usage
-            onMatch = function(match, $1, $2) {
-                tokens = mrkdwn.util.tokenize($2);
-                macro = tokens.shift();
-                if(mrkdwn.macro[macro]) {
+        // percent square brackets square brackets >> macro dependent
+        // percent square brackets round brackets >> macro dependent
+        macros: function(markdown, runtimeDefinitions) {
+            var defs = (runtimeDefinitions) ? runtimeDefinitions : {},
+                runMacro = function(altText, value) {
+                    // if no value, return alt text
+                    if(!value) return altText;
+                    // if value, split it into tokens
+                    var tokens = mrkdwn.util.tokenize(value),
+                        macro = tokens.shift();
+                    // if invalid macro, return alt text
+                    if(!mrkdwn.macro[macro]) return altText;
+                    // if valid macro, return its output
                     return mrkdwn.macro[macro].apply(null, tokens);
-                }
-                return $1;
-            };
-            markdown = markdown.replace(/\%\[(.*?)\]\((.*?)\)/g, onMatch);
+                };
+            // find, cache, remove definitions
+            markdown = markdown.replace(/\%\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
+                defs[name] = value;
+                return '';
+            });
+            // find, replace reference usage
+            markdown = markdown.replace(/\%\[(.*?)\]\[(.*?)\]/g, function(match, altText, name) {
+                return runMacro(altText, defs[name]);
+            });
+            // find, replace inline usage
+            markdown = markdown.replace(/\%\[(.*?)\]\((.*?)\)/g, function(match, altText, value) {
+                return runMacro(altText, value);
+            });
             //
             return markdown;
         },
+        
+        /*
+         *
+        */
         
         // at square brackets colon >> citation list
         // at square brackets >> <sup><a></a></sup>

@@ -450,9 +450,9 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 
 
 ### Images
-* `![alt text](url title width height)` will be marked up to img tags.
+* `![alt text](url title width height)` will be markuped to img tags.
 * `![alt text][imageReference] will be markuped to img tags.
-* `![imageReference]: url title width height will be removed from markup, but will define an image.
+* `![imageReference]: url title width height` will be removed from markup, but will define an image.
 * url's can be absolute or relative.
 * title, width, and height are optional.
 * Usage of an undefined imageReference will be markuped to img tags with only alt text.
@@ -475,7 +475,14 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 
 
 ### Macros
-Bracketed text preceeded by `%` and proceeded by parenthesis or square brackets will be translated as a macro. Square brackets preceeded by `%` and proceeded by `:` will be translated as a macro reference. Macros can be used to embed video, other media, or whatever else comes around. alt text is displayed if a macro is invalid. The first argument must be the macro name. Any number and type of arguments can be included after the first depending on the macro.
+* `%[alt text](macro arg1 ...)` will be markuped depending on the macro.
+* `%[alt text][macroReference] will be markuped depending on the macro.
+* `%[macroReference]: macro arg1 ...` will be removed from markup, but will define a macro.
+* Macros can be used to embed video, other media, or custom markups.
+* Usage of an undefined or invalid macroReference will be markuped to the alt text.
+* The first argument must be the macro name. 
+* Any number and type of arguments can be included after the first argument depending on the macro.
+
 ##### mrkdwn
 ```
 %[alt text](macro arg1 arg2 arg3 ...)
@@ -483,12 +490,13 @@ Bracketed text preceeded by `%` and proceeded by parenthesis or square brackets 
 %[alt text][reference]
 %[reference]: macro arg1 arg2 arg3 arg4
 ```
-##### html
+##### markup
 ```
 varied based on macro
 
 varied based on macro
 ```
+
 
 ### Citations
 Square brackets preceeded by `@`. Square brackets preceeded by `@` and proceeded by `:` will be translated as a citation reference. A `@` proceeded by a citation reference will be translated as a citation. Citation references must be placed together in the document where they should be displayed and will be translated as a list. Citations are automatically numbered based on list order. If the first argument in a citation reference is a known type of citation its arguments will be used to autoformat a citation in MLA. If the first argument is not a known citation type, the string will be used directly.
@@ -766,7 +774,7 @@ Markup Notes and Tracking
 - ~~variables~~
 - ~~abbreviations~~
 - ~~images~~
-- macros
+- ~~macros~~
 - citations
 - notes
 - links
