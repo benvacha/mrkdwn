@@ -41,6 +41,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.codesSamples(markdown);
             markdown = mrkdwn.markup.metas(markdown);
             markdown = mrkdwn.markup.variables(markdown);
+            markdown = mrkdwn.markup.abbreviations(markdown);
             return markdown;
         },
         
@@ -95,7 +96,7 @@ var mrkdwn = {
         // dollar square brackets colon >> nothing
         // dollar square brackets >> text
         variables: function(markdown, runtimeDefinitions) {
-            var defs = (runtimeDefinitions) ? runtimeDefinitions : {},
+            var defs = (runtimeDefinitions) ? runtimeDefinitions : {};
             // find, cache, remove definitions
             markdown = markdown.replace(/\$\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
                 defs[name] = value.trim();
@@ -107,28 +108,26 @@ var mrkdwn = {
             });
         },
         
-        /*
-         *
-        */
-        
         // plus square brackets colon >> nothing
         // matching text >> <abbr></abbr>
-        abbreviations: function(markdown) {
-            // TODO: include passed runtime definitions
+        abbreviations: function(markdown, runtimeDefinitions) {
+            var def, defs = (runtimeDefinitions) ? runtimeDefinitions : {};
             // find, cache, remove definitions
-            var defs = {}, def,
-                onMatch = function(match, $1, $2) {
-                    defs[$1] = $2.trim();
-                    return '';
-                };
-            markdown = markdown.replace(/\+\[(.*?)\]:(.*)\n/g, onMatch);
+            markdown = markdown.replace(/\+\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
+                defs[name] = value.trim();
+                return '';
+            });
             // find, markup usage
             for(def in defs) {
-                markdown = markdown.replace(new RegExp('\\b'+def+'\\b'), 
-                    '<abbr title="' + defs[def] + '">' + def + '</abbr>');
+                markdown = markdown.replace(new RegExp('\\b' + def + '\\b'), 
+                    '<abbr title="' + mrkdwn.util.asciiEncode(defs[def]) + '">' + def + '</abbr>');
             }
             return markdown;
         },
+        
+        /*
+         *
+        */
         
         // bang square brackets colon >> nothing
         // bang square brackets square brackets >> <img />
@@ -571,10 +570,10 @@ var mrkdwn = {
         
         // ascii encode all characters matched by the regex
         asciiEncode: function(str, regex) {
-            var onMatch = function(match, $1) {
-                    return '&#' + $1.charCodeAt() + ';';
-                };
-            return str.replace(regex, onMatch);
+            regex = (regex) ? regex : /([^\w\s&#;])/g;
+            return str.replace(regex, function(match, specialChar) {
+                return '&#' + specialChar.charCodeAt() + ';';
+            });
         },
         
         // tokenize based on white space and quotations

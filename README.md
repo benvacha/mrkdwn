@@ -546,7 +546,12 @@ Current version value
 
 
 ### Abbreviations
-Bracketed text preceeded by `+` and proceeded by `:` will define an abbreviation and can be anywhere in the document. Abbreviations are automatically applied to case sensative matching text anywhere in the document.
+* Defined abbreviations used in text are automatically markuped and do not need special markdown
+* `$[abbreviation]: full` will be removed from markup, but used to define an abbreviation
+* Abbreviation definitions can be anywhere in the markdown and will be markuped before any usage
+* Abbreviation definitions are case sensative and can contain multiple words and spaces
+* Duplicate abbreviation definitions will overwrite previous values
+
 ##### mrkdwn
 ```
 The HTML specification
@@ -555,11 +560,12 @@ The Primary Standard is good
 +[HTML]: Hyper Text Markup Language
 +[Primary Standard]: Main Standard
 ```
-##### html
+##### markup
 ```
 The <abbr title="Hyper Text Markup Language">HTML</abbr> specification
 The <abbr title="Main Standard">Primary Standard</abbr> is good
 ```
+
 
 ### Inline Code
 * Pairs of one or more backticks on the same line will be markuped to code tags. 
@@ -750,7 +756,7 @@ Markup Notes and Tracking
 - ~~inline and block sample~~
 - ~~meta~~
 - ~~variables~~
-- abbreviations
+- ~~abbreviations~~
 - images
 - macros
 - citations

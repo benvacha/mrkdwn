@@ -122,6 +122,10 @@ var testFiles = {
     variables: {
         markdown: 'variables.markdown',
         markup: 'variables.markup'
+    },
+    abbreviations: {
+        markdown: 'abbreviations.markdown',
+        markup: 'abbreviations.markup'
     }
 }
 
@@ -131,8 +135,8 @@ var tests = {
     all: function() {
         var testFile, markdown, markup;
         for(testFile in testFiles) {
-            markdown += '\n' + utils.readFile(testFiles[testFile].markdown),
-            markup += '\n' + utils.readFile(testFiles[testFile].markup);
+            markdown += utils.readFile(testFiles[testFile].markdown),
+            markup += utils.readFile(testFiles[testFile].markup);
         }
         return jsdiff.diffChars(markup, mrkdwn.markup.all(markdown));
     },
@@ -177,6 +181,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.variables.markdown),
             markup = utils.readFile(testFiles.variables.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.variables(markdown));
+    },
+    
+    // test mrkdwn.markup.abbreviations(markdown)
+    abbreviations: function() {
+        var markdown = utils.readFile(testFiles.abbreviations.markdown),
+            markup = utils.readFile(testFiles.abbreviations.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.abbreviations(markdown));
     }
     
 };
