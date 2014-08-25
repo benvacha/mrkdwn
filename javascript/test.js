@@ -112,6 +112,13 @@ var tests = {
         var markdown = utils.readFile('comments.markdown'),
             markup = utils.readFile('comments.markup');
         return jsdiff.diffChars(markup, mrkdwn.markup.comments(markdown));
+    },
+    
+    // test mrkdwn.markup.codes(markdown)
+    codes: function() {
+        var markdown = utils.readFile('codes.markdown'),
+            markup = utils.readFile('codes.markup');
+        return jsdiff.diffChars(markup, mrkdwn.markup.codes(markdown));
     }
     
 };

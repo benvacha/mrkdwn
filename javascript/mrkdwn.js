@@ -38,6 +38,7 @@ var mrkdwn = {
         all: function(markdown) {
             markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.comments(markdown);
+            markdown = mrkdwn.markup.codes(markdown);
             return markdown;
         },
         
@@ -56,6 +57,28 @@ var mrkdwn = {
                 return '';
             });
         },
+        
+        // pair of one or more backticks on a line >> <code></code>
+        // pair of three or more backticks on multiple lines >> <pre><code></code></pre>
+        codes: function(markdown) {
+            var asciiEncode = function(str) {
+                return str.replace(/([^\w\s&#;])/g, function(match, specialChar) {
+                    return '&#' + specialChar.charCodeAt() + ';';
+                });
+            };
+            markdown = markdown.replace(/(`{1,})([^!`\n].*?)\1/g, function(match, ticks, content) {
+                return '<code>' + asciiEncode(content) + '</code>'
+            });
+            markdown = markdown.replace(/\n(`{3,})([^!`\n].*?|)\n([\s\S]*?)\1/g, function(match, ticks, syntax, content) {
+                syntax = (syntax.trim()) ? ' class="' + syntax.trim() + '"' : '';
+                return '\n<pre><code' + syntax + '>\n' + asciiEncode(content)  + '</code></pre>'
+            });
+            return markdown;
+        },
+        
+        /*
+         *
+        */
         
         // pair of one or two backticks on a line >> <code></code>
         // pair of one or two backticks with bang on a line >> <samp></samp>

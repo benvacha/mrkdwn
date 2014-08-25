@@ -1,0 +1,51 @@
+Inline <code>code</code>
+Inline <code>code</code>
+Inline <code>code</code>
+Inline <code>code </code>
+Inline <code> code</code>
+Inline <code> code </code>
+Inline <code>code &#96; code</code>
+Inline <code> code &#96;&#96; code </code>
+Inline <code>code</code> and <code>code</code>
+Inline <code>code</code> and <code>code</code>
+Inline <code> </code>
+Inline <code> &#96; </code>
+Inline <code>function&#40;&#41;</code>
+Inline <code>&#60;hr &#47;&#62;</code>
+<code>code</code> inline
+
+` not inline
+Not inline '
+Not inline ``
+Not inline
+
+`
+not block code
+`
+
+<pre><code>
+block code
+</code></pre>
+
+<pre><code>
+block code
+</code></pre>
+
+<pre><code class="css">
+block css code
+</code></pre>
+
+<pre><code class="blank">
+</code></pre>
+
+<pre><code class="whitespace">
+
+</code></pre>
+
+```!
+not block code
+```
+
+``!python
+not block code
+``

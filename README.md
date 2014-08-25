@@ -555,44 +555,40 @@ The <abbr title="Main Standard">Primary Standard</abbr> is good
 ```
 
 ### Inline Code
-Pairs of single or double backticks will be translated as inline code. Most special characters within an inline code syntax is escaped to its ascii representation.
+* Pairs of one or more backticks on the same line will be markuped to code tags. 
+* Pairs of n backticks can contain groups of less than n backticks
+* Most special characters, except `& # ;`, are markuped to their ascii representation.
+* Must contain at least one whitespace or non backtick character
+
 ##### mrkdwn
 ```
 The `<body></body>` tags
 Encase `` `ticks` ``
 ```
-##### html
+##### markup
 ```
 The <code>&lt;body&gt;&lt;/body&gt;</code> tags
 Encase <code> &#96;ticks&#96; </code>
 ```
 
-### Inline Sample
-Pairs of single or double backticks with a bang will be translated as inline sample. Most special characters within an inline sample syntax is escaped to its ascii representation.
-##### mrkdwn
-```
-The `!<body></body>` tags
-Encase ``! `ticks` ``
-```
-##### html
-```
-The <samp>&lt;body&gt;&lt;/body&gt;</samp> tags
-Encase <samp> &#96;ticks&#96; </samp>
-```
 
 ### Block Pre Code
-Pairs of three or more backticks, alone on lines, will be translated as block pre code. Most special characters within a block pre code are escaped to their ascii represenation. Reference syntax inside block code will not be translated as reference syntax. 
+* Pairs of three or more backticks at the start of a line and not on the same line will be markuped to pre and code tags. 
+* Pairs of n backticks can contain groups of less than n backticks
+* Most special characters, except `& # ;`, are markuped to their ascii representation.
+* Text on the same line as the opening backticks will be markuped as class on the code tag.
+
 ##### mrkdwn
 ```
 '''
 <body></body>
 '''
   
-''' syntax
+'''' syntax
 <body></body>
-'''
+''''
 ```
-##### html
+##### markup
 ```
 <pre><code>
 &lt;body&gt;&lt;/body&gt;
@@ -601,6 +597,23 @@ Pairs of three or more backticks, alone on lines, will be translated as block pr
 <pre><code class="syntax">
 &lt;body&gt;&lt;/body&gt;
 </code></pre>
+```
+
+
+### Inline Sample
+* Pair of one or more backticks with a `!` on a line will be markuped to sample tags.
+* Most special characters, except `& # ;` are markuped to their ascii representation.
+* Pair of n backticks can contain groups of n-1 backticks
+
+##### mrkdwn
+```
+The `!<body></body>` tags
+Encase ``! `ticks` ``
+```
+##### markup
+```
+The <samp>&lt;body&gt;&lt;/body&gt;</samp> tags
+Encase <samp> &#96;ticks&#96; </samp>
 ```
 
 ### Block Pre Sample
@@ -709,8 +722,8 @@ Markup Notes and Tracking
 - ~~escaped characters~~
   - where possible, should be run first to ensure translation everywhere without exception
 - ~~comments~~
-- inline code and sample
-- block code and sample
+- ~~inline and block code~~
+- inline and block sample
 - meta
 - variables
 - abbreviations
