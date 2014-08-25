@@ -41,11 +41,3 @@ block css code
 ```whitespace
 
 ```
-
-```!
-not block code
-```
-
-``!python
-not block code
-``

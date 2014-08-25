@@ -556,9 +556,9 @@ The <abbr title="Main Standard">Primary Standard</abbr> is good
 
 ### Inline Code
 * Pairs of one or more backticks on the same line will be markuped to code tags. 
-* Pairs of n backticks can contain groups of less than n backticks
+* Pairs of n backticks can contain groups of less than n backticks.
 * Most special characters, except `& # ;`, are markuped to their ascii representation.
-* Must contain at least one whitespace or non backtick character
+* Must contain at least one whitespace or non backtick character.
 
 ##### mrkdwn
 ```
@@ -574,7 +574,7 @@ Encase <code> &#96;ticks&#96; </code>
 
 ### Block Pre Code
 * Pairs of three or more backticks at the start of a line and not on the same line will be markuped to pre and code tags. 
-* Pairs of n backticks can contain groups of less than n backticks
+* Pairs of n backticks can contain groups of less than n backticks.
 * Most special characters, except `& # ;`, are markuped to their ascii representation.
 * Text on the same line as the opening backticks will be markuped as class on the code tag.
 
@@ -601,9 +601,10 @@ Encase <code> &#96;ticks&#96; </code>
 
 
 ### Inline Sample
-* Pair of one or more backticks with a `!` on a line will be markuped to sample tags.
-* Most special characters, except `& # ;` are markuped to their ascii representation.
-* Pair of n backticks can contain groups of n-1 backticks
+* Pairs of one or more backticks on the same line with a `!` will be markuped to samp tags. 
+* Pairs of n backticks can contain groups of less than n backticks.
+* Most special characters, except `& # ;`, are markuped to their ascii representation.
+* Must contain at least one whitespace or non backtick character.
 
 ##### mrkdwn
 ```
@@ -616,8 +617,13 @@ The <samp>&lt;body&gt;&lt;/body&gt;</samp> tags
 Encase <samp> &#96;ticks&#96; </samp>
 ```
 
+
 ### Block Pre Sample
-Pairs of three or more backticks, alone on lines, with a `!` on the first line, will be translated as block pre sample. Most special characters within the block are escaped to their ascii representation. Reference syntax inside the block will not be translated as reference syntax. 
+* Pairs of three or more backticks with a `!` at the start of a line and not on the same line will be markuped to pre and samp tags. 
+* Pairs of n backticks can contain groups of less than n backticks.
+* Most special characters, except `& # ;`, are markuped to their ascii representation.
+* Text on the same line as the opening backticks will be markuped as class on the samp tag.
+
 ##### mrkdwn
 ```
 '''!
@@ -628,7 +634,7 @@ Pairs of three or more backticks, alone on lines, with a `!` on the first line, 
 sample output
 '''''
 ```
-###### html
+###### markup
 ```
 <pre><samp>
 &gt; Output from a bash script
@@ -638,6 +644,7 @@ sample output
 sample output
 </samp></pre>
 ```
+
 
 ### Table
 Tables must have preceeding and proceeding `|`. Column text lengths do not need to be equal between columns or rows.
@@ -723,7 +730,7 @@ Markup Notes and Tracking
   - where possible, should be run first to ensure translation everywhere without exception
 - ~~comments~~
 - ~~inline and block code~~
-- inline and block sample
+- ~~inline and block sample~~
 - meta
 - variables
 - abbreviations

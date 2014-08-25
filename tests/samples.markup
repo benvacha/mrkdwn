@@ -1,0 +1,43 @@
+Inline <samp>sample</samp>
+Inline <samp>sample</samp>
+Inline <samp>sample</samp>
+Inline <samp>sample </samp>
+Inline <samp> sample</samp>
+Inline <samp> sample  </samp>
+Inline <samp>sample &#96; sample</samp>
+Inline <samp> sample &#96;&#96; sample </samp>
+Inline <samp>sample</samp> and <samp>sample</samp>
+Inline <samp>sample</samp> and <samp>sample</samp>
+Inline <samp> </samp>
+Inline <samp> &#96; </samp>
+Inline <samp>function&#40;&#41;</samp>
+Inline <samp>&#60;hr &#47;&#62;</samp>
+<samp>sample</samp> inline
+
+`! not inline
+Not inline '!
+Not inline ``!
+Not inline
+
+`!
+not block sample
+`
+
+<pre><samp>
+block sample
+</samp></pre>
+
+<pre><samp>
+block sample
+</samp></pre>
+
+<pre><samp class="css">
+block css sample
+</samp></pre>
+
+<pre><samp class="blank">
+</samp></pre>
+
+<pre><samp class="whitespace">
+
+</samp></pre>

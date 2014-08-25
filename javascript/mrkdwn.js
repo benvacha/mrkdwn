@@ -38,7 +38,7 @@ var mrkdwn = {
         all: function(markdown) {
             markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.comments(markdown);
-            markdown = mrkdwn.markup.codes(markdown);
+            markdown = mrkdwn.markup.codesSamples(markdown);
             return markdown;
         },
         
@@ -59,18 +59,22 @@ var mrkdwn = {
         },
         
         // pair of one or more backticks on a line >> <code></code>
+        // pair of one or more backticks with ! on a line >> <samp></samp>
         // pair of three or more backticks on multiple lines >> <pre><code></code></pre>
-        codes: function(markdown) {
+        // pair of three or more backticks with ! on multiple lines >> <pre><samp></samp></pre>
+        codesSamples: function(markdown) {
             var asciiEncode = function(str) {
                 return str.replace(/([^\w\s&#;])/g, function(match, specialChar) {
                     return '&#' + specialChar.charCodeAt() + ';';
                 });
             };
-            markdown = markdown.replace(/(`{1,})([^!`\n].*?)\1/g, function(match, ticks, content) {
+            markdown = markdown.replace(/(`{1,})(!)?([^`\n].*?)\1/g, function(match, ticks, bang, content) {
+                if(bang) return '<samp>' + asciiEncode(content) + '</samp>'
                 return '<code>' + asciiEncode(content) + '</code>'
             });
-            markdown = markdown.replace(/\n(`{3,})([^!`\n].*?|)\n([\s\S]*?)\1/g, function(match, ticks, syntax, content) {
+            markdown = markdown.replace(/\n(`{3,})(!)?([^`\n].*?|)\n([\s\S]*?)\1/g, function(match, ticks, bang, syntax, content) {
                 syntax = (syntax.trim()) ? ' class="' + syntax.trim() + '"' : '';
+                if(bang) return '\n<pre><samp' + syntax + '>\n' + asciiEncode(content)  + '</samp></pre>'
                 return '\n<pre><code' + syntax + '>\n' + asciiEncode(content)  + '</code></pre>'
             });
             return markdown;

@@ -110,6 +110,10 @@ var testFiles = {
     codes: {
         markdown: 'codes.markdown',
         markup: 'codes.markup'
+    },
+    samples: {
+        markdown: 'samples.markdown',
+        markup: 'samples.markup'
     }
 }
 
@@ -119,8 +123,8 @@ var tests = {
     all: function() {
         var testFile, markdown, markup;
         for(testFile in testFiles) {
-            markdown += utils.readFile(testFiles[testFile].markdown),
-            markup += utils.readFile(testFiles[testFile].markup);
+            markdown += utils.readFile(testFiles[testFile].markdown) + '\n',
+            markup += utils.readFile(testFiles[testFile].markup) + '\n';
         }
         return jsdiff.diffChars(markup, mrkdwn.markup.all(markdown));
     },
@@ -139,11 +143,18 @@ var tests = {
         return jsdiff.diffChars(markup, mrkdwn.markup.comments(markdown));
     },
     
-    // test mrkdwn.markup.codes(markdown)
+    // test mrkdwn.markup.codesSamples(markdown)
     codes: function() {
         var markdown = utils.readFile(testFiles.codes.markdown),
             markup = utils.readFile(testFiles.codes.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.codes(markdown));
+        return jsdiff.diffChars(markup, mrkdwn.markup.codesSamples(markdown));
+    },
+    
+    // test mrkdwn.markup.codesSamples(markdown)
+    samples: function() {
+        var markdown = utils.readFile(testFiles.samples.markdown),
+            markup = utils.readFile(testFiles.samples.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.codesSamples(markdown));
     }
     
 };

@@ -41,11 +41,3 @@ block css code
 <pre><code class="whitespace">
 
 </code></pre>
-
-```!
-not block code
-```
-
-``!python
-not block code
-``
