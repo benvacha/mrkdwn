@@ -42,6 +42,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.metas(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
+            markdown = mrkdwn.markup.images(markdown);
             return markdown;
         },
         
@@ -125,48 +126,44 @@ var mrkdwn = {
             return markdown;
         },
         
-        /*
-         *
-        */
-        
         // bang square brackets colon >> nothing
         // bang square brackets square brackets >> <img />
         // bang square brackets round brackets >> <img />
-        images: function(markdown) {
-            // TODO: include passed runtime definitions
-            // find, cache, remove definitions
-            var tokens, defs = {},
-                src, title, alt, width, height,
-                onMatch = function(match, $1, $2) {
-                    tokens = mrkdwn.util.tokenize($2);
-                    defs[$1] = {url: tokens[0], title: tokens[1], width: tokens[2], height: tokens[3]};
-                    return '';
+        images: function(markdown, runtimeDefinitions) {
+            var defs = (runtimeDefinitions) ? runtimeDefinitions : {},
+                buildTag = function(altText, value) {
+                    // if no value, return empty-ish tag
+                    if(!value) return '<img alt="' + altText + '" />';
+                    // if value, return fully formed tag as possible
+                    var alt, src, title, width, height,
+                        tokens = mrkdwn.util.tokenize(value);
+                    alt = ' alt="' + altText + '"';
+                    src = (tokens[0]) ? ' src="' + tokens[0] + '"' : '';
+                    title = (tokens[1]) ? ' title="' + tokens[1] + '"' : '';
+                    width = (tokens[2]) ? ' width="' + tokens[2] + '"' : '';
+                    height = (tokens[3]) ? ' height="' + tokens[3] + '"' : '';
+                    return '<img' + alt + src + title + width + height + ' />';
                 };
-            markdown = markdown.replace(/\!\[(.*?)\]:(.*)\n/g, onMatch);
+            // find, cache, remove definitions
+            markdown = markdown.replace(/\!\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
+                defs[name] = value;
+                return '';
+            });
             // find, replace reference usage
-            onMatch = function(match, $1, $2) {
-                alt = ' alt="' + $1 + '"';
-                src = (defs[$2] && defs[$2].url) ? ' src="' + defs[$2].url + '"' : '';
-                title = (defs[$2] && defs[$2].title) ? ' title="' + defs[$2].title + '"' : '';
-                width = (defs[$2] && defs[$2].width) ? ' width="' + defs[$2].width + '"' : '';
-                height = (defs[$2] && defs[$2].height) ? ' height="' + defs[$2].height + '"' : '';
-                return '<img' + alt + src + title + width + height + ' />';
-            };
-            markdown = markdown.replace(/\!\[(.*?)\]\[(.*?)\]/g, onMatch);
+            markdown = markdown.replace(/\!\[(.*?)\]\[(.*?)\]/g, function(match, altText, name) {
+                return buildTag(altText, defs[name]);
+            });
             // find, replace inline usage
-            onMatch = function(match, $1, $2) {
-                tokens = mrkdwn.util.tokenize($2);
-                alt = ' alt="' + $1 + '"';
-                src = (tokens[0]) ? ' src="' + tokens[0] + '"' : '';
-                title = (tokens[1]) ? ' title="' + tokens[1] + '"' : '';
-                width = (tokens[2]) ? ' width="' + tokens[2] + '"' : '';
-                height = (tokens[3]) ? ' height="' + tokens[3] + '"' : '';
-                return '<img' + alt + src + title + width + height + ' />';
-            };
-            markdown = markdown.replace(/\!\[(.*?)\]\((.*?)\)/g, onMatch);
+            markdown = markdown.replace(/\!\[(.*?)\]\((.*?)\)/g, function(match, altText, value) {
+                return buildTag(altText, value);
+            });
             //
             return markdown;
         },
+        
+        /*
+         *
+        */
         
         // percent square brackets colon >> nothing
         // percent square brackets square brackets >> <img />

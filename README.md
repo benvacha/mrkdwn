@@ -448,8 +448,15 @@ Go to <a href="http://url.com">http://url.com</a>
 Email <a href="mailto:addr@email.com">addr@email.com</a>
 ```
 
+
 ### Images
-Bracketed text preceeded by `!` and proceeded by parenthesis or brackets will be translated as an image. Square brackets preceeded by `!` and proceeded by `:` will be translated as an image reference. url can be absolute or relative. title, width, and height are optional.
+* `![alt text](url title width height)` will be marked up to img tags.
+* `![alt text][imageReference] will be markuped to img tags.
+* `![imageReference]: url title width height will be removed from markup, but will define an image.
+* url's can be absolute or relative.
+* title, width, and height are optional.
+* Usage of an undefined imageReference will be markuped to img tags with only alt text.
+
 ##### mrkdwn
 ```
 ![alt text](url title width height)
@@ -458,13 +465,14 @@ Bracketed text preceeded by `!` and proceeded by parenthesis or brackets will be
 ![alt text][reference]
 ![reference]: url "Title" width height
 ```
-##### html
+##### markup
 ```
 <img src="url" title="title" alt="alt text" />
 <img src="url" title="Title" alt="alt text" width="350px" height="100%" />
 
 <img src="url" title="Title" alt="alt text" width="width" height="height" />
 ```
+
 
 ### Macros
 Bracketed text preceeded by `%` and proceeded by parenthesis or square brackets will be translated as a macro. Square brackets preceeded by `%` and proceeded by `:` will be translated as a macro reference. Macros can be used to embed video, other media, or whatever else comes around. alt text is displayed if a macro is invalid. The first argument must be the macro name. Any number and type of arguments can be included after the first depending on the macro.
@@ -757,7 +765,7 @@ Markup Notes and Tracking
 - ~~meta~~
 - ~~variables~~
 - ~~abbreviations~~
-- images
+- ~~images~~
 - macros
 - citations
 - notes

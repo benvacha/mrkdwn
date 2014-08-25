@@ -126,6 +126,10 @@ var testFiles = {
     abbreviations: {
         markdown: 'abbreviations.markdown',
         markup: 'abbreviations.markup'
+    },
+    images: {
+        markdown: 'images.markdown',
+        markup: 'images.markup'
     }
 }
 
@@ -188,6 +192,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.abbreviations.markdown),
             markup = utils.readFile(testFiles.abbreviations.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.abbreviations(markdown));
+    },
+    
+    // test mrkdwn.markup.images(markdown)
+    images: function() {
+        var markdown = utils.readFile(testFiles.images.markdown),
+            markup = utils.readFile(testFiles.images.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.images(markdown));
     }
     
 };
