@@ -98,26 +98,51 @@ var utils = {
  *
 */
 
+var testFiles = {
+    escapedChars: {
+        markdown: 'escaped-chars.markdown',
+        markup: 'escaped-chars.markup'
+    },
+    comments: {
+        markdown: 'comments.markdown',
+        markup: 'comments.markup'
+    },
+    codes: {
+        markdown: 'codes.markdown',
+        markup: 'codes.markup'
+    }
+}
+
 var tests = {
+    
+    //
+    all: function() {
+        var testFile, markdown, markup;
+        for(testFile in testFiles) {
+            markdown += utils.readFile(testFiles[testFile].markdown),
+            markup += utils.readFile(testFiles[testFile].markup);
+        }
+        return jsdiff.diffChars(markup, mrkdwn.markup.all(markdown));
+    },
     
     // test mrkdwn.markup.escapedChars(markdown)
     escapedChars: function() {
-        var markdown = utils.readFile('escaped-chars.markdown'),
-            markup = utils.readFile('escaped-chars.markup');
+        var markdown = utils.readFile(testFiles.escapedChars.markdown),
+            markup = utils.readFile(testFiles.escapedChars.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.escapedChars(markdown));
     },
     
     // test mrkdwn.markup.comments(markdown)
     comments: function() {
-        var markdown = utils.readFile('comments.markdown'),
-            markup = utils.readFile('comments.markup');
+        var markdown = utils.readFile(testFiles.comments.markdown),
+            markup = utils.readFile(testFiles.comments.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.comments(markdown));
     },
     
     // test mrkdwn.markup.codes(markdown)
     codes: function() {
-        var markdown = utils.readFile('codes.markdown'),
-            markup = utils.readFile('codes.markup');
+        var markdown = utils.readFile(testFiles.codes.markdown),
+            markup = utils.readFile(testFiles.codes.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.codes(markdown));
     }
     
