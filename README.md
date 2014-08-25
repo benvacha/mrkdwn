@@ -693,12 +693,27 @@ Tables must have preceeding and proceeding `|`. Column text lengths do not need 
 </table>
 ```
 
-### Semantics and Meta
-`{ }` will be treated as meta or sematic data. Semantics can be used inline or in a block. It will be removed from the final translation, but can be retrieved and used for special machine magic. The parser can be configured to output sematics in a single html comment or multiple html comments.  `( )` can be used to define an array. `[ ]` can be used to define a json-ish data structure. Whitespace is used for parsing and is otherwise ignored.
+
+### Meta
+* `{{{ }}}` will be treated as meta data (sematic data) and can be retrieved and used for machine magic.
+* `{{{ }}}` will be removed from markup and not parsed.
+* `{{{! }}}` will be parsed and markuped as an html comment.
+* Meta can be used inline or block. 
+* Meta parser
+  * `( )` can be used to define an array. 
+  * `[ ]` can be used to define a json-ish data structure. 
+  * Whitespace is used for parsing and is otherwise ignored.
+
+* Pairs of three or more `/` will be removed from markup.
+* Pairs of three or more '/' with a '!' will be markuped to a html comment.
+* Can be applied inline or block.
+* Pairs of n or more '/' can be used to comment n - 1 '/'
+* Applied anywhere, without exception
+
 ##### mrkdwn
 ```
-{pageTitle "The page title"}
-{author (
+{{{ pageTitle "The page title" }}}
+{{{ author (
   [
     first: "Author",
     last: "One",
@@ -709,14 +724,14 @@ Tables must have preceeding and proceeding `|`. Column text lengths do not need 
     last: "Two",
     role: "Editor"
   ]
-)}
-{backPage url}
-{nextPage url}
-{siblings (Sibling One, Sibling Two)}
-{isA Object url}
-{hasA Object url}
+) }}}
+{{{ backPage url }}}
+{{{ nextPage url }}}
+{{{ siblings (Sibling One, Sibling Two) }}}
+{{{ isA Object url }}}
+{{{ hasA Object url }}}
 ```
-##### html
+##### markup
 ```
 
 ```
@@ -731,7 +746,7 @@ Markup Notes and Tracking
 - ~~comments~~
 - ~~inline and block code~~
 - ~~inline and block sample~~
-- meta
+- ~~meta~~
 - variables
 - abbreviations
 - images

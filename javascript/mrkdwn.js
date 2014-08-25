@@ -39,6 +39,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.codesSamples(markdown);
+            markdown = mrkdwn.markup.metas(markdown);
             return markdown;
         },
         
@@ -62,7 +63,8 @@ var mrkdwn = {
         // pair of one or more backticks with ! on a line >> <samp></samp>
         // pair of three or more backticks on multiple lines >> <pre><code></code></pre>
         // pair of three or more backticks with ! on multiple lines >> <pre><samp></samp></pre>
-        codesSamples: function(markdown) {
+        codesSamples: function(markdown, noSamples) {
+            // TODO: if noSamples, markup all matches as code
             var asciiEncode = function(str) {
                 return str.replace(/([^\w\s&#;])/g, function(match, specialChar) {
                     return '&#' + specialChar.charCodeAt() + ';';
@@ -80,15 +82,18 @@ var mrkdwn = {
             return markdown;
         },
         
+        // three curly brackets >> nothing
+        metas: function(markdown, singleComment) {
+            // TODO: if singleComment, parse and cache meta then insert a single comment
+            return markdown.replace(/\{\{\{(!)?[\s\S]*?\}\}\}/g, function(match, bang, content) {
+                // TODO: if bang, parse meta and insert comment
+                return '';
+            });
+        },
+        
         /*
          *
         */
-        
-        // curly brackets >> nothing or comments
-        metas: function(markdown, insertComments) {
-            // TODO: if comments then parse meta and insert comment block
-            return markdown.replace(/\{[\s\S]*?\}/g, '');
-        },
         
         // dollar square brackets colon >> nothing
         // dollar square brackets >> text

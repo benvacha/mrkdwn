@@ -1,0 +1,14 @@
+Not meta { }
+
+Not meta { data }
+
+Not meta {{ data }}
+
+Some meta 
+
+Some meta 
+
+{
+not block meta
+}
+

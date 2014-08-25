@@ -114,6 +114,10 @@ var testFiles = {
     samples: {
         markdown: 'samples.markdown',
         markup: 'samples.markup'
+    },
+    metas: {
+        markdown: 'metas.markdown',
+        markup: 'metas.markup'
     }
 }
 
@@ -155,6 +159,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.samples.markdown),
             markup = utils.readFile(testFiles.samples.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.codesSamples(markdown));
+    },
+    
+    // test mrkdwn.markup.metas(markdown)
+    metas: function() {
+        var markdown = utils.readFile(testFiles.metas.markdown),
+            markup = utils.readFile(testFiles.metas.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.metas(markdown));
     }
     
 };
