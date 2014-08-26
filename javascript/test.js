@@ -150,6 +150,10 @@ var testFiles = {
     headers: {
         markdown: 'headers.markdown',
         markup: 'headers.markup'
+    },
+    horizontalRules: {
+        markdown: 'horizontal-rules.markdown',
+        markup: 'horizontal-rules.markup'
     }
 }
 
@@ -254,6 +258,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.headers.markdown),
             markup = utils.readFile(testFiles.headers.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.headers(markdown));
+    },
+    
+    // test mrkdwn.markup.horizontalRules(markdown)
+    horizontalRules: function() {
+        var markdown = utils.readFile(testFiles.horizontalRules.markdown),
+            markup = utils.readFile(testFiles.horizontalRules.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.horizontalRules(markdown));
     }
     
 };

@@ -48,6 +48,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.notes(markdown);
             markdown = mrkdwn.markup.links(markdown);
             markdown = mrkdwn.markup.headers(markdown);
+            markdown = mrkdwn.markup.horizontalRules(markdown);
             return markdown;
         },
         
@@ -357,15 +358,16 @@ var mrkdwn = {
             return markdown;
         },
         
+        // --- >> <hr />
+        // - - - >> <hr />
+        horizontalRules: function(markdown) {
+            // find, replace ---
+            return markdown.replace(/((?:^|\n)\n) ?- ?- ?-[- ]*/g, '$1<hr />');
+        },
+        
         /*
          *
         */
-        
-        // --- >> <hr />
-        horizontalRules: function(markdown) {
-            // find, replace ---
-            return markdown.replace(/\n\n ?- ?- ?-[- ]*/g, '\n\n<hr />');
-        },
         
         // *t*, **t**, ***t*** >> bold, strong, emphasis
         // ~t~, ~~t~~, ~~~t~~~ >> italic, strike, mark

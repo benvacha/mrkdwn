@@ -154,17 +154,22 @@ Header 2
 
 
 ### Horizontal Rules
-Three or more `-` on a line, alone, preceeded by a blank line, will create a horizontal rule. '*' are not valid horizontal rule syntax.
+* Three or more `-` or `- ` on a line, alone, preceeded by a blank line, will create a horizontal rule. 
+* '*' is not valid horizontal rule syntax.
+
 ##### mrkdwn
 ```
+
 ---
+
 - - - - - - - -
 ```
-##### html
+##### markup
 ```
 <hr>
 <hr>
 ```
+
 
 ### Blockquote
 Blockquotes can be nested as needed and can contain any other syntax. `>>` can be used to signify the end of a blockquote, including nested blockquotes, to avoid translation errors. Blockquotes can be nested a max of 10 times.
@@ -827,7 +832,7 @@ Markup Notes and Tracking
 - ~~links~~
 - ~~auto links~~
 - ~~headers~~
-- horizontal rule
+- ~~horizontal rule~~
 - phrase formatting
 - blockquote
 - detail
