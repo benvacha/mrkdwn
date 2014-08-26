@@ -49,6 +49,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.links(markdown);
             markdown = mrkdwn.markup.headers(markdown);
             markdown = mrkdwn.markup.horizontalRules(markdown);
+            markdown = mrkdwn.markup.phraseFormattings(markdown);
             return markdown;
         },
         
@@ -365,43 +366,39 @@ var mrkdwn = {
             return markdown.replace(/((?:^|\n)\n) ?- ?- ?-[- ]*/g, '$1<hr />');
         },
         
-        /*
-         *
-        */
-        
         // *t*, **t**, ***t*** >> bold, strong, emphasis
         // ~t~, ~~t~~, ~~~t~~~ >> italic, strike, mark
-        // ^t^, ^^t&& >> superscript, subscript
+        // ^t^, ^^t^^ >> superscript, subscript
         // _t_ >> underline
         phraseFormattings: function(markdown) {
             // find, replace emphasis, strong, bold
-            markdown = markdown.replace(/(\*+)([^\*\s].*?)\1(?!\*)/g, function(match, $1, $2) {
-                if($1.length === 1) {
-                    return '<b>' + $2 + '</b>';
-                } else if($1.length === 2) {
-                    return '<strong>' + $2 + '</strong>';
-                } else if($1.length === 3) {
-                    return '<em>' + $2 + '</em>';
+            markdown = markdown.replace(/(\*+)([^\*\s].*?)\1(?!\*)/g, function(match, asterisks, content) {
+                if(asterisks.length === 1) {
+                    return '<b>' + content + '</b>';
+                } else if(asterisks.length === 2) {
+                    return '<strong>' + content + '</strong>';
+                } else if(asterisks.length === 3) {
+                    return '<em>' + content + '</em>';
                 }
                 return match;
             });
             // find, replace mark, strike, italic
-            markdown = markdown.replace(/(\~+)([^\~\s].*?)\1(?!\~)/g, function(match, $1, $2) {
-                if($1.length === 1) {
-                    return '<i>' + $2 + '</i>';
-                } else if($1.length === 2) {
-                    return '<strike>' + $2 + '</strike>';
-                } else if($1.length === 3) {
-                    return '<mark>' + $2 + '</mark>';
+            markdown = markdown.replace(/(\~+)([^\~\s].*?)\1(?!\~)/g, function(match, tildes, content) {
+                if(tildes.length === 1) {
+                    return '<i>' + content + '</i>';
+                } else if(tildes.length === 2) {
+                    return '<strike>' + content + '</strike>';
+                } else if(tildes.length === 3) {
+                    return '<mark>' + content + '</mark>';
                 }
                 return match;
             });
             // find, replace subscript, superscript
-            markdown = markdown.replace(/(\^+)([^\^\s].*?)\1(?!\^)/g, function(match, $1, $2) {
-                if($1.length === 1) {
-                    return '<sup>' + $2 + '</sup>';
-                } else if($1.length === 2) {
-                    return '<sub>' + $2 + '</sub>';
+            markdown = markdown.replace(/(\^+)([^\^\s].*?)\1(?!\^)/g, function(match, carets, content) {
+                if(carets.length === 1) {
+                    return '<sup>' + content + '</sup>';
+                } else if(carets.length === 2) {
+                    return '<sub>' + content + '</sub>';
                 }
                 return match;
             });
@@ -410,6 +407,10 @@ var mrkdwn = {
             //
             return markdown;
         },
+        
+        /*
+         *
+        */
         
         // > >> blockquote
         blockquotes: function(markdown) {

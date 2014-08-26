@@ -154,6 +154,10 @@ var testFiles = {
     horizontalRules: {
         markdown: 'horizontal-rules.markdown',
         markup: 'horizontal-rules.markup'
+    },
+    phraseFormattings: {
+        markdown: 'phrase-formattings.markdown',
+        markup: 'phrase-formattings.markup'
     }
 }
 
@@ -265,6 +269,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.horizontalRules.markdown),
             markup = utils.readFile(testFiles.horizontalRules.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.horizontalRules(markdown));
+    },
+    
+    // test mrkdwn.markup.phraseFormattings(markdown)
+    phraseFormattings: function() {
+        var markdown = utils.readFile(testFiles.phraseFormattings.markdown),
+            markup = utils.readFile(testFiles.phraseFormattings.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.phraseFormattings(markdown));
     }
     
 };

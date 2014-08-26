@@ -79,8 +79,13 @@ with a manual break inserted
 with a manual break inserted</p>
 ```
 
+
 ### Phrase Formatting
-Phrase formatting can be nested inside of any other syntax, except code or sample blocks. Phrase formatting is only translated when both starting and ending syntax is found in the same paragraph. Phrase formatting can be inside of words, with the exception of underline. Opening phrase formatting followed by whitespace will not be translated as phrase formatting.
+* Phrase formatting can be nested inside of any other syntax, except code or sample blocks.
+* Phrase formatting is only translated when both starting and ending syntax is found in the same line.
+* Phrase formatting can be inside of words, with the exception of underline.
+* Opening phrase formatting followed by whitespace will not be translated as phrase formatting.
+
 ##### mrkdwn
 ```
 *bold*  **strong**  ***emphasis***
@@ -92,7 +97,7 @@ some_file_name
 some_file_ name
 put a * in the **
 ```
-##### html
+##### markup
 ```
 <em>emphasis</em>  <b>bold</b>  <strong>strong</strong>
 <i>italic</i>  <mark>mark</mark>  <strike>strikethrough</strike>
@@ -833,7 +838,7 @@ Markup Notes and Tracking
 - ~~auto links~~
 - ~~headers~~
 - ~~horizontal rule~~
-- phrase formatting
+- ~~phrase formatting~~
 - blockquote
 - detail
 - list
