@@ -158,6 +158,10 @@ var testFiles = {
     phraseFormattings: {
         markdown: 'phrase-formattings.markdown',
         markup: 'phrase-formattings.markup'
+    },
+    blockquotes: {
+        markdown: 'blockquotes.markdown',
+        markup: 'blockquotes.markup'
     }
 }
 
@@ -276,6 +280,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.phraseFormattings.markdown),
             markup = utils.readFile(testFiles.phraseFormattings.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.phraseFormattings(markdown));
+    },
+    
+    // test mrkdwn.markup.blockquotes(markdown)
+    blockquotes: function() {
+        var markdown = utils.readFile(testFiles.blockquotes.markdown),
+            markup = utils.readFile(testFiles.blockquotes.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.blockquotes(markdown));
     }
     
 };

@@ -177,7 +177,11 @@ Header 2
 
 
 ### Blockquote
-Blockquotes can be nested as needed and can contain any other syntax. `>>` can be used to signify the end of a blockquote, including nested blockquotes, to avoid translation errors. Blockquotes can be nested a max of 10 times.
+* Blockquotes can be nested as needed and can contain any other syntax. 
+* `>>` can be used to signify the end of a blockquote, including nested blockquotes, to avoid translation errors.
+* Two are more blank lines between blockquote lines will markup the lines as difference blockquotes.
+* Blockquotes can be nested a max of 10 times.
+
 ##### mrkdwn
 ```
 > Paragraph one
@@ -196,7 +200,7 @@ Blockquotes can be nested as needed and can contain any other syntax. `>>` can b
 > >> level two again
 > > level two, but not the same as the above line
 ```
-##### html
+##### markup
 ```
 <blockquote>
   <p>Paragraph one</p>
@@ -223,6 +227,7 @@ Blockquotes can be nested as needed and can contain any other syntax. `>>` can b
   </blockquote>
 </blockquote>
 ```
+
 
 ### Details
 The first line of a details must include `!` and will always be used as its summary. `<<` can be used to signify the end of a details, including nested details, to avoid translation errors. Detail blocks can be nested up to 10 times and can contain any other syntax.
@@ -839,7 +844,7 @@ Markup Notes and Tracking
 - ~~headers~~
 - ~~horizontal rule~~
 - ~~phrase formatting~~
-- blockquote
+- ~~blockquote~~
 - detail
 - list
   - unordered list

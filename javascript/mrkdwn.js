@@ -50,6 +50,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.headers(markdown);
             markdown = mrkdwn.markup.horizontalRules(markdown);
             markdown = mrkdwn.markup.phraseFormattings(markdown);
+            markdown = mrkdwn.markup.blockquotes(markdown);
             return markdown;
         },
         
@@ -408,36 +409,36 @@ var mrkdwn = {
             return markdown;
         },
         
-        /*
-         *
-        */
-        
         // > >> blockquote
         blockquotes: function(markdown) {
-            // find, replace nested blockquotes
             // TODO: better document this recursive nightmare
             // onMatch is recursivelly called
-            // $1 = whitespace before > and should be put back :: $2 = optional second >, forces blockquote end
-            // $3 = whole citation including ! :: $4 = citation text :: $5 = blockquote content
-            var n = 10, onMatch = function(match, $1, $2, $3, $4, $5) {
-                $2 = ($2) ? '&nbsp;' : '';
-                $4 = ($4) ? ' cite="' + $4 + '"' : '';
+            var maxNest = 10, onMatch = function(match, whitespace, ender, fullCite, cite, content) {
+                ender = (ender) ? '<!-- -->' : '';
+                cite = (cite) ? ' cite="' + cite + '"' : '';
+                whitespace = whitespace.replace(/[\t ]/g, ''); // make markup flat
                 // if the blockquote content contains another valid blockquote syntax, recall onMatch on it
-                if($5.search(/(\s)\>(.*)/g) > -1) {
-                    $5 = $5.replace(/(\s)\>(\>?)[ ]?(?!\>)(\! ?(.*))?(.*)/g, onMatch);
+                if(content.search(/(\s)\>(.*)/g) > -1) {
+                    content = content.replace(/(\s)\>(\>?)[ ]?(?!\>)(\! ?(.*))?(.*)/g, onMatch);
                 }
-                // return the whole mess back up
-                return $1 + '<blockquote' + $4 + '>' + $5 + '</blockquote>' + $2;
+                // return the whole mess back up 
+                // main diffence between returns is to not include a newline with cite
+                if(cite) return whitespace + '<blockquote' + cite + '>' + content + '\n</blockquote>' + ender;
+                return whitespace + '<blockquote>\n' + content + '\n</blockquote>' + ender;
             }
-            // find all of the first level >, optionally match first level >>, optionally match ! citation
-            markdown = markdown.replace(/(\s)\>(\>?)[ ]?(?!\>)(\! ?(.*))?(.*)/g, onMatch);
+            // find all of the first level >, optionally match first level >>, optionally match ! cite
+            markdown = markdown.replace(/(\n)\>(\>?)[ ]?(?!\>)(\! ?(.*))?(.*)/g, onMatch);
             // as long as the extra (incorrect) ending and starting blockquote tags are found, remove them
-            while(markdown.search(/<\/blockquote>(\s*?)<blockquote.*?>/g) > -1 && n--) {
-                markdown = markdown.replace(/<\/blockquote>(\s*?)<blockquote.*?>/g, '$1');
+            while(markdown.search(/<\/blockquote>(\s*?)<blockquote.*?>/g) > -1 && maxNest--) {
+                markdown = markdown.replace(/\n<\/blockquote>(\s{0,2})<blockquote.*?>\n/g, '$1');
             }
             //
             return markdown;
         },
+        
+        /*
+         *
+        */
         
         // < >> details
         details: function(markdown) {
