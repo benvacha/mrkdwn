@@ -162,6 +162,10 @@ var testFiles = {
     blockquotes: {
         markdown: 'blockquotes.markdown',
         markup: 'blockquotes.markup'
+    },
+    details: {
+        markdown: 'details.markdown',
+        markup: 'details.markup'
     }
 }
 
@@ -287,6 +291,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.blockquotes.markdown),
             markup = utils.readFile(testFiles.blockquotes.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.blockquotes(markdown));
+    },
+    
+    // test mrkdwn.markup.details(markdown)
+    details: function() {
+        var markdown = utils.readFile(testFiles.details.markdown),
+            markup = utils.readFile(testFiles.details.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.details(markdown));
     }
     
 };

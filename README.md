@@ -230,7 +230,11 @@ Header 2
 
 
 ### Details
-The first line of a details must include `!` and will always be used as its summary. `<<` can be used to signify the end of a details, including nested details, to avoid translation errors. Detail blocks can be nested up to 10 times and can contain any other syntax.
+* The first line of a details must include `!` and will always be used as its summary.
+* `<<` can be used to signify the end of a details, including nested details, to avoid translation errors. 
+* Two are more blank lines between details lines will markup the lines as difference details.
+* Detail blocks can be nested up to 10 times and can contain any other syntax.
+
 ##### mrkdwn
 ```
 <! summary
@@ -238,7 +242,7 @@ The first line of a details must include `!` and will always be used as its summ
 <
 < Second Paragraph
 ```
-##### html
+##### markup
 ```
 <details>
   <summary>summary</summary>
@@ -246,6 +250,7 @@ The first line of a details must include `!` and will always be used as its summ
   <p>Second Paragraph</p>
 </details>
 ```
+
 
 ### Unordered List
 Unordered lists must be denoted using `-`, `*` and `+` will not be translated to unordered lists. Multiple line list items will be translated into paragraphs. `--` can be used to signify the end of a list to prevent translation errors.
@@ -845,7 +850,7 @@ Markup Notes and Tracking
 - ~~horizontal rule~~
 - ~~phrase formatting~~
 - ~~blockquote~~
-- detail
+- ~~detail~~
 - list
   - unordered list
   - ordered list

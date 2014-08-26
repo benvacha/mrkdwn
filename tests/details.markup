@@ -1,0 +1,32 @@
+
+<details>
+<summary>summary</summary>
+one
+two
+three
+</details>
+
+
+<details>
+<summary>summary</summary>
+one
+two
+three
+</details><!-- -->
+
+<details>
+<summary>summary</summary>
+one
+<details>
+<summary>summary one</summary>
+one one
+one two
+</details>
+two
+<details>
+<summary>summary two</summary>
+two one
+two two
+two three
+</details>
+</details>

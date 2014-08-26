@@ -51,6 +51,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.horizontalRules(markdown);
             markdown = mrkdwn.markup.phraseFormattings(markdown);
             markdown = mrkdwn.markup.blockquotes(markdown);
+            markdown = mrkdwn.markup.details(markdown);
             return markdown;
         },
         
@@ -429,8 +430,33 @@ var mrkdwn = {
             // find all of the first level >, optionally match first level >>, optionally match ! cite
             markdown = markdown.replace(/(\n)\>(\>?)[ ]?(?!\>)(\! ?(.*))?(.*)/g, onMatch);
             // as long as the extra (incorrect) ending and starting blockquote tags are found, remove them
-            while(markdown.search(/<\/blockquote>(\s*?)<blockquote.*?>/g) > -1 && maxNest--) {
+            while(markdown.search(/<\/blockquote>(\s{0,2})<blockquote.*?>/g) > -1 && maxNest--) {
                 markdown = markdown.replace(/\n<\/blockquote>(\s{0,2})<blockquote.*?>\n/g, '$1');
+            }
+            //
+            return markdown;
+        },
+        
+        // < >> details
+        details: function(markdown) {
+            // TODO: better document this recursive nightmare
+            // onMatch is recursivelly called
+            var maxNest = 10, onMatch = function(match, whitespace, ender, fullSummary, summary, content) {
+                ender = (ender) ? '<!-- -->' : '';
+                summary = (summary) ? '<summary>' + summary + '</summary>' : '';
+                whitespace = whitespace.replace(/[\t ]/g, ''); // make markup flat
+                // if the content contains another valid details syntax, recall onMatch on it
+                if(content.search(/()\<(.*)/g) > -1) {
+                    content = content.replace(/()\<(\<?)(?:(\! (.*))| )(.*)/g, onMatch);
+                }
+                // return the whole mess back up 
+                return whitespace + '<details>\n' + summary + content + '\n</details>' + ender;
+            }
+            // find all of the first level <, optionally match first level <<, optionally match ! summary
+            markdown = markdown.replace(/(\n)\<(\<?)(?:(\! (.*))| )(.*)/g, onMatch);
+            // as long as the extra (incorrect) ending and starting details tags are found, remove them
+            while(markdown.search(/<\/details>(\s{0,2})<details.*?>/g) > -1 && maxNest--) {
+                markdown = markdown.replace(/\n<\/details>(\s{0,2})<details.*?>\n/g, '$1');
             }
             //
             return markdown;
@@ -439,33 +465,6 @@ var mrkdwn = {
         /*
          *
         */
-        
-        // < >> details
-        details: function(markdown) {
-            // find, replace nested details
-            // TODO: better document this recursive nightmare
-            // onMatch is recursivelly called
-            // $1 = whitespace before < and should be put back :: $2 = optional second <, forces detail end
-            // $3 = whole summary including ! :: $4 = summary text :: $5 = detail content
-            var n = 10, onMatch = function(match, $1, $2, $3, $4, $5) {
-                $2 = ($2) ? '&nbsp;' : '';
-                $4 = ($4) ? '<summary>' + $4 + '</summary>' : '';
-                // if the detail content contains another valid detail syntax, recall onMatch on it
-                if($5.search(/(\s)\<(.*)/g) > -1) {
-                    $5 = $5.replace(/(\s)\<(\<?)[ ]?(?!\<)(\!(?!-) ?(.*))?(?!\S)(.*)/g, onMatch);
-                }
-                // return the whole mess back up
-                return $1 + '<details>' + $4 + $5 + '</details>' + $2;
-            }
-            // find all of the first level <, optionally match first level <<, match ! summary
-            markdown = markdown.replace(/(\s)\<(\<?)[ ]?(?!\<)(\!(?!-) ?(.*))?(?!\S)(.*)/g, onMatch);
-            // as long as the extra (incorrect) ending and starting details tags are found, remove them
-            while(markdown.search(/<\/details>(\s*?)<details>/g) > -1 && n--) {
-                markdown = markdown.replace(/<\/details>(\s*?)<details>/g, '$1');
-            }
-            //
-            return markdown;
-        },
         
         // - >> <ul></ul>
         // #. >> <ol></ol>
