@@ -146,6 +146,10 @@ var testFiles = {
     links: {
         markdown: 'links.markdown',
         markup: 'links.markup'
+    },
+    headers: {
+        markdown: 'headers.markdown',
+        markup: 'headers.markup'
     }
 }
 
@@ -243,6 +247,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.links.markdown),
             markup = utils.readFile(testFiles.links.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.links(markdown));
+    },
+    
+    // test mrkdwn.markup.headers(markdown)
+    headers: function() {
+        var markdown = utils.readFile(testFiles.headers.markdown),
+            markup = utils.readFile(testFiles.headers.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.headers(markdown));
     }
     
 };

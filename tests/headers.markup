@@ -1,0 +1,17 @@
+<h1><a name="header-one" title="Header One">Header One</a></h1>
+
+<h2><a name="header-two" title="Header Two">Header Two</a></h2>
+
+<h1><a name="head-one" title="Head One">Head One</a></h1>
+
+<h2><a name="head-two" title="Head Two">Head Two</a></h2>
+
+<h3><a name="head-three" title="Head Three">Head Three</a></h3>
+
+<h4><a name="head-four" title="Head Four">Head Four</a></h4>
+
+<h5><a name="head-five" title="Head Five">Head Five</a></h5>
+
+<h6><a name="head-six" title="Head Six">Head Six</a></h6>
+
+<h3><a name="special-name" title="Different Header">Different Header</a></h3>

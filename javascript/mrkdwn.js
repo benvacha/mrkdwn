@@ -47,6 +47,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.citations(markdown);
             markdown = mrkdwn.markup.notes(markdown);
             markdown = mrkdwn.markup.links(markdown);
+            markdown = mrkdwn.markup.headers(markdown);
             return markdown;
         },
         
@@ -329,35 +330,36 @@ var mrkdwn = {
             return markdown;
         },
         
-        /*
-         *
-        */
-        
         // === >> <h1><a></a></h1>
         // --- >> <h2><a></a><h2>
         // ### >> <h#><a></a><h#>
-        headers: function(markdown) {
-            // find, replace ===
-            var onMatch = function(match, $1) {
-                    return '\n<h1><a name="' + $1.replace(' ', '-').toLowerCase() + '" title="' + $1 + '">' + $1 + '</a></h1>\n';
+        headers: function(markdown, linkPrefix, disableAutoLinks) {
+            var linkPrefix = (linkPrefix) ? linkPrefix : '',
+                buildTag = function(hNum, name, content) {
+                    if(disableAutoLinks) return '<h' + hNum + '>' + content + '</h' + hNum + '>';
+                    return '<h' + hNum + '><a name="' + linkPrefix + name.replace(' ', '-').toLowerCase() + 
+                        '" title="' + mrkdwn.util.asciiEncode(content) + '">' + content + '</a></h' + hNum + '>';
                 };
-            markdown = markdown.replace(/\n([\S ]+?)\n===+\n/g, onMatch);
+            // find, replace ===
+            markdown = markdown.replace(/(^|\n)([\S ]+?)\n===+\n/g, function(match, newline, content) {
+                return newline + buildTag('1', content, content) + '\n';
+            });
             // find, replace ---
-            onMatch = function(match, $1) {
-                return '\n<h2><a name="' + $1.replace(' ', '-').toLowerCase() + '" title="' + $1 + '">' + $1 + '</a></h2>\n';
-            };
-            markdown = markdown.replace(/\n([\S ]+?)\n---+\n/g, onMatch);
+            markdown = markdown.replace(/(^|\n)([\S ]+?)\n---+\n/g, function(match, newline, content) {
+                return newline + buildTag('2', content, content) + '\n';
+            });
             // find, replace #s
-            onMatch = function(match, $1, $2, $3, $4) {
-                if($3) {
-                    return '<h' + $1.length + '><a name="' + $3.replace(' ', '-').toLowerCase() + '" title="' + $4 + '">' + $4 + '</a></h' + $1.length + '>\n';
-                }
-                return '<h' + $1.length + '><a name="' + $4.replace(' ', '-').toLowerCase() + '" title="' + $4 + '">' + $4 + '</a></h' + $1.length + '>\n';
-            }
-            markdown = markdown.replace(/(\#+)(\(\!(.*)?\))? ([\S ]+?)\n/g, onMatch);
+            markdown = markdown.replace(/(^|\n)(\#+)(\(\!(.*)?\))? ([\S ]+?)\n/g, function(match, newline, hashes, fullName, name, content) {
+                if(name) return newline + buildTag(hashes.length, name, content) + '\n';
+                return newline + buildTag(hashes.length, content, content) + '\n';
+            });
             //
             return markdown;
         },
+        
+        /*
+         *
+        */
         
         // --- >> <hr />
         horizontalRules: function(markdown) {
