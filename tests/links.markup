@@ -1,0 +1,15 @@
+A <a href="url.com" title="Title One">link to something</a> from <a name="link-two" title="Title Two">something else</a>. A bad link.
+
+<a href="#link-two" title="This">This</a> doing its thing.
+
+<a href="to/nowhere.html" title="Its Title">A link</a> that is better than this <a name="link-four" title="one">one</a>.
+
+<a href="url.com#special" title="url&#46;com#special">url.com#special</a> and <a name="link-simple" title="link&#45;simple">link-simple</a> and <a href="#link-simple" title="link&#45;simple">link-simple</a> to <a href="mailto:me@url.com" title="me&#64;url&#46;com">me@url.com</a>.
+
+<a href="parsed/url%20thing" title="parsed url thing">parsed url thing</a> and <a href="that/one/thing#name" title="that one thing name">that one thing name</a>.
+
+[] [ ]
+
+[
+]
+

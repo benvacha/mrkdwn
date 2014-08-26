@@ -46,6 +46,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.macros(markdown);
             markdown = mrkdwn.markup.citations(markdown);
             markdown = mrkdwn.markup.notes(markdown);
+            markdown = mrkdwn.markup.links(markdown);
             return markdown;
         },
         
@@ -264,90 +265,66 @@ var mrkdwn = {
             return markdown;
         },
         
-        /*
-         *
-        */
-        
         // square brackets colon >> nothing
         // square brackets square brackets >> <a></a>
         // square brackets round brackets >> <a></a>
-        // square brackets >> <a></a>
-        links: function(markdown) {
-            // TODO: include passed runtime definitions
-            // TODO: replace bannedChars with negative lookbehind in supported languages
-            // find, cache, remove definitions
-            var bannedChars = {'!':true,'@':true,'%':true,'&':true,'$':true,'+':true}, 
-                tokens, url, name, email, title, defs = {},
-                onMatch = function(match, $1, $2, $3) {
-                    if($1 in bannedChars) return match;
-                    tokens = mrkdwn.util.tokenize($3);
-                    url = name = email = undefined;
+        // single or double square brackets >> <a></a>
+        links: function(markdown, runtimeDefinitions) {
+            var defs = (runtimeDefinitions) ? runtimeDefinitions : {},
+                buildTag = function(text, value) {
+                    // if no value, return unaltered text
+                    if(!value) return text;
+                    // if value, split it into tokens and return tag
+                    var tokens = mrkdwn.util.tokenize(value),
+                        url, email, name, title;
+                    //
+                    url = email = name = '';
                     if(tokens[0].charAt(0) === '!') {
-                        name = tokens[0].substring(1).replace(' ', '-').toLowerCase();
+                        name = ' name="' + tokens[0].substring(1) + '"';
                     } else if(tokens[0].indexOf('@') > 0) {
-                        email = tokens[0];
+                        email = ' href="mailto:' + tokens[0] + '"';
                     } else {
-                        url = tokens[0];
+                        url = ' href="' + encodeURI(tokens[0]) + '"';
                     }
-                    defs[$2] = {url: url, name: name, email: email, title: tokens[1]};
-                    return $1;
+                    //
+                    if(tokens[1]) {
+                        title = ' title="' + mrkdwn.util.asciiEncode(tokens[1]) + '"';
+                    } else {
+                        title = ' title="' + mrkdwn.util.asciiEncode(text) + '"';
+                    }
+                    //
+                    return '<a' + url + email + name + title + '>' + text + '</a>';
                 };
-            markdown = markdown.replace(/(.?)\[(.*?)\]:(.*)\n/g, onMatch);
+            // find, cache, remove definitions
+            markdown = markdown.replace(/\n\[(.*?)\]:(.*)/g, function(match, name, value) {
+                defs[name] = value;
+                return '';
+            });
             // find, replace reference usage
-            onMatch = function(match, $1, $2, $3) {
-                if($1 in bannedChars) return match;
-                url = (defs[$3] && defs[$3].url) ? ' href="' + defs[$3].url + '"' : '';
-                name = (defs[$3] && defs[$3].name) ? ' name="' + defs[$3].name + '"' : '';
-                email = (defs[$3] && defs[$3].email) ? ' href="mailto:' + defs[$3].email + '"' : '';
-                title = (defs[$3] && defs[$3].title) ? ' title="' + defs[$3].title + '"' : '';
-                return $1 + '<a' + url + name + email + title + '>' + $2 + '</a>';
-            }
-            markdown = markdown.replace(/(.?)\[(.*?)\]\[(.*?)\]/g, onMatch);
+            markdown = markdown.replace(/(\s)\[(.*?)\]\[(.*?)\]/g, function(match, whitespace, text, name) {
+                return whitespace + buildTag(text, defs[name]);
+            });
             // find, replace inline usage
-            onMatch = function(match, $1, $2, $3) {
-                if($1 in bannedChars) return match;
-                tokens = mrkdwn.util.tokenize($3);
-                url = name = email = title = undefined;
-                if(tokens[0].charAt(0) === '!') {
-                    name = tokens[0].substring(1).replace(' ', '-').toLowerCase();
-                } else if(tokens[0].indexOf('@') > 0) {
-                    email = tokens[0];
-                } else {
-                    url = tokens[0];
-                }
-                url = (url) ? ' href="' + url + '"' : '';
-                name = (name) ? ' name="' + name + '"' : '';
-                email = (email) ? ' href="mailto:' + email + '"' : '';
-                title = (tokens[1]) ? ' title="' + tokens[1] + '"' : '';
-                return $1 + '<a' + url + name + email + title + '>' + $2 + '</a>';
-            }
-            markdown = markdown.replace(/(.?)\[(.*?)\]\((.*?)\)/g, onMatch);
+            markdown = markdown.replace(/(\s)\[(.*?)\]\((.*?)\)/g, function(match, whitespace, text, value) {
+                return whitespace + buildTag(text, value);
+            });
             // find, replace simple usage
-            onMatch = function(match, $1, $2, $3) {
-                if($1 in bannedChars) return match;
-                url = name = email = title = undefined;
-                if($2.charAt(0) === '!') {
-                    name = $2.substring(1).replace(' ', '-').toLowerCase();
-                    title = $2.substring(1);
-                } else if($2.indexOf('@') > 0) {
-                    email = $2;
-                    title = email;
-                } else if($2.charAt(0) === '#') {
-                    url = $2.replace(' ', '-').toLowerCase();
-                    title = $2.substring(1);
-                } else {
-                    url = $2.replace(/_/g, '/');
-                    title = $2.replace(/_/g, ' ');
-                }
-                url = (url) ? ' href="' + url + '"' : '';
-                name = (name) ? ' name="' + name + '"' : '';
-                email = (email) ? ' href="mailto:' + email + '"' : '';
-                return $1 + '<a' + url + name + email + ' title="' + title + '">' + title + '</a>' + $3; 
-            }
-            markdown = markdown.replace(/(.?)\[(.*?)\](.?)/g, onMatch);
+            markdown = markdown.replace(/(\s)\[([^\[\]].*?\S.*?)\]/g, function(match, whitespace, text) {
+                return whitespace + buildTag(text.replace(/^[!#]/, ''), text);
+            });
+            // find, replace simple parsed usage
+            markdown = markdown.replace(/(\s)\[\[([^\[\]].*?\S.*?)\]\]/g, function(match, whitespace, text) {
+                var shown = text.replace(/^[!#]|["']/g, '').replace(/[_#]/g, ' '),
+                    value = text.replace(/_/g, '/');
+                return whitespace + buildTag(shown, value);
+            });
             //
             return markdown;
         },
+        
+        /*
+         *
+        */
         
         // absolute links >> <a></a>
         // email addresses >> <a></a>

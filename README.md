@@ -397,8 +397,24 @@ All list types may be nested in each other.
 </ul>
 ```
 
+
 ### Links
-Square brackets preceeded by whitespace and proceeded by parenthesis or square brackets will be translated as links. Square brackets preceeded by whitespace and procedded by `:` will be translated as a link reference. A url beginning with `!` will define an anchor. A url beginning with `#` will link to an anchor. The url can be absolute or relative.
+* `[linked text](url title)` will be markuped to a tags.
+* `[linked text][linkReference]` will be markuped to a tags.
+* `[url]` or `[email]` will be markuped to a tags.
+  * Must contain atleast one non-whitespace character
+* `[[url]]` or `[[email]]` will be parsed on `_` and will be markuped to a tags.
+  * Must contain atlease one non-whitespace character
+* `[linkReference]: url title` will be removed from markup, but used to define a link reference.
+  * Must be at start of new line.
+  * Cannot be on first line.
+* Links must be surrounded by whitespace, and cannot be at the start of the first line or end of the last line.
+* Urls can be absolute or relative, and will be automatically uri encoded.
+* Urls containing whitespace should be wrapped in quotes.
+* Urls beginning with `!` will define an anchor.
+* Urls beginning with `#` will link to an anchor.
+* Title is optional, and linked text will be used if not explicitly defined.
+
 ##### mrkdwn
 ```
 [text](url)
@@ -411,12 +427,12 @@ Square brackets preceeded by whitespace and proceeded by parenthesis or square b
 [reference]: url title
 
 [url]
-[auto_parsed_url]
+[[auto_parsed_url]]
 [!anchor]
 [#anchor]
-[parsed_url#anchor]
+[[parsed_url#anchor]]
 ```
-##### html
+##### markup
 ```
 <a href="url">text</a>
 <a href="url" title="Title">text</a>
@@ -433,15 +449,18 @@ Square brackets preceeded by whitespace and proceeded by parenthesis or square b
 <a href="parsed/url#anchor">parsed url anchor</a>
 ```
 
+
 ### Automatic Links
-Absolute urls and email addresses will be automatically linked. Text in square brackets will be automatically linked to itself.
+* Absolute urls and email addresses will be automatically markuped to a tags.
+* Links must be surrounded by whitespace.
+
 ##### mrkdwn
 ```
 Go to index.html
 Go to http://url.com
 Email addr@email.com
 ```
-##### html
+##### markup
 ```
 Go to index.html
 Go to <a href="http://url.com">http://url.com</a>
@@ -453,7 +472,7 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 * `![alt text](url title width height)` will be markuped to img tags.
 * `![alt text][imageReference]` will be markuped to img tags.
 * `![imageReference]: url title width height` will be removed from markup, but will define an image.
-* url's can be absolute or relative.
+* urls can be absolute or relative.
 * title, width, and height are optional.
 * Usage of an undefined imageReference will be markuped to img tags with only alt text.
 
@@ -781,7 +800,6 @@ Markup Notes and Tracking
 -------------------------
 
 - ~~escaped characters~~
-  - where possible, should be run first to ensure translation everywhere without exception
 - ~~comments~~
 - ~~inline and block code~~
 - ~~inline and block sample~~
@@ -792,8 +810,7 @@ Markup Notes and Tracking
 - ~~macros~~
 - ~~citations~~
 - ~~notes~~
-- links
-  - where possible, should be run after other square bracket syntax for performance
+- ~~links~~
 - auto links
 - headers
 - horizontal rule

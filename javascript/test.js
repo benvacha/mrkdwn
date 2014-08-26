@@ -142,6 +142,10 @@ var testFiles = {
     notes: {
         markdown: 'notes.markdown',
         markup: 'notes.markup'
+    },
+    links: {
+        markdown: 'links.markdown',
+        markup: 'links.markup'
     }
 }
 
@@ -232,6 +236,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.notes.markdown),
             markup = utils.readFile(testFiles.notes.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.notes(markdown));
+    },
+    
+    // test mrkdwn.markup.links(markdown)
+    links: function() {
+        var markdown = utils.readFile(testFiles.links.markdown),
+            markup = utils.readFile(testFiles.links.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.links(markdown));
     }
     
 };
