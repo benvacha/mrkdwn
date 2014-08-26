@@ -13,3 +13,11 @@ A <a href="url.com" title="Title One">link to something</a> from <a name="link-t
 [
 ]
 
+
+Go to <a href="http://url.com" title="http://url.com">http://url.com</a> now!
+
+<a href="https://url.com" title="https://url.com">https://url.com</a> is a nice place
+
+email <a href="mailto:hello@url.com" title="hello@url.com">hello@url.com</a> now
+
+<a href="mailto:info@url.com" title="info@url.com">info@url.com</a> to contact

@@ -16,3 +16,11 @@ A [link to something][linkOne] from [something else][linkTwo]. A [bad link][link
 [linkOne]: url.com "Title One"
 [linkTwo]: !link-two "Title Two"
 [linkThree]: #link-two
+
+Go to http://url.com now!
+
+https://url.com is a nice place
+
+email hello@url.com now
+
+info@url.com to contact

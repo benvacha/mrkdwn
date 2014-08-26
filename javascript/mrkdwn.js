@@ -269,7 +269,7 @@ var mrkdwn = {
         // square brackets square brackets >> <a></a>
         // square brackets round brackets >> <a></a>
         // single or double square brackets >> <a></a>
-        links: function(markdown, runtimeDefinitions) {
+        links: function(markdown, runtimeDefinitions, disableAutoLinks) {
             var defs = (runtimeDefinitions) ? runtimeDefinitions : {},
                 buildTag = function(text, value) {
                     // if no value, return unaltered text
@@ -318,6 +318,13 @@ var mrkdwn = {
                     value = text.replace(/_/g, '/');
                 return whitespace + buildTag(shown, value);
             });
+            // find, replace absolute urls and email address
+            if(!disableAutoLinks) {
+                // find, replace absolute links
+                markdown = markdown.replace(/(\s)(http[s]?:\/\/\S+?\.\S+?)\b/g, '$1<a href="$2" title="$2">$2</a>');
+                // find, replace email addresses
+                markdown = markdown.replace(/(\s)([^\s"\(\),:;<>@\[\]\\]+?\@\S+?\.\S+?)\b/g, '$1<a href="mailto:$2" title="$2">$2</a>');
+            }
             //
             return markdown;
         },
@@ -325,17 +332,6 @@ var mrkdwn = {
         /*
          *
         */
-        
-        // absolute links >> <a></a>
-        // email addresses >> <a></a>
-        autoLinks: function(markdown) {
-            // find, replace absolute links
-            markdown = markdown.replace(/(\s)(http[s]?:\/\/.*?)(\s)/g, '$1<a href="$2" title="$2">$2</a>$3');
-            // find, replace email addresses
-            markdown = markdown.replace(/(\s)([\w._-]+?\@[\w._-]+?\.[\w._-]+?)(\s)/g, '$1<a href="mailto:$2" title="$2">$2</a>$3');
-            //
-            return markdown;
-        },
         
         // === >> <h1><a></a></h1>
         // --- >> <h2><a></a><h2>

@@ -452,7 +452,7 @@ All list types may be nested in each other.
 
 ### Automatic Links
 * Absolute urls and email addresses will be automatically markuped to a tags.
-* Links must be surrounded by whitespace.
+* Links must be preceeded by whitespace.
 
 ##### mrkdwn
 ```
@@ -811,7 +811,7 @@ Markup Notes and Tracking
 - ~~citations~~
 - ~~notes~~
 - ~~links~~
-- auto links
+- ~~auto links~~
 - headers
 - horizontal rule
 - phrase formatting
