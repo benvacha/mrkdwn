@@ -81,7 +81,7 @@ var mrkdwn = {
         codesSamples: function(markdown, noSamples) {
             // TODO: if noSamples, markup all matches as code
             var asciiEncode = function(str) {
-                return str.replace(/([^\w\s&#;])/g, function(match, specialChar) {
+                return str.replace(/([^\w\s])/g, function(match, specialChar) {
                     return '&#' + specialChar.charCodeAt() + ';';
                 });
             };
@@ -342,6 +342,7 @@ var mrkdwn = {
         // ### >> <h#><a></a><h#>
         headers: function(markdown, linkPrefix, disableAutoLinks) {
             var linkPrefix = (linkPrefix) ? linkPrefix : '',
+                // TODO: cache names, if name is not unique append -uniqueNumber
                 buildTag = function(hNum, name, content) {
                     if(disableAutoLinks) return '<h' + hNum + '>' + content + '</h' + hNum + '>';
                     return '<h' + hNum + '><a name="' + linkPrefix + name.replace(' ', '-').toLowerCase() + 
