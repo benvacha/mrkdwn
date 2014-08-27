@@ -36,10 +36,10 @@ var mrkdwn = {
         
         // change all syntax to markup
         all: function(markdown) {
-            markdown = mrkdwn.markup.escapedChars(markdown);
-            markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.codesSamples(markdown);
             markdown = mrkdwn.markup.metas(markdown);
+            markdown = mrkdwn.markup.escapedChars(markdown);
+            markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
             markdown = mrkdwn.markup.images(markdown);
@@ -53,6 +53,8 @@ var mrkdwn = {
             markdown = mrkdwn.markup.blockquotes(markdown);
             markdown = mrkdwn.markup.details(markdown);
             markdown = mrkdwn.markup.lists(markdown);
+            //markdown = mrkdwn.markup.tables(markdown);
+            //markdown = mrkdwn.markup.paragraphs(markdown);
             return markdown;
         },
         
@@ -468,6 +470,7 @@ var mrkdwn = {
         // : >> <dl></dl>
         lists: function(markdown) {
             // TODO: markup nested lists
+            // TODO: markup task lists
             // find, replace ul and ol lists, treat everything as one level
             markdown = markdown.replace(/\n([\t ]*?)(\d+)?(-|\.)(-|\.)?(\<)? (.*)/g, function(match, space, number, marker, ender, accordian, content) {
                 ender = (ender) ? '<!-- -->' : '';
@@ -494,6 +497,26 @@ var mrkdwn = {
             markdown = markdown.replace(/\n<\/(?:ul|ol|dl)>(\s{0,2})<(?:ul|ol|dl).*?>\n/g, '$1');
             //
             return markdown;
+        },
+        
+        // >> <table></table>
+        tables: function(markdown) {
+            // TODO: implement tables
+        },
+        
+        // text followed by blank line >> <p></p>
+        paragraphs: function(markdown) {
+            // TODO: harden this very liquid attempt
+            markdown = '\n' + markdown + '\n\n';
+            // find, markup paragraphs
+            markdown = markdown.replace(/\n([^\n][\S\s]+?)(?=\n\n)/g, function(match, content) {
+                if(content.search(/^<\/?(ul|ol|li|h|p|bl)/) > -1) {
+                    return match;
+                }
+                return '\n<p>' + content.replace(/\n/g, '<br />') + '</p>';
+            });
+            //
+            return markdown.substring(1, markdown.length - 2);
         }
         
     },
