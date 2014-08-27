@@ -12,6 +12,7 @@ One Markdown To Rule Them All
 Proposed Syntax
 ---------------
 
+
 ### Backslash Escaped Characters
 * Any non whitespace character can be escaped with `\` to markup the ascii representation and remove its mrkdwn meaning.
 * Applied to escaped characters anywhere, without exception.
@@ -24,6 +25,7 @@ Proposed Syntax
 ```
 &#42;Actual asterisk surrounded text&#42;
 ```
+
 
 ### Comments
 * Pairs of three or more `/` will be removed from markup.
@@ -62,8 +64,11 @@ Comment Block
 Comment out three  slashes
 ```
 
+
 ### Paragraphs
-Text followed by a blank line or block syntax will be wrapped in a paragraph. Line returns without following whitespace will be treated as breaks within a single paragraph.
+* Text followed by a blank line or block syntax will be wrapped in a paragraph.
+* Line returns without following whitespace will be treated as breaks within a single paragraph.
+
 ##### mrkdwn
 ```
 The first paragraph
@@ -71,7 +76,7 @@ The first paragraph
 This is one paragraph
 with a manual break inserted
 ```
-##### html
+##### markup
 ```
 <p>The first paragraph</p>
 
@@ -253,7 +258,11 @@ Header 2
 
 
 ### Unordered List
-Unordered lists must be denoted using `-`, `*` and `+` will not be translated to unordered lists. Multiple line list items will be translated into paragraphs. `--` can be used to signify the end of a list to prevent translation errors.
+* Unordered lists must use `-`; `*` and `+` will not be markuped to unordered lists. 
+* Multiple line list items will be translated into paragraphs.
+* `--` can be used to signify the end of a list to prevent translation errors.
+* Two or more blank lines between list items will be markuped as two seperate lists.
+
 ##### mrkdwn
 ```
 - Item
@@ -268,7 +277,7 @@ Unordered lists must be denoted using `-`, `*` and `+` will not be translated to
 -- Item
 
 ```
-##### html
+##### markup
 ```
 <ul>
   <li>Item</li>
@@ -290,8 +299,14 @@ Unordered lists must be denoted using `-`, `*` and `+` will not be translated to
 </ul>
 ```
 
+
 ### Ordered List
-Numbering does not need to be unique or sequential. The first number will be used as the starting value of the list. Multiple line list items will be translated into paragraphs. A number with `..` instead of `.` can be used to signify the end of a list to prevent translation errors.
+* Numbering does not need to be unique or sequential.
+* The first number will be used as the starting value of the list.
+* Multiple line list items will be translated into paragraphs.
+* A number with `..` instead of `.` can be used to signify the end of a list to prevent translation errors.
+* Two or more blank lines between list items will be markuped as two seperate lists.
+
 ##### mrkdwn
 ```
 1. One
@@ -302,7 +317,7 @@ Numbering does not need to be unique or sequential. The first number will be use
 34. Fifty One
 25. Fifty Two
 ```
-##### html
+##### markup
 ```
 <ol>
   <li>One</li>
@@ -317,8 +332,10 @@ Numbering does not need to be unique or sequential. The first number will be use
 </ol>
 ```
 
+
 ### Task List
-Task lists can be used as ordered or unordered lists, and follow their respective syntax.
+* Task lists can be used with ordered or unordered lists, and follow their respective syntax.
+
 ##### mrkdwn
 ```
 - [ ] Task 1
@@ -328,7 +345,7 @@ Task lists can be used as ordered or unordered lists, and follow their respectiv
   2. [x] Sub Task 2
   3. [ ] Sub Task 3
 ```
-##### html
+##### markup
 ```
 <ul>
   <li><input type="checkbox" /> Task 1</li>
@@ -343,8 +360,10 @@ Task lists can be used as ordered or unordered lists, and follow their respectiv
 </ul>
 ```
 
+
 ### Accordian List
-Accordians can be used on ordered or unordered lists, and follow their respective syntax.
+* Accordians can be used with ordered or unordered lists, and follow their respective syntax.
+
 ##### mrkdwn
 ```
 -< Visible
@@ -354,7 +373,7 @@ Accordians can be used on ordered or unordered lists, and follow their respectiv
     - Hidden
   2. Item
 ```
-##### html
+##### markup
 ```
 <ul>
   <li class="accordian">Visible
@@ -374,8 +393,11 @@ Accordians can be used on ordered or unordered lists, and follow their respectiv
 </ul>
 ```
 
+
 ### Definition List
-A term may have multiple definitions. Multiple line list items will be translated into paragraphs.
+* A term may have multiple definitions.
+* Multiple line list items will be translated into paragraphs.
+
 ##### mrkdwn
 ```
 : Term One
@@ -384,7 +406,7 @@ A term may have multiple definitions. Multiple line list items will be translate
   : Definition One
   : Definition Two
 ```
-##### html
+##### markup
 ```
 <dl>
   <dt>Term One</dt>
@@ -395,8 +417,10 @@ A term may have multiple definitions. Multiple line list items will be translate
 </dl>
 ```
 
+
 ### Nested Lists
-All list types may be nested in each other.
+* All list types may be nested in each other.
+
 ##### mrkdwn
 ```
 - Item
@@ -408,7 +432,7 @@ All list types may be nested in each other.
     2. Two
 - Item
 ```
-##### html
+##### markup
 ```
 <ul>
   <li>Item
@@ -731,7 +755,7 @@ Encase <samp> &#96;ticks&#96; </samp>
 sample output
 '''''
 ```
-###### markup
+##### markup
 ```
 <pre><samp>
 &gt; Output from a bash script
@@ -744,7 +768,9 @@ sample output
 
 
 ### Table
-Tables must have preceeding and proceeding `|`. Column text lengths do not need to be equal between columns or rows.
+* Tables must have preceeding and proceeding `|`.
+* Column text lengths do not need to be equal between columns or rows.
+
 ##### mrkdwn
 ```
 | Header One | Header Two |
@@ -755,7 +781,7 @@ Tables must have preceeding and proceeding `|`. Column text lengths do not need 
 | :--- | :----: | ----: |
 | Content    |   Content  |    Content |
 ```
-##### html
+##### markup
 ```
 <table>
   <thead>
@@ -851,12 +877,7 @@ Markup Notes and Tracking
 - ~~phrase formatting~~
 - ~~blockquote~~
 - ~~detail~~
-- list
-  - unordered list
-  - ordered list
-  - accordian
-  - task list
-  - definition list
+- ~~list~~
 - table
 - paragraphs
 

@@ -166,6 +166,10 @@ var testFiles = {
     details: {
         markdown: 'details.markdown',
         markup: 'details.markup'
+    },
+    lists: {
+        markdown: 'lists.markdown',
+        markup: 'lists.markup'
     }
 }
 
@@ -298,6 +302,13 @@ var tests = {
         var markdown = utils.readFile(testFiles.details.markdown),
             markup = utils.readFile(testFiles.details.markup);
         return jsdiff.diffChars(markup, mrkdwn.markup.details(markdown));
+    },
+    
+    // test mrkdwn.markup.lists(markdown)
+    lists: function() {
+        var markdown = utils.readFile(testFiles.lists.markdown),
+            markup = utils.readFile(testFiles.lists.markup);
+        return jsdiff.diffChars(markup, mrkdwn.markup.lists(markdown));
     }
     
 };

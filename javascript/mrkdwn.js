@@ -52,6 +52,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.phraseFormattings(markdown);
             markdown = mrkdwn.markup.blockquotes(markdown);
             markdown = mrkdwn.markup.details(markdown);
+            markdown = mrkdwn.markup.lists(markdown);
             return markdown;
         },
         
@@ -462,38 +463,35 @@ var mrkdwn = {
             return markdown;
         },
         
-        /*
-         *
-        */
-        
         // - >> <ul></ul>
         // #. >> <ol></ol>
         // : >> <dl></dl>
         lists: function(markdown) {
-            // find, replace nested lists
-            // TODO: add custom or dynamic indentSpaceCount
-            // TODO: better document this recursive nightmare
-            // TODO: better find and document edge cases
-            var n = 10, indentSpaceCount = 1,
-                onMatch = function(match, space, number, marker, ender, accordian, content) {
-                    if(space.length) {
-                        content = onMatch(match, space.substring(indentSpaceCount), number, marker, '', accordian, content);
-                    }
-                    ender = (ender) ? '<!-- -->' : '';
-                    accordian = (accordian) ? ' class="accordian"' : '';
-                    if(marker === '-') {
-                        return '<ul><li' + accordian + '>' + content + '</li></ul>' + ender;
-                    } else {
-                        number = (number)? ' start="' + number + '"' : '';
-                        return '<ol' + number + '><li' + accordian + '>' + content + '</li></ol>' + ender;
-                    }
-                };
-            markdown = markdown.replace(/([\t ]*)(\d+)?(-|\.)(-|\.)?(\<)? ?(.*)/g, onMatch);
-            //
-            while(markdown.search(/<\/(?:ul|ol)>(?:<\/li>)?(\s*?)(?:<li.*?>)?<(?:ul|ol).*?>/g) > -1 && n--) {
-                markdown = markdown.replace(/<\/(?:ul|ol)>(?:<\/li>)?(\s*?)(?:<li.*?>)?<(?:ul|ol).*?>/g, '$1');
-            }
-            markdown = markdown.replace(/<\/li>(\s*?)<li.*?>(<(?:ul|ol).*?>)/g, '$1$2');
+            // TODO: markup nested lists
+            // find, replace ul and ol lists, treat everything as one level
+            markdown = markdown.replace(/\n([\t ]*?)(\d+)?(-|\.)(-|\.)?(\<)? (.*)/g, function(match, space, number, marker, ender, accordian, content) {
+                ender = (ender) ? '<!-- -->' : '';
+                accordian = (accordian) ? ' class="accordian"' : '';
+                //
+                if(marker === '-') {
+                    return '\n<ul>\n<li' + accordian + '>' + content + '</li>\n</ul>' + ender;
+                } else {
+                    number = (number)? ' start="' + number + '"' : '';
+                    return '\n<ol' + number + '>\n<li' + accordian + '>' + content + '</li>\n</ol>' + ender;
+                }
+            });
+            // find, replace dl lists, cannot be nested
+            markdown = markdown.replace(/\n([\t ]*?)\:(\:)? (.*)/g, function(match, space, ender, content) {
+                ender = (ender) ? '<!-- -->' : '';
+                //
+                if(space.length) {
+                    return '\n<dl>\n<dd>' + content + '</dd>\n</dl>' + ender;
+                } else {
+                    return '\n<dl>\n<dt>' + content + '</dt>\n</dl>' + ender;
+                }
+            });
+            // clean up first level lists
+            markdown = markdown.replace(/\n<\/(?:ul|ol|dl)>(\s{0,2})<(?:ul|ol|dl).*?>\n/g, '$1');
             //
             return markdown;
         }
