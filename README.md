@@ -9,9 +9,37 @@ One Markdown To Rule Them All
 
 ---
 
-Proposed Syntax
+Current Syntax
 ---------------
 
+* [Backslash Escaped Characters](#backslash-escaped-characters)
+* [Comments](#comments)
+* [Paragraphs](#paragraphs)
+* [Phrase Formattings](#phrase-formattings)
+* [Headers](#headers)
+* [Horizontal Rules](#horizontal-rules)
+* [Blockquotes](#blockquotes)
+* [Details](#details)
+* [Unordered Lists](#unordered-lists)
+* [Ordered Lists](#ordered-lists)
+* [Task Lists](#task-lists)
+* [Accordian Lists](#accordian-lists)
+* [Definition Lists](#definition-lists)
+* [Nested Lists](#nested-lists)
+* [Links](#links)
+* [Automatic Links](#automatic-links)
+* [Images](#images)
+* [Macros](#macros)
+* [Citations](#citations)
+* [Notes](#notes)
+* [Variables](#variables)
+* [Abbreviations](#abbreviations)
+* [Inline Codes](#inline-codes)
+* [Block Pre Codes](#block-pre-codes)
+* [Inline Samples](#inline-samples)
+* [Block Pre Samples](#block-pre-samples)
+* [Tables](#tables)
+* [Metas](#metas)
 
 ### Backslash Escaped Characters
 * Any non whitespace character can be escaped with `\` to markup the ascii representation and remove its mrkdwn meaning.
@@ -85,7 +113,7 @@ with a manual break inserted</p>
 ```
 
 
-### Phrase Formatting
+### Phrase Formattings
 * Phrase formatting can be nested inside of any other syntax, except code or sample blocks.
 * Phrase formatting is only translated when both starting and ending syntax is found in the same line.
 * Phrase formatting can be inside of words, with the exception of underline.
@@ -181,7 +209,7 @@ Header 2
 ```
 
 
-### Blockquote
+### Blockquotes
 * Blockquotes can be nested as needed and can contain any other syntax. 
 * `>>` can be used to signify the end of a blockquote, including nested blockquotes, to avoid translation errors.
 * Two are more blank lines between blockquote lines will markup the lines as difference blockquotes.
@@ -257,7 +285,7 @@ Header 2
 ```
 
 
-### Unordered List
+### Unordered Lists
 * Unordered lists must use `-`; `*` and `+` will not be markuped to unordered lists. 
 * Multiple line list items will be translated into paragraphs.
 * `--` can be used to signify the end of a list to prevent translation errors.
@@ -300,7 +328,7 @@ Header 2
 ```
 
 
-### Ordered List
+### Ordered Lists
 * Numbering does not need to be unique or sequential.
 * The first number will be used as the starting value of the list.
 * Multiple line list items will be translated into paragraphs.
@@ -333,7 +361,7 @@ Header 2
 ```
 
 
-### Task List
+### Task Lists
 * Task lists can be used with ordered or unordered lists, and follow their respective syntax.
 
 ##### mrkdwn
@@ -361,7 +389,7 @@ Header 2
 ```
 
 
-### Accordian List
+### Accordian Lists
 * Accordians can be used with ordered or unordered lists, and follow their respective syntax.
 
 ##### mrkdwn
@@ -394,7 +422,7 @@ Header 2
 ```
 
 
-### Definition List
+### Definition Lists
 * A term may have multiple definitions.
 * Multiple line list items will be translated into paragraphs.
 
@@ -675,7 +703,7 @@ The <abbr title="Main Standard">Primary Standard</abbr> is good
 ```
 
 
-### Inline Code
+### Inline Codes
 * Pairs of one or more backticks on the same line will be markuped to code tags. 
 * Pairs of n backticks can contain groups of less than n backticks.
 * Most special characters, except `& # ;`, are markuped to their ascii representation.
@@ -693,7 +721,7 @@ Encase <code> &#96;ticks&#96; </code>
 ```
 
 
-### Block Pre Code
+### Block Pre Codes
 * Pairs of three or more backticks at the start of a line and not on the same line will be markuped to pre and code tags. 
 * Pairs of n backticks can contain groups of less than n backticks.
 * Most special characters, except `& # ;`, are markuped to their ascii representation.
@@ -721,7 +749,7 @@ Encase <code> &#96;ticks&#96; </code>
 ```
 
 
-### Inline Sample
+### Inline Samples
 * Pairs of one or more backticks on the same line with a `!` will be markuped to samp tags. 
 * Pairs of n backticks can contain groups of less than n backticks.
 * Most special characters, except `& # ;`, are markuped to their ascii representation.
@@ -739,7 +767,7 @@ Encase <samp> &#96;ticks&#96; </samp>
 ```
 
 
-### Block Pre Sample
+### Block Pre Samples
 * Pairs of three or more backticks with a `!` at the start of a line and not on the same line will be markuped to pre and samp tags. 
 * Pairs of n backticks can contain groups of less than n backticks.
 * Most special characters, except `& # ;`, are markuped to their ascii representation.
@@ -767,7 +795,7 @@ sample output
 ```
 
 
-### Table
+### Tables
 * Tables must have preceeding and proceeding `|`.
 * Column text lengths do not need to be equal between columns or rows.
 
@@ -817,7 +845,7 @@ sample output
 ```
 
 
-### Meta
+### Metas
 * `{{{ }}}` will be treated as meta data (sematic data) and can be retrieved and used for machine magic.
 * `{{{ }}}` will be removed from markup and not parsed.
 * `{{{! }}}` will be parsed and markuped as an html comment.
@@ -853,33 +881,6 @@ sample output
 ```
 
 ```
-
----
-
-Markup Notes and Tracking
--------------------------
-
-- ~~escaped characters~~
-- ~~comments~~
-- ~~inline and block code~~
-- ~~inline and block sample~~
-- ~~meta~~
-- ~~variables~~
-- ~~abbreviations~~
-- ~~images~~
-- ~~macros~~
-- ~~citations~~
-- ~~notes~~
-- ~~links~~
-- ~~auto links~~
-- ~~headers~~
-- ~~horizontal rule~~
-- ~~phrase formatting~~
-- ~~blockquote~~
-- ~~detail~~
-- ~~list~~
-- table
-- paragraphs
 
 
 
