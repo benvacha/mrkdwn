@@ -57,9 +57,9 @@ Current Syntax
 
 ### Comments
 - Pairs of three or more `/` will be removed from markup.
-- Pairs of three or more '/' with a '!' will be markuped to a html comment.
+- Pairs of three or more `/` with a `!` will be markuped to a html comment.
 - Can be applied inline or block.
-- Pairs of n or more '/' can be used to comment n - 1 '/'
+- Pairs of n or more `/` can be used to comment n - 1 `/`
 - Applied anywhere, without exception
 
 ###### mrkdwn
@@ -193,7 +193,7 @@ Header 2
 
 ### Horizontal Rules
 - Three or more `-` or `- ` on a line, alone, preceeded by a blank line, will create a horizontal rule. 
-- '*' is not valid horizontal rule syntax.
+- `*` is not valid horizontal rule syntax.
 
 ###### mrkdwn
 ```
