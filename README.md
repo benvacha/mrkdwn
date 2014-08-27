@@ -12,38 +12,38 @@ One Markdown To Rule Them All
 Current Syntax
 ---------------
 
-* [Backslash Escaped Characters](#backslash-escaped-characters)
-* [Comments](#comments)
-* [Paragraphs](#paragraphs)
-* [Phrase Formattings](#phrase-formattings)
-* [Headers](#headers)
-* [Horizontal Rules](#horizontal-rules)
-* [Blockquotes](#blockquotes)
-* [Details](#details)
-* [Unordered Lists](#unordered-lists)
-* [Ordered Lists](#ordered-lists)
-* [Task Lists](#task-lists)
-* [Accordian Lists](#accordian-lists)
-* [Definition Lists](#definition-lists)
-* [Nested Lists](#nested-lists)
-* [Links](#links)
-* [Automatic Links](#automatic-links)
-* [Images](#images)
-* [Macros](#macros)
-* [Citations](#citations)
-* [Notes](#notes)
-* [Variables](#variables)
-* [Abbreviations](#abbreviations)
-* [Inline Codes](#inline-codes)
-* [Block Pre Codes](#block-pre-codes)
-* [Inline Samples](#inline-samples)
-* [Block Pre Samples](#block-pre-samples)
-* [Tables](#tables)
-* [Metas](#metas)
+- [Backslash Escaped Characters](#backslash-escaped-characters)
+- [Comments](#comments)
+- [Paragraphs](#paragraphs)
+- [Phrase Formattings](#phrase-formattings)
+- [Headers](#headers)
+- [Horizontal Rules](#horizontal-rules)
+- [Blockquotes](#blockquotes)
+- [Details](#details)
+- [Unordered Lists](#unordered-lists)
+- [Ordered Lists](#ordered-lists)
+- [Task Lists](#task-lists)
+- [Accordian Lists](#accordian-lists)
+- [Definition Lists](#definition-lists)
+- [Nested Lists](#nested-lists)
+- [Links](#links)
+- [Automatic Links](#automatic-links)
+- [Images](#images)
+- [Macros](#macros)
+- [Citations](#citations)
+- [Notes](#notes)
+- [Variables](#variables)
+- [Abbreviations](#abbreviations)
+- [Inline Codes](#inline-codes)
+- [Block Pre Codes](#block-pre-codes)
+- [Inline Samples](#inline-samples)
+- [Block Pre Samples](#block-pre-samples)
+- [Tables](#tables)
+- [Metas](#metas)
 
 ### Backslash Escaped Characters
-* Any non whitespace character can be escaped with `\` to markup the ascii representation and remove its mrkdwn meaning.
-* Applied to escaped characters anywhere, without exception.
+- Any non whitespace character can be escaped with `\` to markup the ascii representation and remove its mrkdwn meaning.
+- Applied to escaped characters anywhere, without exception.
 
 ###### mrkdwn
 ```
@@ -56,11 +56,11 @@ Current Syntax
 
 
 ### Comments
-* Pairs of three or more `/` will be removed from markup.
-* Pairs of three or more '/' with a '!' will be markuped to a html comment.
-* Can be applied inline or block.
-* Pairs of n or more '/' can be used to comment n - 1 '/'
-* Applied anywhere, without exception
+- Pairs of three or more `/` will be removed from markup.
+- Pairs of three or more '/' with a '!' will be markuped to a html comment.
+- Can be applied inline or block.
+- Pairs of n or more '/' can be used to comment n - 1 '/'
+- Applied anywhere, without exception
 
 ###### mrkdwn
 ```
@@ -94,8 +94,8 @@ Comment out three  slashes
 
 
 ### Paragraphs
-* Text followed by a blank line or block syntax will be wrapped in a paragraph.
-* Line returns without following whitespace will be treated as breaks within a single paragraph.
+- Text followed by a blank line or block syntax will be wrapped in a paragraph.
+- Line returns without following whitespace will be treated as breaks within a single paragraph.
 
 ###### mrkdwn
 ```
@@ -114,10 +114,10 @@ with a manual break inserted</p>
 
 
 ### Phrase Formattings
-* Phrase formatting can be nested inside of any other syntax, except code or sample blocks.
-* Phrase formatting is only translated when both starting and ending syntax is found in the same line.
-* Phrase formatting can be inside of words, with the exception of underline.
-* Opening phrase formatting followed by whitespace will not be translated as phrase formatting.
+- Phrase formatting can be nested inside of any other syntax, except code or sample blocks.
+- Phrase formatting is only translated when both starting and ending syntax is found in the same line.
+- Phrase formatting can be inside of words, with the exception of underline.
+- Opening phrase formatting followed by whitespace will not be translated as phrase formatting.
 
 ###### mrkdwn
 ```
@@ -144,8 +144,8 @@ put a * in the **
 
 
 ### Headers
-* Headers are automatically given internal anchor links based on header text, or can be manually defined.
-* Trailing `#` will not be translated.
+- Headers are automatically given internal anchor links based on header text, or can be manually defined.
+- Trailing `#` will not be translated.
 
 ###### mrkdwn
 ```
@@ -192,8 +192,8 @@ Header 2
 
 
 ### Horizontal Rules
-* Three or more `-` or `- ` on a line, alone, preceeded by a blank line, will create a horizontal rule. 
-* '*' is not valid horizontal rule syntax.
+- Three or more `-` or `- ` on a line, alone, preceeded by a blank line, will create a horizontal rule. 
+- '*' is not valid horizontal rule syntax.
 
 ###### mrkdwn
 ```
@@ -210,10 +210,10 @@ Header 2
 
 
 ### Blockquotes
-* Blockquotes can be nested as needed and can contain any other syntax. 
-* `>>` can be used to signify the end of a blockquote, including nested blockquotes, to avoid translation errors.
-* Two are more blank lines between blockquote lines will markup the lines as difference blockquotes.
-* Blockquotes can be nested a max of 10 times.
+- Blockquotes can be nested as needed and can contain any other syntax. 
+- `>>` can be used to signify the end of a blockquote, including nested blockquotes, to avoid translation errors.
+- Two are more blank lines between blockquote lines will markup the lines as difference blockquotes.
+- Blockquotes can be nested a max of 10 times.
 
 ###### mrkdwn
 ```
@@ -263,10 +263,10 @@ Header 2
 
 
 ### Details
-* The first line of a details must include `!` and will always be used as its summary.
-* `<<` can be used to signify the end of a details, including nested details, to avoid translation errors. 
-* Two are more blank lines between details lines will markup the lines as difference details.
-* Detail blocks can be nested up to 10 times and can contain any other syntax.
+- The first line of a details must include `!` and will always be used as its summary.
+- `<<` can be used to signify the end of a details, including nested details, to avoid translation errors. 
+- Two are more blank lines between details lines will markup the lines as difference details.
+- Detail blocks can be nested up to 10 times and can contain any other syntax.
 
 ###### mrkdwn
 ```
@@ -286,10 +286,10 @@ Header 2
 
 
 ### Unordered Lists
-* Unordered lists must use `-`; `*` and `+` will not be markuped to unordered lists. 
-* Multiple line list items will be translated into paragraphs.
-* `--` can be used to signify the end of a list to prevent translation errors.
-* Two or more blank lines between list items will be markuped as two seperate lists.
+- Unordered lists must use `-`; `*` and `+` will not be markuped to unordered lists. 
+- Multiple line list items will be translated into paragraphs.
+- `--` can be used to signify the end of a list to prevent translation errors.
+- Two or more blank lines between list items will be markuped as two seperate lists.
 
 ###### mrkdwn
 ```
@@ -329,11 +329,11 @@ Header 2
 
 
 ### Ordered Lists
-* Numbering does not need to be unique or sequential.
-* The first number will be used as the starting value of the list.
-* Multiple line list items will be translated into paragraphs.
-* A number with `..` instead of `.` can be used to signify the end of a list to prevent translation errors.
-* Two or more blank lines between list items will be markuped as two seperate lists.
+- Numbering does not need to be unique or sequential.
+- The first number will be used as the starting value of the list.
+- Multiple line list items will be translated into paragraphs.
+- A number with `..` instead of `.` can be used to signify the end of a list to prevent translation errors.
+- Two or more blank lines between list items will be markuped as two seperate lists.
 
 ###### mrkdwn
 ```
@@ -362,7 +362,7 @@ Header 2
 
 
 ### Task Lists
-* Task lists can be used with ordered or unordered lists, and follow their respective syntax.
+- Task lists can be used with ordered or unordered lists, and follow their respective syntax.
 
 ###### mrkdwn
 ```
@@ -390,7 +390,7 @@ Header 2
 
 
 ### Accordian Lists
-* Accordians can be used with ordered or unordered lists, and follow their respective syntax.
+- Accordians can be used with ordered or unordered lists, and follow their respective syntax.
 
 ###### mrkdwn
 ```
@@ -423,8 +423,8 @@ Header 2
 
 
 ### Definition Lists
-* A term may have multiple definitions.
-* Multiple line list items will be translated into paragraphs.
+- A term may have multiple definitions.
+- Multiple line list items will be translated into paragraphs.
 
 ###### mrkdwn
 ```
@@ -447,7 +447,7 @@ Header 2
 
 
 ### Nested Lists
-* All list types may be nested in each other.
+- All list types may be nested in each other.
 
 ###### mrkdwn
 ```
@@ -485,21 +485,21 @@ Header 2
 
 
 ### Links
-* `[linked text](url title)` will be markuped to a tags.
-* `[linked text][linkReference]` will be markuped to a tags.
-* `[url]` or `[email]` will be markuped to a tags.
-  * Must contain atleast one non-whitespace character
-* `[[url]]` or `[[email]]` will be parsed on `_` and will be markuped to a tags.
-  * Must contain atlease one non-whitespace character
-* `[linkReference]: url title` will be removed from markup, but used to define a link reference.
-  * Must be at start of new line.
-  * Cannot be on first line.
-* Links must be surrounded by whitespace, and cannot be at the start of the first line or end of the last line.
-* Urls can be absolute or relative, and will be automatically uri encoded.
-* Urls containing whitespace should be wrapped in quotes.
-* Urls beginning with `!` will define an anchor.
-* Urls beginning with `#` will link to an anchor.
-* Title is optional, and linked text will be used if not explicitly defined.
+- `[linked text](url title)` will be markuped to a tags.
+- `[linked text][linkReference]` will be markuped to a tags.
+- `[url]` or `[email]` will be markuped to a tags.
+  - Must contain atleast one non-whitespace character
+- `[[url]]` or `[[email]]` will be parsed on `_` and will be markuped to a tags.
+  - Must contain atlease one non-whitespace character
+- `[linkReference]: url title` will be removed from markup, but used to define a link reference.
+  - Must be at start of new line.
+  - Cannot be on first line.
+- Links must be surrounded by whitespace, and cannot be at the start of the first line or end of the last line.
+- Urls can be absolute or relative, and will be automatically uri encoded.
+- Urls containing whitespace should be wrapped in quotes.
+- Urls beginning with `!` will define an anchor.
+- Urls beginning with `#` will link to an anchor.
+- Title is optional, and linked text will be used if not explicitly defined.
 
 ###### mrkdwn
 ```
@@ -537,8 +537,8 @@ Header 2
 
 
 ### Automatic Links
-* Absolute urls and email addresses will be automatically markuped to a tags.
-* Links must be preceeded by whitespace.
+- Absolute urls and email addresses will be automatically markuped to a tags.
+- Links must be preceeded by whitespace.
 
 ###### mrkdwn
 ```
@@ -555,12 +555,12 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 
 
 ### Images
-* `![alt text](url title width height)` will be markuped to img tags.
-* `![alt text][imageReference]` will be markuped to img tags.
-* `![imageReference]: url title width height` will be removed from markup, but will define an image.
-* urls can be absolute or relative.
-* title, width, and height are optional.
-* Usage of an undefined imageReference will be markuped to img tags with only alt text.
+- `![alt text](url title width height)` will be markuped to img tags.
+- `![alt text][imageReference]` will be markuped to img tags.
+- `![imageReference]: url title width height` will be removed from markup, but will define an image.
+- urls can be absolute or relative.
+- title, width, and height are optional.
+- Usage of an undefined imageReference will be markuped to img tags with only alt text.
 
 ###### mrkdwn
 ```
@@ -580,13 +580,13 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 
 
 ### Macros
-* `%[alt text](macro arg1 ...)` will be markuped depending on the macro.
-* `%[alt text][macroReference]` will be markuped depending on the macro.
-* `%[macroReference]: macro arg1 ...` will be removed from markup, but will define a macro.
-* Macros can be used to embed video, other media, or custom markups.
-* Usage of an undefined or invalid macroReference will be markuped to the alt text.
-* The first argument must be the macro name. 
-* Any number and type of arguments can be included after the first argument depending on the macro.
+- `%[alt text](macro arg1 ...)` will be markuped depending on the macro.
+- `%[alt text][macroReference]` will be markuped depending on the macro.
+- `%[macroReference]: macro arg1 ...` will be removed from markup, but will define a macro.
+- Macros can be used to embed video, other media, or custom markups.
+- Usage of an undefined or invalid macroReference will be markuped to the alt text.
+- The first argument must be the macro name. 
+- Any number and type of arguments can be included after the first argument depending on the macro.
 
 ###### mrkdwn
 ```
@@ -604,15 +604,15 @@ varied based on macro
 
 
 ### Citations
-* `@[citationReference]` will be markuped to a superscript numbered anchor linked to the citation in page.
-* `@citationReference` will be markuped to a superscript numbered anchor linked to the citation in page.
-* `@[citationReference]: type arg1 ...` will be markuped depending on type, and will define a citation.
-* Citation references must be placed together in the document where they should be displayed and will be translated as a list. 
-* Citation reference names must begin with an alphanumeric character, contain no spaces, and are case sensative. 
-* Citations are automatically numbered based on list order. 
-* Any number and type of arguments can be included after the first argument depending on the citation type.
-* If the first argument in a citation reference is a known type of citation its arguments will be used to autoformat a citation in MLA. 
-* If the first argument is not a known citation type, the string will be used directly.
+- `@[citationReference]` will be markuped to a superscript numbered anchor linked to the citation in page.
+- `@citationReference` will be markuped to a superscript numbered anchor linked to the citation in page.
+- `@[citationReference]: type arg1 ...` will be markuped depending on type, and will define a citation.
+- Citation references must be placed together in the document where they should be displayed and will be translated as a list. 
+- Citation reference names must begin with an alphanumeric character, contain no spaces, and are case sensative. 
+- Citations are automatically numbered based on list order. 
+- Any number and type of arguments can be included after the first argument depending on the citation type.
+- If the first argument in a citation reference is a known type of citation its arguments will be used to autoformat a citation in MLA. 
+- If the first argument is not a known citation type, the string will be used directly.
 
 ###### mrkdwn
 ```
@@ -637,12 +637,12 @@ This sentence is way less trustworthy<sup class="citation"><a href="#cite-2" tit
 
 
 ### Notes
-* `&[noteReference]` will be markuped to a superscript numbered anchor linked to the note in page.
-* `&noteReference` will be markuped to a superscript numbered anchor linked to the note in page.
-* `&[noteReference]: note text` will be markuped as a list, and will define a citation.
-* Note references must be placed together in the document where they should be displayed and will be translated as a list.
-* Note reference names must begin with an alphanumeric character, contain no spaces, and are case sensative. 
-* Notes are automatically numbered based on list order.
+- `&[noteReference]` will be markuped to a superscript numbered anchor linked to the note in page.
+- `&noteReference` will be markuped to a superscript numbered anchor linked to the note in page.
+- `&[noteReference]: note text` will be markuped as a list, and will define a citation.
+- Note references must be placed together in the document where they should be displayed and will be translated as a list.
+- Note reference names must begin with an alphanumeric character, contain no spaces, and are case sensative. 
+- Notes are automatically numbered based on list order.
 
 ###### mrkdwn
 ```
@@ -666,11 +666,11 @@ This sentence also needs a note<sup class="note"><a href="#note-2" title="note t
 
 
 ### Variables
-* `$[variableName]` will be markuped to the variable value, or variable name if definition not found
-* `$[variableName]: variable value` will be removed from markup, but used to define a variable
-* Variable definitions can be anywhere in the markdown and will be markuped before any variable usage
-* Variable definitions are case sensative
-* Duplicate variable definitions will overwrite previous values
+- `$[variableName]` will be markuped to the variable value, or variable name if definition not found
+- `$[variableName]: variable value` will be removed from markup, but used to define a variable
+- Variable definitions can be anywhere in the markdown and will be markuped before any variable usage
+- Variable definitions are case sensative
+- Duplicate variable definitions will overwrite previous values
 
 ###### mrkdwn
 `Current version $[variable]`  
@@ -682,11 +682,11 @@ Current version value
 
 
 ### Abbreviations
-* Defined abbreviations used in text are automatically markuped and do not need special markdown
-* `$[abbreviation]: full` will be removed from markup, but used to define an abbreviation
-* Abbreviation definitions can be anywhere in the markdown and will be markuped before any usage
-* Abbreviation definitions are case sensative and can contain multiple words and spaces
-* Duplicate abbreviation definitions will overwrite previous values
+- Defined abbreviations used in text are automatically markuped and do not need special markdown
+- `$[abbreviation]: full` will be removed from markup, but used to define an abbreviation
+- Abbreviation definitions can be anywhere in the markdown and will be markuped before any usage
+- Abbreviation definitions are case sensative and can contain multiple words and spaces
+- Duplicate abbreviation definitions will overwrite previous values
 
 ###### mrkdwn
 ```
@@ -704,10 +704,10 @@ The <abbr title="Main Standard">Primary Standard</abbr> is good
 
 
 ### Inline Codes
-* Pairs of one or more backticks on the same line will be markuped to code tags. 
-* Pairs of n backticks can contain groups of less than n backticks.
-* Most special characters, except `& # ;`, are markuped to their ascii representation.
-* Must contain at least one whitespace or non backtick character.
+- Pairs of one or more backticks on the same line will be markuped to code tags. 
+- Pairs of n backticks can contain groups of less than n backticks.
+- Most special characters, except `& # ;`, are markuped to their ascii representation.
+- Must contain at least one whitespace or non backtick character.
 
 ###### mrkdwn
 ```
@@ -722,10 +722,10 @@ Encase <code> &#96;ticks&#96; </code>
 
 
 ### Block Pre Codes
-* Pairs of three or more backticks at the start of a line and not on the same line will be markuped to pre and code tags. 
-* Pairs of n backticks can contain groups of less than n backticks.
-* Most special characters, except `& # ;`, are markuped to their ascii representation.
-* Text on the same line as the opening backticks will be markuped as class on the code tag.
+- Pairs of three or more backticks at the start of a line and not on the same line will be markuped to pre and code tags. 
+- Pairs of n backticks can contain groups of less than n backticks.
+- Most special characters, except `& # ;`, are markuped to their ascii representation.
+- Text on the same line as the opening backticks will be markuped as class on the code tag.
 
 ###### mrkdwn
 ```
@@ -750,10 +750,10 @@ Encase <code> &#96;ticks&#96; </code>
 
 
 ### Inline Samples
-* Pairs of one or more backticks on the same line with a `!` will be markuped to samp tags. 
-* Pairs of n backticks can contain groups of less than n backticks.
-* Most special characters, except `& # ;`, are markuped to their ascii representation.
-* Must contain at least one whitespace or non backtick character.
+- Pairs of one or more backticks on the same line with a `!` will be markuped to samp tags. 
+- Pairs of n backticks can contain groups of less than n backticks.
+- Most special characters, except `& # ;`, are markuped to their ascii representation.
+- Must contain at least one whitespace or non backtick character.
 
 ###### mrkdwn
 ```
@@ -768,10 +768,10 @@ Encase <samp> &#96;ticks&#96; </samp>
 
 
 ### Block Pre Samples
-* Pairs of three or more backticks with a `!` at the start of a line and not on the same line will be markuped to pre and samp tags. 
-* Pairs of n backticks can contain groups of less than n backticks.
-* Most special characters, except `& # ;`, are markuped to their ascii representation.
-* Text on the same line as the opening backticks will be markuped as class on the samp tag.
+- Pairs of three or more backticks with a `!` at the start of a line and not on the same line will be markuped to pre and samp tags. 
+- Pairs of n backticks can contain groups of less than n backticks.
+- Most special characters, except `& # ;`, are markuped to their ascii representation.
+- Text on the same line as the opening backticks will be markuped as class on the samp tag.
 
 ###### mrkdwn
 ```
@@ -796,8 +796,8 @@ sample output
 
 
 ### Tables
-* Tables must have preceeding and proceeding `|`.
-* Column text lengths do not need to be equal between columns or rows.
+- Tables must have preceeding and proceeding `|`.
+- Column text lengths do not need to be equal between columns or rows.
 
 ###### mrkdwn
 ```
@@ -846,15 +846,15 @@ sample output
 
 
 ### Metas
-* `{{{ }}}` will be treated as meta data (sematic data) and can be retrieved and used for machine magic.
-* `{{{ }}}` will be removed from markup and not parsed.
-* `{{{! }}}` will be parsed and markuped as an html comment.
-* Meta can be used inline or block.
-* Applied anywhere, without exception.
-* Meta parser
-  * `( )` can be used to define an array. 
-  * `[ ]` can be used to define a json-ish data structure. 
-  * Whitespace is used for parsing and is otherwise ignored.
+- `{{{ }}}` will be treated as meta data (sematic data) and can be retrieved and used for machine magic.
+- `{{{ }}}` will be removed from markup and not parsed.
+- `{{{! }}}` will be parsed and markuped as an html comment.
+- Meta can be used inline or block.
+- Applied anywhere, without exception.
+- Meta parser
+  - `( )` can be used to define an array. 
+  - `[ ]` can be used to define a json-ish data structure. 
+  - Whitespace is used for parsing and is otherwise ignored.
 
 ###### mrkdwn
 ```
