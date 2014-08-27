@@ -54,7 +54,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.details(markdown);
             markdown = mrkdwn.markup.lists(markdown);
             //markdown = mrkdwn.markup.tables(markdown);
-            //markdown = mrkdwn.markup.paragraphs(markdown);
+            markdown = mrkdwn.markup.paragraphs(markdown);
             return markdown;
         },
         
@@ -509,10 +509,11 @@ var mrkdwn = {
             // TODO: harden this very liquid attempt
             markdown = '\n' + markdown + '\n\n';
             // find, markup paragraphs
-            markdown = markdown.replace(/\n([^\n][\S\s]+?)(?=\n\n)/g, function(match, content) {
-                if(content.search(/^<\/?(ul|ol|li|h|p|bl)/) > -1) {
-                    return match;
-                }
+            // blocklist = blockquote code dd details dl dt embed h1 hr iframe li 
+            //             object ol p pre samp summary table tbody td th thead tr ul
+            // blockRegex = bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul
+            var regex = /\n(?!<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul)|\n)([\S\s]+?)(?=\n\n|\n<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul))/g;
+            markdown = markdown.replace(regex, function(match, content) {
                 return '\n<p>' + content.replace(/\n/g, '<br />') + '</p>';
             });
             //
