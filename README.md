@@ -45,11 +45,11 @@ Current Syntax
 * Any non whitespace character can be escaped with `\` to markup the ascii representation and remove its mrkdwn meaning.
 * Applied to escaped characters anywhere, without exception.
 
-##### mrkdwn
+###### mrkdwn
 ```
 \*Actual asterisk surrounded text\*
 ```
-##### markup
+###### markup
 ```
 &#42;Actual asterisk surrounded text&#42;
 ```
@@ -62,7 +62,7 @@ Current Syntax
 * Pairs of n or more '/' can be used to comment n - 1 '/'
 * Applied anywhere, without exception
 
-##### mrkdwn
+###### mrkdwn
 ```
 Hide /// the comment /// from this sentence.
 
@@ -78,7 +78,7 @@ Comment block
 
 Comment out three //// /// //// slashes
 ```
-##### markup
+###### markup
 ```
 Hide  from this sentence.
 
@@ -97,14 +97,14 @@ Comment out three  slashes
 * Text followed by a blank line or block syntax will be wrapped in a paragraph.
 * Line returns without following whitespace will be treated as breaks within a single paragraph.
 
-##### mrkdwn
+###### mrkdwn
 ```
 The first paragraph
 
 This is one paragraph
 with a manual break inserted
 ```
-##### markup
+###### markup
 ```
 <p>The first paragraph</p>
 
@@ -119,7 +119,7 @@ with a manual break inserted</p>
 * Phrase formatting can be inside of words, with the exception of underline.
 * Opening phrase formatting followed by whitespace will not be translated as phrase formatting.
 
-##### mrkdwn
+###### mrkdwn
 ```
 *bold*  **strong**  ***emphasis***
 ~italic~  ~~strikethrough~~  ~~~mark~~~~
@@ -130,7 +130,7 @@ some_file_name
 some_file_ name
 put a * in the **
 ```
-##### markup
+###### markup
 ```
 <em>emphasis</em>  <b>bold</b>  <strong>strong</strong>
 <i>italic</i>  <mark>mark</mark>  <strike>strikethrough</strike>
@@ -147,7 +147,7 @@ put a * in the **
 * Headers are automatically given internal anchor links based on header text, or can be manually defined.
 * Trailing `#` will not be translated.
 
-##### mrkdwn
+###### mrkdwn
 ```
 Header 1
 ========
@@ -169,7 +169,7 @@ Header 2
 
 ##(!anchor) Header 2
 ```
-##### markup
+###### markup
 ```
 <h1><a name="header-1">Header 1</a></h1>
 
@@ -195,14 +195,14 @@ Header 2
 * Three or more `-` or `- ` on a line, alone, preceeded by a blank line, will create a horizontal rule. 
 * '*' is not valid horizontal rule syntax.
 
-##### mrkdwn
+###### mrkdwn
 ```
 
 ---
 
 - - - - - - - -
 ```
-##### markup
+###### markup
 ```
 <hr>
 <hr>
@@ -215,7 +215,7 @@ Header 2
 * Two are more blank lines between blockquote lines will markup the lines as difference blockquotes.
 * Blockquotes can be nested a max of 10 times.
 
-##### mrkdwn
+###### mrkdwn
 ```
 > Paragraph one
 > 
@@ -233,7 +233,7 @@ Header 2
 > >> level two again
 > > level two, but not the same as the above line
 ```
-##### markup
+###### markup
 ```
 <blockquote>
   <p>Paragraph one</p>
@@ -268,14 +268,14 @@ Header 2
 * Two are more blank lines between details lines will markup the lines as difference details.
 * Detail blocks can be nested up to 10 times and can contain any other syntax.
 
-##### mrkdwn
+###### mrkdwn
 ```
 <! summary
 < Paragaph One
 <
 < Second Paragraph
 ```
-##### markup
+###### markup
 ```
 <details>
   <summary>summary</summary>
@@ -291,7 +291,7 @@ Header 2
 * `--` can be used to signify the end of a list to prevent translation errors.
 * Two or more blank lines between list items will be markuped as two seperate lists.
 
-##### mrkdwn
+###### mrkdwn
 ```
 - Item
 - Item
@@ -305,7 +305,7 @@ Header 2
 -- Item
 
 ```
-##### markup
+###### markup
 ```
 <ul>
   <li>Item</li>
@@ -335,7 +335,7 @@ Header 2
 * A number with `..` instead of `.` can be used to signify the end of a list to prevent translation errors.
 * Two or more blank lines between list items will be markuped as two seperate lists.
 
-##### mrkdwn
+###### mrkdwn
 ```
 1. One
 2. Two
@@ -345,7 +345,7 @@ Header 2
 34. Fifty One
 25. Fifty Two
 ```
-##### markup
+###### markup
 ```
 <ol>
   <li>One</li>
@@ -364,7 +364,7 @@ Header 2
 ### Task Lists
 * Task lists can be used with ordered or unordered lists, and follow their respective syntax.
 
-##### mrkdwn
+###### mrkdwn
 ```
 - [ ] Task 1
 - [x] Task 2
@@ -373,7 +373,7 @@ Header 2
   2. [x] Sub Task 2
   3. [ ] Sub Task 3
 ```
-##### markup
+###### markup
 ```
 <ul>
   <li><input type="checkbox" /> Task 1</li>
@@ -392,7 +392,7 @@ Header 2
 ### Accordian Lists
 * Accordians can be used with ordered or unordered lists, and follow their respective syntax.
 
-##### mrkdwn
+###### mrkdwn
 ```
 -< Visible
   - Hidden
@@ -401,7 +401,7 @@ Header 2
     - Hidden
   2. Item
 ```
-##### markup
+###### markup
 ```
 <ul>
   <li class="accordian">Visible
@@ -426,7 +426,7 @@ Header 2
 * A term may have multiple definitions.
 * Multiple line list items will be translated into paragraphs.
 
-##### mrkdwn
+###### mrkdwn
 ```
 : Term One
   : Definition
@@ -434,7 +434,7 @@ Header 2
   : Definition One
   : Definition Two
 ```
-##### markup
+###### markup
 ```
 <dl>
   <dt>Term One</dt>
@@ -449,7 +449,7 @@ Header 2
 ### Nested Lists
 * All list types may be nested in each other.
 
-##### mrkdwn
+###### mrkdwn
 ```
 - Item
   1. One
@@ -460,7 +460,7 @@ Header 2
     2. Two
 - Item
 ```
-##### markup
+###### markup
 ```
 <ul>
   <li>Item
@@ -501,7 +501,7 @@ Header 2
 * Urls beginning with `#` will link to an anchor.
 * Title is optional, and linked text will be used if not explicitly defined.
 
-##### mrkdwn
+###### mrkdwn
 ```
 [text](url)
 [text](url "Title")
@@ -518,7 +518,7 @@ Header 2
 [#anchor]
 [[parsed_url#anchor]]
 ```
-##### markup
+###### markup
 ```
 <a href="url">text</a>
 <a href="url" title="Title">text</a>
@@ -540,13 +540,13 @@ Header 2
 * Absolute urls and email addresses will be automatically markuped to a tags.
 * Links must be preceeded by whitespace.
 
-##### mrkdwn
+###### mrkdwn
 ```
 Go to index.html
 Go to http://url.com
 Email addr@email.com
 ```
-##### markup
+###### markup
 ```
 Go to index.html
 Go to <a href="http://url.com">http://url.com</a>
@@ -562,7 +562,7 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 * title, width, and height are optional.
 * Usage of an undefined imageReference will be markuped to img tags with only alt text.
 
-##### mrkdwn
+###### mrkdwn
 ```
 ![alt text](url title width height)
 ![alt text](url "Title" 350px 100%)
@@ -570,7 +570,7 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 ![alt text][reference]
 ![reference]: url "Title" width height
 ```
-##### markup
+###### markup
 ```
 <img src="url" title="title" alt="alt text" />
 <img src="url" title="Title" alt="alt text" width="350px" height="100%" />
@@ -588,14 +588,14 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 * The first argument must be the macro name. 
 * Any number and type of arguments can be included after the first argument depending on the macro.
 
-##### mrkdwn
+###### mrkdwn
 ```
 %[alt text](macro arg1 arg2 arg3 ...)
 
 %[alt text][reference]
 %[reference]: macro arg1 arg2 arg3 arg4
 ```
-##### markup
+###### markup
 ```
 varied based on macro
 
@@ -614,7 +614,7 @@ varied based on macro
 * If the first argument in a citation reference is a known type of citation its arguments will be used to autoformat a citation in MLA. 
 * If the first argument is not a known citation type, the string will be used directly.
 
-##### mrkdwn
+###### mrkdwn
 ```
 This sentence is from something trustworthy @[refOne]. 
 This sentence is way less trustworthy @refTwo.
@@ -623,7 +623,7 @@ This sentence is way less trustworthy @refTwo.
 @[refTwo]: type arg1 arg2 arg3
 @[refThree]: A preformated citation
 ```
-##### markup
+###### markup
 ```
 This sentence is from something trustworthy<sup class="citation"><a href="#cite-1" title="bibliography">1</a></sup>. 
 This sentence is way less trustworthy<sup class="citation"><a href="#cite-2" title="bibliography">2</a></sup>.
@@ -644,7 +644,7 @@ This sentence is way less trustworthy<sup class="citation"><a href="#cite-2" tit
 * Note reference names must begin with an alphanumeric character, contain no spaces, and are case sensative. 
 * Notes are automatically numbered based on list order.
 
-##### mrkdwn
+###### mrkdwn
 ```
 This sentence needs a note &[refOne]. 
 This sentence also needs a note &refTwo. 
@@ -653,7 +653,7 @@ This sentence gets a fancy note &[refTwo].
 &[refOne]: note text
 &[refTwo]: note text
 ```
-##### markup
+###### markup
 ```
 This sentence needs a note<sup class="note"><a href="#note-1" title="note text">1</a></sup>. 
 This sentence also needs a note<sup class="note"><a href="#note-2" title="note text">2</a></sup>.
@@ -672,10 +672,10 @@ This sentence also needs a note<sup class="note"><a href="#note-2" title="note t
 * Variable definitions are case sensative
 * Duplicate variable definitions will overwrite previous values
 
-##### mrkdwn
+###### mrkdwn
 `Current version $[variable]`  
 `$[variable]: value`
-##### markup
+###### markup
 ```
 Current version value
 ```
@@ -688,7 +688,7 @@ Current version value
 * Abbreviation definitions are case sensative and can contain multiple words and spaces
 * Duplicate abbreviation definitions will overwrite previous values
 
-##### mrkdwn
+###### mrkdwn
 ```
 The HTML specification
 The Primary Standard is good
@@ -696,7 +696,7 @@ The Primary Standard is good
 +[HTML]: Hyper Text Markup Language
 +[Primary Standard]: Main Standard
 ```
-##### markup
+###### markup
 ```
 The <abbr title="Hyper Text Markup Language">HTML</abbr> specification
 The <abbr title="Main Standard">Primary Standard</abbr> is good
@@ -709,12 +709,12 @@ The <abbr title="Main Standard">Primary Standard</abbr> is good
 * Most special characters, except `& # ;`, are markuped to their ascii representation.
 * Must contain at least one whitespace or non backtick character.
 
-##### mrkdwn
+###### mrkdwn
 ```
 The `<body></body>` tags
 Encase `` `ticks` ``
 ```
-##### markup
+###### markup
 ```
 The <code>&lt;body&gt;&lt;/body&gt;</code> tags
 Encase <code> &#96;ticks&#96; </code>
@@ -727,7 +727,7 @@ Encase <code> &#96;ticks&#96; </code>
 * Most special characters, except `& # ;`, are markuped to their ascii representation.
 * Text on the same line as the opening backticks will be markuped as class on the code tag.
 
-##### mrkdwn
+###### mrkdwn
 ```
 '''
 <body></body>
@@ -737,7 +737,7 @@ Encase <code> &#96;ticks&#96; </code>
 <body></body>
 ''''
 ```
-##### markup
+###### markup
 ```
 <pre><code>
 &lt;body&gt;&lt;/body&gt;
@@ -755,12 +755,12 @@ Encase <code> &#96;ticks&#96; </code>
 * Most special characters, except `& # ;`, are markuped to their ascii representation.
 * Must contain at least one whitespace or non backtick character.
 
-##### mrkdwn
+###### mrkdwn
 ```
 The `!<body></body>` tags
 Encase ``! `ticks` ``
 ```
-##### markup
+###### markup
 ```
 The <samp>&lt;body&gt;&lt;/body&gt;</samp> tags
 Encase <samp> &#96;ticks&#96; </samp>
@@ -773,7 +773,7 @@ Encase <samp> &#96;ticks&#96; </samp>
 * Most special characters, except `& # ;`, are markuped to their ascii representation.
 * Text on the same line as the opening backticks will be markuped as class on the samp tag.
 
-##### mrkdwn
+###### mrkdwn
 ```
 '''!
 > Output from a bash script
@@ -783,7 +783,7 @@ Encase <samp> &#96;ticks&#96; </samp>
 sample output
 '''''
 ```
-##### markup
+###### markup
 ```
 <pre><samp>
 &gt; Output from a bash script
@@ -799,7 +799,7 @@ sample output
 * Tables must have preceeding and proceeding `|`.
 * Column text lengths do not need to be equal between columns or rows.
 
-##### mrkdwn
+###### mrkdwn
 ```
 | Header One | Header Two |
 | ---------- | ---------- |
@@ -809,7 +809,7 @@ sample output
 | :--- | :----: | ----: |
 | Content    |   Content  |    Content |
 ```
-##### markup
+###### markup
 ```
 <table>
   <thead>
@@ -856,7 +856,7 @@ sample output
   * `[ ]` can be used to define a json-ish data structure. 
   * Whitespace is used for parsing and is otherwise ignored.
 
-##### mrkdwn
+###### mrkdwn
 ```
 {{{ pageTitle "The page title" }}}
 {{{ author (
@@ -877,7 +877,7 @@ sample output
 {{{ isA Object url }}}
 {{{ hasA Object url }}}
 ```
-##### markup
+###### markup
 ```
 
 ```
