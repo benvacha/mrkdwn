@@ -882,6 +882,105 @@ sample output
 
 ```
 
+### Spans
+- `((text))` will be markuped to span tags.
+- Spans must start and end on the same line.
+- Spans can be used inside any other syntax.
+- Spans can be used within words.
+
+###### mrkdwn
+```
+Put a span ((around this text)).
+
+something((SpannedUp))
+```
+###### markup
+```
+Put a span <span>around this text</span>
+
+something<span>SpannedUp</span>
+```
+
+
+### Classes
+- `<<class>>` can be added to any other syntax to add a css class to its markup.
+- Classes can define more than one class.
+
+###### mrkdwn
+```
+#<<class>> Header
+
+---<<class>>
+
+-<<class>> Item
+- Item
+
+[linked text](url title)<<classOne classTwo>>
+
+How about ((some styled text))<<class>>!
+
+<<classOne classTwo>>A paragraph with some classes
+```
+###### markup
+```
+<h1 class="class"><a name="header">Header</a></h1>
+
+<hr class="class" />
+
+<ul class="class">
+<li>
+Item
+</li>
+<li>
+Item
+</li>
+</ul>
+
+<a href="url" title="title" class="classOne classTwo">linked text</a>
+
+How about <span class="class">some styled text</span>!
+
+<p class="classOne classTwo">
+A paragraph with some classes
+</p>
+```
+
+---
+
+Javascript Errata, Bugs, and Future
+-----------------------------------
+These are observed errata, bugs, and future plans for the javascript (node) implementation of mrkdwn. All of these will be resolved as soon as possible.
+
+- Most syntax fails to markup when on the last or first line.
+  - All syntax should markup correctly anywhere.
+- Headers markup incorrectly if on consecutive lines.
+  - Blank lines shouldn't matter.
+- Automatic header anchors are not unique.
+  - Headers with the same text markup the same anchor.
+  - Should consecutively number non-unique anchors.
+- Lists cannot be nested.
+  - Nested lists are markuped as a single level.
+- List items cannot be on more than one line. 
+  - Multiple line items force a new list.
+  - Should be markuped to multiple paragraphs in same list.
+- Explore allowing `*` and `+` as list identifiers
+- Task Lists are not implemented.
+- Tables are not implemented.
+- Metas are barely implemented.
+  - Does not do any parsing.
+  - Does not insert comment.
+- Spans are not implemented.
+- Classes are not implemented.
+
+
+
+
+
+
+
+
+
+
 
 
 
