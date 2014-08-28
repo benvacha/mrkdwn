@@ -9,6 +9,14 @@ One Markdown To Rule Them All
 
 ---
 
+Table of Contents
+-----------------
+
+- [Current Syntax](#current-syntax)
+- [Javascript Errata, Bugs, and Future](#javascript-errata-bugs-and-future)
+
+---
+
 Current Syntax
 ---------------
 
@@ -40,6 +48,8 @@ Current Syntax
 - [Block Pre Samples](#block-pre-samples)
 - [Tables](#tables)
 - [Metas](#metas)
+- [Spans](#spans)
+- [Classes](#classes)
 
 ### Backslash Escaped Characters
 - Any non whitespace character can be escaped with `\` to markup the ascii representation and remove its mrkdwn meaning.
