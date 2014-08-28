@@ -14,7 +14,7 @@
         }
         .io {
             position:relative; margin:0px; width:100%;
-            height:100%; padding:25px 25px 50px 25px;
+            height:100%; padding:25px 25px 25px 25px;
         }
         .io fieldset {
             position:relative; float:left; margin:0px;
@@ -53,17 +53,13 @@
             <legend id="preview-legend">preview</legend>
             <div id="preview"></div>
         </fieldset>
-        <input type="submit" value="Translate" onclick="markupMarkdown();" />
     </form>
     
     <script type="text/javascript">
         // common elements
         var markdown = document.getElementById('markdown'),
-            markdownLegend = document.getElementById('markdown-legend'),
             markup = document.getElementById('markup'),
-            markupLegend = document.getElementById('markup-legend'),
             preview = document.getElementById('preview'),
-            previewLegend = document.getElementById('preview-legend'),
             storageKey = 'org.mrkdwn.demo.markdown';
         // set the markdown to the stored markdown value
         markdown.value = localStorage.getItem(storageKey);
@@ -71,21 +67,8 @@
         window.onbeforeunload = function(){
             localStorage.setItem(storageKey, markdown.value);
         };
-        // translate input on page load
-        markupMarkdown();
-        // get the html representation of the markdown value and put it in the markup and preview
-        function markupMarkdown() {
-            var html, start, end;
-            markup.value = '';
-            markupLegend.innerHTML = 'markuping...';
-            preview.innerHTML = '';
-            start = Date.now();
-            html = mrkdwn.markup.all(markdown.value);
-            end = Date.now();
-            markup.value = html;
-            markupLegend.innerHTML = 'markup : ' + (end - start) + ' ms';
-            preview.innerHTML = html;
-        }
+        // start live markup
+        mrkdwn.live.markup(markdown, markup, preview);
     </script>
     
 </body>

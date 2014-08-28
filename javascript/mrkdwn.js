@@ -588,7 +588,35 @@ var mrkdwn = {
             return str.match(/([^"' ]|\s)*\w(?="|')|[^"' ]+/g);
         }
         
+    },
+    
+    /*
+     *
+     */
+    
+    live: {
+        
+        // mrkdwn.markup.all markdownTextarea text on call and when text changes
+        // put the markuped text into markupTextarea and previewElement if defined
+        markup: function(markdownTextarea, markupTextarea, previewElement, errorMessage) {
+            var markupAll = function() {
+                var markup = (errorMessage) ? errorMessage : 'Error Markuping Input'; 
+                if(markdownTextarea) markup = mrkdwn.markup.all(markdownTextarea.value);
+                if(markupTextarea) markupTextarea.value = markup;
+                if(previewElement) previewElement.innerHTML = markup;
+            }
+            if(markdownTextarea) {
+                if(markdownTextarea.addEventListener) {
+                    markdownTextarea.addEventListener('input', markupAll, false);
+                } else if(markdownTextarea.attachEvent) {
+                    markdownTextarea.attachEvent('onpropertychange', markupAll);
+                }
+            }
+            markupAll();
+        }
+        
     }
+    
 };
 
 /*

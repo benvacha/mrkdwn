@@ -12,8 +12,40 @@ One Markdown To Rule Them All
 Table of Contents
 -----------------
 
+- [Live Markup and Preview](#live-markup-and-preview)
 - [Current Syntax](#current-syntax)
 - [Javascript Errata, Bugs, and Future](#javascript-errata-bugs-and-future)
+
+---
+
+Live Markup and Preview
+-----------------------
+
+The javascript (browser and node.js) implementation of *mrkdwn* contains functionality to enable editing with live markup and live preview. Input from the markdown textarea is read on initiation and input change, markuped for all syntax, and output to the markup textarea and or preview element.
+
+###### html
+```
+<textarea id="markdown"></textarea>
+<textarea id="markup" disabled></textarea>
+<div id="preview"></div>
+```
+###### javascript
+```
+// get the elements
+var markdownTextarea = document.getElementById('markdown'),
+    markupTextarea = document.getElementById('markup'),
+    previewElement = document.getElementById('preview');
+// start live markup and output
+// will markup and ouput on init
+mrkdwn.live.markup(markdownTextarea, markupTextarea, previewElement);
+
+// markupTextarea can be omitted if not needed or used
+// mrkdwn.live.markup(markdownTextarea, null, previewElement);
+
+// previewElement can be omitted if not needed or used
+// mrkdwn.live.markup(markdownTextarea, markupTextarea);
+
+```
 
 ---
 
