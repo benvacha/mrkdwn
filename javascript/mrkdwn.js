@@ -507,18 +507,21 @@ var mrkdwn = {
         
         // text followed by blank line >> <p></p>
         paragraphs: function(markdown) {
-            // TODO: harden this very liquid attempt
-            markdown = '\n' + markdown + '\n\n';
-            // find, markup paragraphs
+            // add chars to ease regex requirements
+            markdown = '</pre>\n' + markdown + '\n\n<pre>';
+            // find all non pre text, then find and markup paragraphs
             // blocklist = blockquote code dd details dl dt embed h1 hr iframe li 
             //             object ol p pre samp summary table tbody td th thead tr ul
             // blockRegex = bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul
-            var regex = /\n(?!<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul)|\n)([\S\s]+?)(?=\n\n|\n<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul))/g;
-            markdown = markdown.replace(regex, function(match, content) {
-                return '\n<p>' + content.replace(/\n/g, '<br />') + '</p>';
+            var regex = /\n(?!<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul)|\n)([\S\s]+?)(?=\n\n|\n<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul))/g,
+                buildTags = function(match, content) {
+                    return '\n<p>' + content.replace(/\n/g, '<br />\n') + '</p>';
+                };
+            markdown = markdown.replace(/<\/pre>([\S\s]*?)<pre>/g, function(match, content) {
+                return '</pre>' + content.replace(regex, buildTags) + '<pre>';
             });
-            //
-            return markdown.substring(1, markdown.length - 2);
+            // remove added chars
+            return markdown.substring(7, markdown.length - 7);
         }
         
     },
