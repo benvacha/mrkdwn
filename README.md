@@ -1,11 +1,12 @@
-mrkdwn
-======
+[![mrkdwn](http://mrkdwn.org/brand/logo.png)](http://mrkdwn.org)
 
 One Markdown To Rule Them All
 
-**mrkdwn** combines the original markdown specification created by John Gruber, the latest and greatest flavors of markdown, and new syntax for semantic notation and improved machine readability. **mrkdwn** seeks to provide the most complete set of syntax while considering both backward compatibility and future need. While **mrkdwn** may stray from full backward compatability, it is with the goal of improving speed, reliability, and readability.
+**mrkdwn** combines the [original markdown specification](http://daringfireball.net/projects/markdown/) created by John Gruber, the latest and greatest flavors of markdown, and new syntax for semantic notation and improved machine readability. **mrkdwn** seeks to provide the most complete set of syntax while considering both backward compatibility and future need. While **mrkdwn** may stray from full backward compatability, it is with the goal of improving speed, reliability, and readability.
 
 **mrkdwn**'s ultimate goal is to the be the one markdown to rule them all, the one markdown to bring them all and in the darkness bind them. With this in mind, **mrkdwn** will work to provide translation packages in all major languages as well as GUI packages for live editing, including syntax highlighting and real time output.
+
+Try the live demo at [http://mrkdwn.org](http://mrkdwn.org)
 
 ---
 
