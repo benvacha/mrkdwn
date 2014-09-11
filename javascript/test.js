@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /* mrkdwn v0.1.0 : github.com/benvacha/mrkdwn */
 
 /* 
