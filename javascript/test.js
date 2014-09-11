@@ -9,27 +9,29 @@ Requires:
     colors : https://github.com/Marak/colors.js
     diff : https://github.com/kpdecker/jsdiff
 
+All Commands From Root (not javascript) Directory
+
 Initial Setup
     npm install colors
     npm install diff
     
 Run All Tests, prints pass or fail
-    node path/test.js path/test/
+    node javascript/test.js
     
 Run All Tests, prints pass or fail and diff
-    node path/test.js path/test/ -v
+    node javascript/test.js -v
     
 Run A Test, prints pass or fail
-    node path/test.js path/test/ testName
+    node javascript/test.js testName
     
 Run A Test, prints pass or fail and diff
-    node path/test.js path/test/ -v testName
+    node javascript/test.js -v testName
     
 Run Multiple Tests, prints pass or fail
-    node path/test.js path/test/ testName testName testName
+    node javascript/test.js testName testName testName
     
 Run Multiple Tests, prints pass or fail and diff
-    node path/test.js path/test/ -v testName testName testName
+    node javascript/test.js -v testName testName testName
 
 */
 
@@ -44,33 +46,18 @@ var fs = require('fs'),
     mrkdwn = require('./mrkdwn.js');
     
 // parse command line arguements
-var testDirectory = process.argv[2],
+var testDirectory = 'test/',
     verbose = false,
     testRuns = [];
-if(process.argv[3] && process.argv[3] === '-v') {
+if(process.argv[2] && process.argv[2] === '-v') {
     verbose = true;
-    for(var i=4; i<process.argv.length; i++) {
-        testRuns.push(process.argv[i]);
-    }
-} else {
     for(var i=3; i<process.argv.length; i++) {
         testRuns.push(process.argv[i]);
     }
-}
-
-// exit if missing or invalid test directory, ensure trailing slash
-if(!testDirectory) {
-    console.log('# Missing test directory');
-    console.log('# Usage: node path/test.js path/test/ [-v] [[[testName] testName] ...]');
-    process.exit();
-}
-if(testDirectory.charAt(testDirectory.length-1) !== '/') {
-    testDirectory += '/';
-}
-if(!fs.existsSync(testDirectory)) {
-    console.log('# Invalid test directory');
-    console.log('# Usage: node path/test.js path/test/ [-v] [[[testName] testName] ...]');
-    process.exit();
+} else {
+    for(var i=2; i<process.argv.length; i++) {
+        testRuns.push(process.argv[i]);
+    }
 }
 
 /*
