@@ -15,11 +15,20 @@ Initial Setup
 Run All Tests, prints pass or fail
     node path/test.js path/test/
     
-Run A Test, prints pass or fail and diff
+Run All Tests, prints pass or fail and diff
+    node path/test.js path/test/ -v
+    
+Run A Test, prints pass or fail
     node path/test.js path/test/ testName
     
-Run Multiple Tests, prints pass or fail and diff
+Run A Test, prints pass or fail and diff
+    node path/test.js path/test/ -v testName
+    
+Run Multiple Tests, prints pass or fail
     node path/test.js path/test/ testName testName testName
+    
+Run Multiple Tests, prints pass or fail and diff
+    node path/test.js path/test/ -v testName testName testName
 
 */
 
@@ -35,15 +44,23 @@ var fs = require('fs'),
     
 // parse command line arguements
 var testDirectory = process.argv[2],
+    verbose = false,
     testRuns = [];
-for(var i=3; i<process.argv.length; i++) {
-    testRuns.push(process.argv[i]);
+if(process.argv[3] && process.argv[3] === '-v') {
+    verbose = true;
+    for(var i=4; i<process.argv.length; i++) {
+        testRuns.push(process.argv[i]);
+    }
+} else {
+    for(var i=3; i<process.argv.length; i++) {
+        testRuns.push(process.argv[i]);
+    }
 }
 
 // exit if missing or invalid test directory, ensure trailing slash
 if(!testDirectory) {
     console.log('# Missing test directory');
-    console.log('# Usage: node path/test.js path/test/ [[[testName] testName] ...]');
+    console.log('# Usage: node path/test.js path/test/ [-v] [[[testName] testName] ...]');
     process.exit();
 }
 if(testDirectory.charAt(testDirectory.length-1) !== '/') {
@@ -51,7 +68,7 @@ if(testDirectory.charAt(testDirectory.length-1) !== '/') {
 }
 if(!fs.existsSync(testDirectory)) {
     console.log('# Invalid test directory');
-    console.log('# Usage: node path/test.js path/test/ [[[testName] testName] ...]');
+    console.log('# Usage: node path/test.js path/test/ [-v] [[[testName] testName] ...]');
     process.exit();
 }
 
@@ -71,25 +88,37 @@ var utils = {
         return fs.readFileSync(fileName, {encoding:'utf8'})
     },
     
-    // print if the test passed or failed, print color coded diff
-    printDiff: function(testName, diff) {
-        utils.printPassFail(testName, diff);
-        diff.forEach(function(part){
-            if(part.added || part.removed) {
-                part.value = part.value.replace(/ /g, '_');
-            }
-            process.stdout.write(part.value.replace(/\n/g, '\\n\n')[part.added ? 'green' : part.removed ? 'red' : 'grey']);
-        });
-        console.log('\n# End Test: ' + testName);
+    // load markdownFile and markupFile, run testMethod on the markdown, return diff
+    runTest: function(test) {
+        if(!test) return null;
+        var markdown = utils.readFile(test.markdown),
+            markup = utils.readFile(test.markup);
+        return jsdiff.diffChars(markup, test.method(markdown));
     },
     
     // print if the test passed or failed
     printPassFail: function(testName, diff) {
-        if(diff.length === 1) {
+        if(diff && diff.length === 1) {
             console.log('# Passed Test: ' + testName);
-        } else {
+        } else if(diff) {
             console.log('# Failed Test: ' + testName);
+        } else {
+            console.log('# Invalid Test: ' + testName);
         }
+    },
+    
+    // print if the test passed or failed, print color coded diff
+    printPassFailDiff: function(testName, diff) {
+        utils.printPassFail(testName, diff);
+        if(diff) {
+            diff.forEach(function(part){
+                if(part.added || part.removed) {
+                    part.value = part.value.replace(/ /g, '_');
+                }
+                process.stdout.write(part.value.replace(/\n/g, '\\n\n')[part.added ? 'green' : part.removed ? 'red' : 'grey']);
+            });
+        }
+        console.log('# End Test: ' + testName + '\n');
     }
     
 };
@@ -97,218 +126,13 @@ var utils = {
 /*
  *
 */
-
-var testFiles = {
-    escapedChars: {
-        markdown: 'escaped-chars.markdown',
-        markup: 'escaped-chars.markup'
-    },
-    comments: {
-        markdown: 'comments.markdown',
-        markup: 'comments.markup'
-    },
-    codes: {
-        markdown: 'codes.markdown',
-        markup: 'codes.markup'
-    },
-    samples: {
-        markdown: 'samples.markdown',
-        markup: 'samples.markup'
-    },
-    metas: {
-        markdown: 'metas.markdown',
-        markup: 'metas.markup'
-    },
-    variables: {
-        markdown: 'variables.markdown',
-        markup: 'variables.markup'
-    },
-    abbreviations: {
-        markdown: 'abbreviations.markdown',
-        markup: 'abbreviations.markup'
-    },
-    images: {
-        markdown: 'images.markdown',
-        markup: 'images.markup'
-    },
-    macros: {
-        markdown: 'macros.markdown',
-        markup: 'macros.markup'
-    },
-    citations: {
-        markdown: 'citations.markdown',
-        markup: 'citations.markup'
-    },
-    notes: {
-        markdown: 'notes.markdown',
-        markup: 'notes.markup'
-    },
-    links: {
-        markdown: 'links.markdown',
-        markup: 'links.markup'
-    },
-    headers: {
-        markdown: 'headers.markdown',
-        markup: 'headers.markup'
-    },
-    horizontalRules: {
-        markdown: 'horizontal-rules.markdown',
-        markup: 'horizontal-rules.markup'
-    },
-    phraseFormattings: {
-        markdown: 'phrase-formattings.markdown',
-        markup: 'phrase-formattings.markup'
-    },
-    blockquotes: {
-        markdown: 'blockquotes.markdown',
-        markup: 'blockquotes.markup'
-    },
-    details: {
-        markdown: 'details.markdown',
-        markup: 'details.markup'
-    },
-    lists: {
-        markdown: 'lists.markdown',
-        markup: 'lists.markup'
-    }
-}
 
 var tests = {
     
-    //
-    all: function() {
-        var testFile, markdown = '', markup = '';
-        for(testFile in testFiles) {
-            markdown += utils.readFile(testFiles[testFile].markdown),
-            markup += utils.readFile(testFiles[testFile].markup);
-        }
-        return jsdiff.diffChars(markup, mrkdwn.markup.all(markdown));
-    },
-    
-    // test mrkdwn.markup.escapedChars(markdown)
-    escapedChars: function() {
-        var markdown = utils.readFile(testFiles.escapedChars.markdown),
-            markup = utils.readFile(testFiles.escapedChars.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.escapedChars(markdown));
-    },
-    
-    // test mrkdwn.markup.comments(markdown)
-    comments: function() {
-        var markdown = utils.readFile(testFiles.comments.markdown),
-            markup = utils.readFile(testFiles.comments.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.comments(markdown));
-    },
-    
-    // test mrkdwn.markup.codesSamples(markdown)
-    codes: function() {
-        var markdown = utils.readFile(testFiles.codes.markdown),
-            markup = utils.readFile(testFiles.codes.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.codesSamples(markdown));
-    },
-    
-    // test mrkdwn.markup.codesSamples(markdown)
-    samples: function() {
-        var markdown = utils.readFile(testFiles.samples.markdown),
-            markup = utils.readFile(testFiles.samples.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.codesSamples(markdown));
-    },
-    
-    // test mrkdwn.markup.metas(markdown)
-    metas: function() {
-        var markdown = utils.readFile(testFiles.metas.markdown),
-            markup = utils.readFile(testFiles.metas.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.metas(markdown));
-    },
-    
-    // test mrkdwn.markup.variables(markdown)
-    variables: function() {
-        var markdown = utils.readFile(testFiles.variables.markdown),
-            markup = utils.readFile(testFiles.variables.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.variables(markdown));
-    },
-    
-    // test mrkdwn.markup.abbreviations(markdown)
-    abbreviations: function() {
-        var markdown = utils.readFile(testFiles.abbreviations.markdown),
-            markup = utils.readFile(testFiles.abbreviations.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.abbreviations(markdown));
-    },
-    
-    // test mrkdwn.markup.images(markdown)
-    images: function() {
-        var markdown = utils.readFile(testFiles.images.markdown),
-            markup = utils.readFile(testFiles.images.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.images(markdown));
-    },
-    
-    // test mrkdwn.markup.macros(markdown)
-    macros: function() {
-        var markdown = utils.readFile(testFiles.macros.markdown),
-            markup = utils.readFile(testFiles.macros.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.macros(markdown));
-    },
-    
-    // test mrkdwn.markup.citations(markdown)
-    citations: function() {
-        var markdown = utils.readFile(testFiles.citations.markdown),
-            markup = utils.readFile(testFiles.citations.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.citations(markdown));
-    },
-    
-    // test mrkdwn.markup.notes(markdown)
-    notes: function() {
-        var markdown = utils.readFile(testFiles.notes.markdown),
-            markup = utils.readFile(testFiles.notes.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.notes(markdown));
-    },
-    
-    // test mrkdwn.markup.links(markdown)
-    links: function() {
-        var markdown = utils.readFile(testFiles.links.markdown),
-            markup = utils.readFile(testFiles.links.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.links(markdown));
-    },
-    
-    // test mrkdwn.markup.headers(markdown)
-    headers: function() {
-        var markdown = utils.readFile(testFiles.headers.markdown),
-            markup = utils.readFile(testFiles.headers.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.headers(markdown));
-    },
-    
-    // test mrkdwn.markup.horizontalRules(markdown)
-    horizontalRules: function() {
-        var markdown = utils.readFile(testFiles.horizontalRules.markdown),
-            markup = utils.readFile(testFiles.horizontalRules.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.horizontalRules(markdown));
-    },
-    
-    // test mrkdwn.markup.phraseFormattings(markdown)
-    phraseFormattings: function() {
-        var markdown = utils.readFile(testFiles.phraseFormattings.markdown),
-            markup = utils.readFile(testFiles.phraseFormattings.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.phraseFormattings(markdown));
-    },
-    
-    // test mrkdwn.markup.blockquotes(markdown)
-    blockquotes: function() {
-        var markdown = utils.readFile(testFiles.blockquotes.markdown),
-            markup = utils.readFile(testFiles.blockquotes.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.blockquotes(markdown));
-    },
-    
-    // test mrkdwn.markup.details(markdown)
-    details: function() {
-        var markdown = utils.readFile(testFiles.details.markdown),
-            markup = utils.readFile(testFiles.details.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.details(markdown));
-    },
-    
-    // test mrkdwn.markup.lists(markdown)
-    lists: function() {
-        var markdown = utils.readFile(testFiles.lists.markdown),
-            markup = utils.readFile(testFiles.lists.markup);
-        return jsdiff.diffChars(markup, mrkdwn.markup.lists(markdown));
+    escapedChars: {
+        markdown: 'simple/escaped-chars.markdown',
+        markup: 'simple/escaped-chars.markup',
+        method: mrkdwn.markup.escapedChars
     }
     
 };
@@ -317,25 +141,27 @@ var tests = {
  *
 */
 
-// if tests specified, run just those and print pass or fail and diff
-// if no tests specified, run all tests and print pass or fail only
+// if tests specified, run just those
+// if no tests specified, run all tests
+// if verbose print pass or fail and diff
+// if not verbose print pass or fail
 var diff;
 if(testRuns.length) {
-    console.log('');
     for(var i=0; i<testRuns.length; i++) {
-        if(tests[testRuns[i]]) {
-            diff = tests[testRuns[i]]();
-            utils.printDiff(testRuns[i], diff);
+        diff = utils.runTest(tests[testRuns[i]]);
+        if(verbose) {
+            utils.printPassFailDiff(testRuns[i], diff);
         } else {
-            console.log('# Invalid Test: ' + testRuns[i]);
+            utils.printPassFail(testRuns[i], diff);
         }
-        console.log('');
     }
 } else {
-    console.log('');
-    for(var test in tests) {
-        diff = tests[test]();
-        utils.printPassFail(test, diff);
+    for(test in tests) {
+        diff = utils.runTest(tests[test]);
+        if(verbose) {
+            utils.printPassFailDiff(test, diff);
+        } else {
+            utils.printPassFail(test, diff);
+        }
     }
-    console.log('');
 }
