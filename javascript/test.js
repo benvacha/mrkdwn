@@ -49,15 +49,12 @@ var fs = require('fs'),
 var testDirectory = 'test/',
     verbose = false,
     testRuns = [];
-if(process.argv[2] && process.argv[2] === '-v') {
-    verbose = true;
-    for(var i=3; i<process.argv.length; i++) {
+for(var i=2; i<process.argv.length; i++) {
+    if(process.argv[i] === '-v') {
+        verbose = true;
+    } else {
         testRuns.push(process.argv[i]);
-    }
-} else {
-    for(var i=2; i<process.argv.length; i++) {
-        testRuns.push(process.argv[i]);
-    }
+    } 
 }
 
 /*
