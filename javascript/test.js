@@ -130,8 +130,8 @@ var utils = {
 var tests = {
     
     escapedChars: {
-        markdown: 'simple/escaped-chars.markdown',
-        markup: 'simple/escaped-chars.markup',
+        markdown: 'old/escaped-chars.markdown',
+        markup: 'old/escaped-chars.markup',
         method: mrkdwn.markup.escapedChars
     }
     
