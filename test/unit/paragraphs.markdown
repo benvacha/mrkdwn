@@ -18,6 +18,12 @@ This is a paragraph.
 This is not a paragraph.
 </pre>
 
+<!-- No Paragraph -->
+
+<!--
+No Paragraph
+-->
+
 This is a paragraph.
 
 

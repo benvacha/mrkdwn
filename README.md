@@ -139,7 +139,7 @@ Comment out three  slashes
 ### Paragraphs
 - Text preceeded and proceeded by a blank line or block syntax will be wrapped in a paragraph.
 - Line returns without following whitespace will be treated as breaks within a single paragraph.
-- Text within pre block syntax should not be markuped.
+- Text within pre block syntax or comment syntax should not be markuped.
 - A blank line is a line that appears to be blank. This includes lines with no characters, lines with only spaces and tabs, and the start and end of a file.
 
 ###### mrkdwn

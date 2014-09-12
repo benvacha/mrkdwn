@@ -505,25 +505,25 @@ var mrkdwn = {
             // TODO: implement tables
         },
         
-        // text preceeded and proceeded by blank line not in pre >> <p></p>
+        // text preceeded and proceeded by blank line not in pre or comment >> <p></p>
         // line return inside paragraph >> <br />
         // ** should be run as last markup **
         paragraphs: function(markdown) {
             // add chars to ease regex requirements
-            markdown = '</pre>\n' + markdown + '\n\n<pre>';
+            markdown = '--></pre>\n' + markdown + '\n\n<pre><!--';
             // find all non pre text, then find and markup paragraphs
             // blocklist = blockquote code dd details dl dt embed h1 hr iframe li 
             //             object ol p pre samp summary table tbody td th thead tr ul
-            // blockRegex = bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul
-            var regex = /\n(?!<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul)|\n)(?!\s*\n)([\S\s]+?)(?=\n\s*\n|\n<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul))/g,
+            // blockRegex = bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul|!
+            var regex = /\n(?!<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul|!)|\n)(?!\s*\n)([\S\s]+?)(?=\n\s*\n|\n<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul|!))/g,
                 buildTags = function(match, content) {
                     return '\n<p>\n' + content.replace(/\n/g, '\n<br />\n') + '\n</p>';
                 };
-            markdown = markdown.replace(/<\/pre>([\S\s]*?)<pre>/g, function(match, content) {
-                return '</pre>' + content.replace(regex, buildTags) + '<pre>';
+            markdown = markdown.replace(/(<\/pre>|-->)([\S\s]*?)(<pre>|<!--)/g, function(match, pre, content, post) {
+                return pre + content.replace(regex, buildTags) + post;
             });
             // remove added chars
-            return markdown.substring(7, markdown.length - 7);
+            return markdown.substring(10, markdown.length - 11);
         }
         
     },
