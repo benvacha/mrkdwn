@@ -141,6 +141,7 @@ Comment out three  slashes
 - Line returns without following whitespace will be treated as breaks within a single paragraph.
 - Text within pre block syntax or comment syntax should not be markuped.
 - A blank line is a line that appears to be blank. This includes lines with no characters, lines with only spaces and tabs, and the start and end of a file.
+- Note: diverges from daringfireball by not allowing "hard-wrapped" text paragraphs.
 
 ###### mrkdwn
 ```
