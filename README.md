@@ -733,11 +733,11 @@ Current version value
 
 
 ### Abbreviations
-- Defined abbreviations used in text are automatically markuped and do not need special markdown
-- `$[abbreviation]: full` will be removed from markup, but used to define an abbreviation
-- Abbreviation definitions can be anywhere in the markdown and will be markuped before any usage
-- Abbreviation definitions are case sensative and can contain multiple words and spaces
-- Duplicate abbreviation definitions will overwrite previous values
+- Defined abbreviations used in text are automatically markuped and do not need special markdown.
+- `$[abbreviation]: full` will be removed from markup, but used to define an abbreviation.
+- Abbreviation definitions can be anywhere in the markdown and will be markuped before any usage.
+- Abbreviation definitions are case sensative and can contain multiple words and spaces.
+- Duplicate abbreviation definitions will overwrite previous values.
 
 ###### mrkdwn
 ```
