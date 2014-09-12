@@ -129,6 +129,16 @@ var tests = {
         markup: 'unit/metas.markup',
         method: mrkdwn.markup.metas
     },
+    codes: {
+        markdown: 'unit/codes.markdown',
+        markup: 'unit/codes.markup',
+        method: mrkdwn.markup.codesSamples
+    },
+    samples: {
+        markdown: 'unit/samples.markdown',
+        markup: 'unit/samples.markup',
+        method: mrkdwn.markup.codesSamples
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',

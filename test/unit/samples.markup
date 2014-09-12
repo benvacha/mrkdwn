@@ -1,0 +1,51 @@
+<pre><samp>
+sample block
+</samp></pre>
+
+<samp>inline sample</samp>
+
+`! not
+inline sample `
+
+<samp> </samp> inline sample
+
+<samp> inline &#96; sample </samp>
+
+<samp> inline sample &#96;</samp>
+
+<samp>inline sample</samp> with normal text
+
+normal text with <samp>inline sample</samp>
+
+normal text <samp>sample &#38; &#59; &#60; &#62; &#47; &#59; block</samp>
+
+``!
+not sample block
+``
+
+<pre><samp>
+sample block
+</samp></pre>
+
+<pre><samp>
+</samp></pre>
+
+<pre><samp>
+sample block
+</samp></pre>
+
+<pre><samp class="syntax">
+sample block
+</samp></pre>
+
+<pre><samp class="syntax">
+sample block
+</samp></pre>
+
+<pre><samp>
+sample block
+</samp></pre>
+
+<pre><samp>
+&#33; &#64; &#35; &#36; &#38; &#40; &#38; &#59; &#60; &#62; &#47; &#92;
+</samp></pre>

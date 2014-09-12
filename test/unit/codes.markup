@@ -1,0 +1,50 @@
+<pre><code>
+code block
+</code></pre>
+
+<code>inline code</code>
+
+` not
+inline code `
+
+`` not inline code
+
+<code> </code> inline code
+
+<code> inline &#96; code </code>
+
+<code> inline code &#96;</code>
+
+<code>inline code</code> with normal text
+
+normal text with <code>inline code</code>
+
+normal text <code>code &#38; &#59; &#60; &#62; &#47; &#59; block</code>
+
+``
+not code block
+``
+
+<pre><code>
+code block
+</code></pre>
+
+<pre><code>
+code block
+</code></pre>
+
+<pre><code class="syntax">
+code block
+</code></pre>
+
+<pre><code class="syntax">
+code block
+</code></pre>
+
+<pre><code>
+code block
+</code></pre>
+
+<pre><code>
+&#33; &#64; &#35; &#36; &#38; &#40; &#38; &#59; &#60; &#62; &#47; &#92;
+</code></pre>

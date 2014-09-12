@@ -80,21 +80,27 @@ var mrkdwn = {
         // pair of three or more backticks with ! on multiple lines >> <pre><samp></samp></pre>
         codesSamples: function(markdown, noSamples) {
             // TODO: if noSamples, markup all matches as code
+            // pad to ease regex
+            markdown = '\n' + markdown + '\n';
+            // ascii encode all special characters
             var asciiEncode = function(str) {
                 return str.replace(/([^\w\s])/g, function(match, specialChar) {
                     return '&#' + specialChar.charCodeAt() + ';';
                 });
             };
-            markdown = markdown.replace(/(`{1,})(!)?([^`\n].*?)\1/g, function(match, ticks, bang, content) {
+            // find, replace inline
+            markdown = markdown.replace(/(`{1,})(?!`)(!)?(.+?)\1(?!`)/g, function(match, ticks, bang, content) {
                 if(bang) return '<samp>' + asciiEncode(content) + '</samp>'
                 return '<code>' + asciiEncode(content) + '</code>'
             });
-            markdown = markdown.replace(/\n(`{3,})(!)?([^`\n].*?|)\n([\s\S]*?)\1/g, function(match, ticks, bang, syntax, content) {
+            // find, replace block
+            markdown = markdown.replace(/\n(`{3,})(?!`)(!)?(.*?|)\n([\s\S]*?)\1(?!`)/g, function(match, ticks, bang, syntax, content) {
                 syntax = (syntax.trim()) ? ' class="' + syntax.trim() + '"' : '';
                 if(bang) return '\n<pre><samp' + syntax + '>\n' + asciiEncode(content)  + '</samp></pre>'
                 return '\n<pre><code' + syntax + '>\n' + asciiEncode(content)  + '</code></pre>'
             });
-            return markdown;
+            // remove pad and return
+            return markdown.substring(1, markdown.length - 1);
         },
         
         // three curly brackets >> nothing

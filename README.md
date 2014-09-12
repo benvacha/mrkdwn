@@ -757,7 +757,7 @@ The <abbr title="Main Standard">Primary Standard</abbr> is good
 ### Inline Codes
 - Pairs of one or more backticks on the same line will be markuped to code tags. 
 - Pairs of n backticks can contain groups of less than n backticks.
-- Most special characters, except `& # ;`, are markuped to their ascii representation.
+- All special characters are markuped to their ascii representation.
 - Must contain at least one whitespace or non backtick character.
 
 ###### mrkdwn
@@ -775,7 +775,7 @@ Encase <code> &#96;ticks&#96; </code>
 ### Block Pre Codes
 - Pairs of three or more backticks at the start of a line and not on the same line will be markuped to pre and code tags. 
 - Pairs of n backticks can contain groups of less than n backticks.
-- Most special characters, except `& # ;`, are markuped to their ascii representation.
+- All special characters are markuped to their ascii representation.
 - Text on the same line as the opening backticks will be markuped as class on the code tag.
 
 ###### mrkdwn
@@ -803,7 +803,7 @@ Encase <code> &#96;ticks&#96; </code>
 ### Inline Samples
 - Pairs of one or more backticks on the same line with a `!` will be markuped to samp tags. 
 - Pairs of n backticks can contain groups of less than n backticks.
-- Most special characters, except `& # ;`, are markuped to their ascii representation.
+- All special characters are markuped to their ascii representation.
 - Must contain at least one whitespace or non backtick character.
 
 ###### mrkdwn
@@ -821,7 +821,7 @@ Encase <samp> &#96;ticks&#96; </samp>
 ### Block Pre Samples
 - Pairs of three or more backticks with a `!` at the start of a line and not on the same line will be markuped to pre and samp tags. 
 - Pairs of n backticks can contain groups of less than n backticks.
-- Most special characters, except `& # ;`, are markuped to their ascii representation.
+- All special characters are markuped to their ascii representation.
 - Text on the same line as the opening backticks will be markuped as class on the samp tag.
 
 ###### mrkdwn
