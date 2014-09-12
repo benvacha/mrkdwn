@@ -114,6 +114,12 @@ var utils = {
 
 var tests = {
     
+    escapedChars: {
+        markdown: 'unit/escaped-chars.markdown',
+        markup: 'unit/escaped-chars.markup',
+        method: mrkdwn.markup.escapedChars
+    }, 
+    
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',

@@ -53,7 +53,7 @@ mrkdwn.live.markup(markdownTextarea, markupTextarea, previewElement);
 Current Syntax
 ---------------
 
-- [Backslash Escaped Characters](#backslash-escaped-characters)
+- [Escaped Characters](#escaped-characters)
 - [Comments](#comments)
 - [Paragraphs](#paragraphs)
 - [Phrase Formattings](#phrase-formattings)
@@ -84,9 +84,9 @@ Current Syntax
 - [Spans](#spans)
 - [Classes](#classes)
 
-### Backslash Escaped Characters
+### Escaped Characters
 - Any non whitespace character can be escaped with `\` to markup the ascii representation and remove its mrkdwn meaning.
-- Applied to escaped characters anywhere, without exception.
+- Applied to escaped characters anywhere, without exception. Including pre and comments.
 
 ###### mrkdwn
 ```

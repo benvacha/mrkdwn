@@ -36,9 +36,9 @@ var mrkdwn = {
         
         // change all syntax to markup
         all: function(markdown) {
+            markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.codesSamples(markdown);
             markdown = mrkdwn.markup.metas(markdown);
-            markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
@@ -59,6 +59,7 @@ var mrkdwn = {
         },
         
         // escaped non whitespace chars >> ascii html encoding
+        // ** should be run as first markup **
         escapedChars: function(markdown) {
             return markdown.replace(/\\(\S)/g, function(match, escapedChar) {
                 return '&#' + escapedChar.charCodeAt() + ';';
