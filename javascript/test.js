@@ -119,13 +119,16 @@ var tests = {
         markup: 'unit/escaped-chars.markup',
         method: mrkdwn.markup.escapedChars
     },
-    
     comments: {
         markdown: 'unit/comments.markdown',
         markup: 'unit/comments.markup',
         method: mrkdwn.markup.comments
     },
-    
+    metas: {
+        markdown: 'unit/metas.markdown',
+        markup: 'unit/metas.markup',
+        method: mrkdwn.markup.metas
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',

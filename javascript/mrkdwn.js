@@ -38,8 +38,8 @@ var mrkdwn = {
         all: function(markdown) {
             markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.comments(markdown);
-            markdown = mrkdwn.markup.codesSamples(markdown);
             markdown = mrkdwn.markup.metas(markdown);
+            markdown = mrkdwn.markup.codesSamples(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
             markdown = mrkdwn.markup.images(markdown);
@@ -98,6 +98,7 @@ var mrkdwn = {
         },
         
         // three curly brackets >> nothing
+        // three curly brackets with ! >> <!-- -->
         metas: function(markdown, singleComment) {
             // TODO: if singleComment, parse and cache meta then insert a single comment
             return markdown.replace(/\{\{\{(!)?[\s\S]*?\}\}\}/g, function(match, bang, content) {
