@@ -114,10 +114,10 @@ var utils = {
 
 var tests = {
     
-    escapedChars: {
-        markdown: 'old/escaped-chars.markdown',
-        markup: 'old/escaped-chars.markup',
-        method: mrkdwn.markup.escapedChars
+    paragraphs: {
+        markdown: 'unit/paragraphs.markdown',
+        markup: 'unit/paragraphs.markup',
+        method: mrkdwn.markup.paragraphs
     }
     
 };
@@ -141,7 +141,7 @@ if(testRuns.length) {
         }
     }
 } else {
-    for(test in tests) {
+    for(var test in tests) {
         diff = utils.runTest(tests[test]);
         if(verbose) {
             utils.printPassFailDiff(test, diff);

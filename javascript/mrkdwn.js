@@ -505,7 +505,9 @@ var mrkdwn = {
             // TODO: implement tables
         },
         
-        // text followed by blank line >> <p></p>
+        // text preceeded and proceeded by blank line not in pre >> <p></p>
+        // line return inside paragraph >> <br />
+        // ** should be run as last markup **
         paragraphs: function(markdown) {
             // add chars to ease regex requirements
             markdown = '</pre>\n' + markdown + '\n\n<pre>';
@@ -515,7 +517,7 @@ var mrkdwn = {
             // blockRegex = bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul
             var regex = /\n(?!<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul)|\n)([\S\s]+?)(?=\n\n|\n<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul))/g,
                 buildTags = function(match, content) {
-                    return '\n<p>' + content.replace(/\n/g, '<br />\n') + '</p>';
+                    return '\n<p>\n' + content.replace(/\n/g, '\n<br />\n') + '\n</p>';
                 };
             markdown = markdown.replace(/<\/pre>([\S\s]*?)<pre>/g, function(match, content) {
                 return '</pre>' + content.replace(regex, buildTags) + '<pre>';

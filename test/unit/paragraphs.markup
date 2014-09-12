@@ -1,0 +1,34 @@
+<p>
+This is a paragraph.
+</p>
+
+<p>
+This is a paragraph
+<br />
+with a manual line break.
+</p>
+
+<hr>
+<p>
+This is a paragraph.
+</p>
+
+<ul>
+<li>
+<p>
+This is a paragraph.
+</p>
+</li>
+<li>This is not a paragraph</li>
+</ul>
+<p>
+This is a paragraph.
+</p>
+
+<pre>
+This is not a paragraph.
+</pre>
+
+<p>
+This is a paragraph.
+</p>

@@ -137,8 +137,9 @@ Comment out three  slashes
 
 
 ### Paragraphs
-- Text followed by a blank line or block syntax will be wrapped in a paragraph.
+- Text preceeded and proceeded by a blank line or block syntax will be wrapped in a paragraph.
 - Line returns without following whitespace will be treated as breaks within a single paragraph.
+- Text within pre block syntax should not be markuped.
 
 ###### mrkdwn
 ```
@@ -149,10 +150,15 @@ with a manual break inserted
 ```
 ###### markup
 ```
-<p>The first paragraph</p>
+<p>
+The first paragraph
+</p>
 
-<p>This one paragraph<br />
-with a manual break inserted</p>
+<p>
+This one paragraph
+<br />
+with a manual break inserted
+</p>
 ```
 
 
