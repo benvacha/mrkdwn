@@ -515,7 +515,7 @@ var mrkdwn = {
             // blocklist = blockquote code dd details dl dt embed h1 hr iframe li 
             //             object ol p pre samp summary table tbody td th thead tr ul
             // blockRegex = bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul
-            var regex = /\n(?!<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul)|\n)([\S\s]+?)(?=\n\n|\n<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul))/g,
+            var regex = /\n(?!<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul)|\n)(?!\s*\n)([\S\s]+?)(?=\n\s*\n|\n<\/?(?:bl|co|dd|de|dl|dt|em|h|if|l|o|p|sa|sum|t|ul))/g,
                 buildTags = function(match, content) {
                     return '\n<p>\n' + content.replace(/\n/g, '\n<br />\n') + '\n</p>';
                 };
