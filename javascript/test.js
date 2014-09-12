@@ -118,7 +118,13 @@ var tests = {
         markdown: 'unit/escaped-chars.markdown',
         markup: 'unit/escaped-chars.markup',
         method: mrkdwn.markup.escapedChars
-    }, 
+    },
+    
+    comments: {
+        markdown: 'unit/comments.markdown',
+        markup: 'unit/comments.markup',
+        method: mrkdwn.markup.comments
+    },
     
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',

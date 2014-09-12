@@ -37,9 +37,9 @@ var mrkdwn = {
         // change all syntax to markup
         all: function(markdown) {
             markdown = mrkdwn.markup.escapedChars(markdown);
+            markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.codesSamples(markdown);
             markdown = mrkdwn.markup.metas(markdown);
-            markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
             markdown = mrkdwn.markup.images(markdown);
@@ -53,7 +53,6 @@ var mrkdwn = {
             markdown = mrkdwn.markup.blockquotes(markdown);
             markdown = mrkdwn.markup.details(markdown);
             markdown = mrkdwn.markup.lists(markdown);
-            //markdown = mrkdwn.markup.tables(markdown);
             markdown = mrkdwn.markup.paragraphs(markdown);
             return markdown;
         },
@@ -69,7 +68,7 @@ var mrkdwn = {
         // pair of three or more slashes >> nothing
         // pair of three or more slashes with bang >> <!-- -->
         comments: function(markdown) {
-            return markdown.replace(/(\/{3,})(!)?([^\/][\s\S]*?)\1/g, function(match, slashes, bang, content) {
+            return markdown.replace(/(\/{3,})(?!\/)(!)?([\s\S]+?)\1(?!\/)/g, function(match, slashes, bang, content) {
                 if(bang) return '<!-- ' + content + ' -->';
                 return '';
             });
