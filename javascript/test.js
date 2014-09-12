@@ -139,6 +139,11 @@ var tests = {
         markup: 'unit/samples.markup',
         method: mrkdwn.markup.codesSamples
     },
+    variables: {
+        markdown: 'unit/variables.markdown',
+        markup: 'unit/variables.markup',
+        method: mrkdwn.markup.variables
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',

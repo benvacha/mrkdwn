@@ -717,11 +717,11 @@ This sentence also needs a note<sup class="note"><a href="#note-2" title="note t
 
 
 ### Variables
-- `$[variableName]` will be markuped to the variable value, or variable name if definition not found
-- `$[variableName]: variable value` will be removed from markup, but used to define a variable
-- Variable definitions can be anywhere in the markdown and will be markuped before any variable usage
-- Variable definitions are case sensative
-- Duplicate variable definitions will overwrite previous values
+- `$[variableName]` will be markuped to the variable value, or variable name if definition not found.
+- `$[variableName]: variable value` will be removed from markup, but used to define a variable.
+- Variable definitions can be anywhere in the markdown and will be markuped before any variable usage.
+- Variable definitions are case sensative.
+- Duplicate variable definitions will overwrite previous values.
 
 ###### mrkdwn
 `Current version $[variable]`  
