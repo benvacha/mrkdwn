@@ -36,7 +36,6 @@ var mrkdwn = {
         
         // change all syntax to markup
         all: function(markdown) {
-            return mrkdwn.markup.images(markdown);
             markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.metas(markdown);
