@@ -179,6 +179,11 @@ var tests = {
         markup: 'unit/headers.markup',
         method: mrkdwn.markup.headers
     },
+    horizontalRules: {
+        markdown: 'unit/horizontal-rules.markdown',
+        markup: 'unit/horizontal-rules.markup',
+        method: mrkdwn.markup.horizontalRules
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',

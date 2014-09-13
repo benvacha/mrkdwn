@@ -395,8 +395,12 @@ var mrkdwn = {
         // --- >> <hr />
         // - - - >> <hr />
         horizontalRules: function(markdown) {
+            // add pad to ease regex
+            markdown = '\n' + markdown + '\n';
             // find, replace ---
-            return markdown.replace(/((?:^|\n)\n) ?- ?- ?-[- ]*/g, '$1<hr />');
+            markdown = markdown.replace(/\n( ?[-*] ?[-*] ?[-*][-* ]*(?=\n))/g, '\n<hr />');
+            // remove pad and return
+            return markdown.substring(1, markdown.length - 1);
         },
         
         // *t*, **t**, ***t*** >> bold, strong, emphasis

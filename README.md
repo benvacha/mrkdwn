@@ -247,20 +247,28 @@ Header 2
 
 
 ### Horizontal Rules
-- Three or more `-` or `- ` on a line, alone, preceeded by a blank line, will create a horizontal rule. 
-- `*` is not valid horizontal rule syntax.
+- Three or more `-` or `*` on a line, alone, will create a horizontal rule. 
+- `-` and `*` may be seperated by spaces.
 
 ###### mrkdwn
 ```
-
 ---
 
 - - - - - - - -
+
+*********
+
+ * * * * *
 ```
 ###### markup
 ```
-<hr>
-<hr>
+<hr />
+
+<hr />
+
+<hr />
+
+<hr />
 ```
 
 
