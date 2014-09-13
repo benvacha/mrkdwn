@@ -159,6 +159,11 @@ var tests = {
         markup: 'unit/macros.markup',
         method: mrkdwn.markup.macros
     },
+    citations: {
+        markdown: 'unit/citations.markdown',
+        markup: 'unit/citations.markup',
+        method: mrkdwn.markup.citations
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',
