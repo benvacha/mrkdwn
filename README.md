@@ -538,19 +538,22 @@ Header 2
 ### Links
 - `[linked text](url title)` will be markuped to a tags.
 - `[linked text][linkReference]` will be markuped to a tags.
-- `[url]` or `[email]` will be markuped to a tags.
+- `[[url]]` or `[[email]]` will be markuped to a tags.
   - Must contain atleast one non-whitespace character
-- `[[url]]` or `[[email]]` will be parsed on `_` and will be markuped to a tags.
+- `[[[url]]]` or `[[[email]]]` will be parsed on `_` and will be markuped to a tags.
   - Must contain atlease one non-whitespace character
 - `[linkReference]: url title` will be removed from markup, but used to define a link reference.
   - Must be at start of new line.
-  - Cannot be on first line.
-- Links must be surrounded by whitespace, and cannot be at the start of the first line or end of the last line.
+- Links must be preceeded by whitespace or line start.
 - Urls can be absolute or relative, and will be automatically uri encoded.
-- Urls containing whitespace should be wrapped in quotes.
+- Urls containing whitespace should be wrapped in single or double quotes.
+- Emails are automatically markuped to ascii decimal encoding.
 - Urls beginning with `!` will define an anchor.
 - Urls beginning with `#` will link to an anchor.
 - Title is optional, and linked text will be used if not explicitly defined.
+- Note: diverges from daringfireball by not allowing `()` to surround titles.
+- Note: diverges from daringfireball by not allowing multi-line references.
+- Note: diverges from daringfireball by using `[[]]` instead of `<>` for automatic links.
 
 ###### mrkdwn
 ```
@@ -558,16 +561,16 @@ Header 2
 [text](url "Title")
 
 [text](!anchor title)
-[text](#anchor title)
+[text](#anchor "long title")
 
 [text][reference]
-[reference]: url title
+[reference]: url 'long title'
 
-[url]
-[[auto_parsed_url]]
-[!anchor]
-[#anchor]
-[[parsed_url#anchor]]
+[[url]]
+[[[auto_parsed_url]]]
+[[!anchor]]
+[[#anchor]]
+[[[parsed_url#anchor]]]
 ```
 ###### markup
 ```
@@ -575,9 +578,9 @@ Header 2
 <a href="url" title="Title">text</a>
 
 <a name="anchor" title="title">text</a>
-<a href="#anchor" title="title">text</a>
+<a href="#anchor" title="long title">text</a>
 
-<a href="url" title="title">text</a>
+<a href="url" title="long title">text</a>
 
 <a href="url">url</a>
 <a href="auto/parsed/url">auto parsed url</a>
@@ -590,6 +593,8 @@ Header 2
 ### Automatic Links
 - Absolute urls and email addresses will be automatically markuped to a tags.
 - Links must be preceeded by whitespace.
+- Urls are automatically url encoded.
+- Emails are automatically ascii decimal encoded.
 
 ###### mrkdwn
 ```
@@ -601,7 +606,7 @@ Email addr@email.com
 ```
 Go to index.html
 Go to <a href="http://url.com">http://url.com</a>
-Email <a href="mailto:addr@email.com">addr@email.com</a>
+Email <a href="mailto:&#97;&#100;&#100;&#114;&#64;&#101;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" title="&#97;&#100;&#100;&#114;&#64;&#101;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#97;&#100;&#100;&#114;&#64;&#101;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
 ```
 
 

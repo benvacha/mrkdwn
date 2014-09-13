@@ -298,7 +298,8 @@ var mrkdwn = {
                     if(tokens[0].charAt(0) === '!') {
                         name = ' name="' + tokens[0].substring(1) + '"';
                     } else if(tokens[0].indexOf('@') > 0) {
-                        email = ' href="mailto:' + tokens[0] + '"';
+                        email = ' href="mailto:' + mrkdwn.util.asciiEncode(tokens[0], /(\S)/g) + '"';
+                        text = mrkdwn.util.asciiEncode(tokens[0], /(\S)/g);
                     } else {
                         url = ' href="' + encodeURI(tokens[0]) + '"';
                     }
@@ -311,6 +312,8 @@ var mrkdwn = {
                     //
                     return '<a' + url + email + name + title + '>' + text + '</a>';
                 };
+            // add pad to ease regex
+            markdown = '\n' + markdown + '\n';
             // find, cache, remove definitions
             markdown = markdown.replace(/\n\[(.*?)\]:(.*)/g, function(match, name, value) {
                 defs[name] = value;
@@ -318,6 +321,7 @@ var mrkdwn = {
             });
             // find, replace reference usage
             markdown = markdown.replace(/(\s)\[(.*?)\]\[(.*?)\]/g, function(match, whitespace, text, name) {
+                if(!name) return whitespace + buildTag(text, defs[text]);
                 return whitespace + buildTag(text, defs[name]);
             });
             // find, replace inline usage
@@ -325,11 +329,11 @@ var mrkdwn = {
                 return whitespace + buildTag(text, value);
             });
             // find, replace simple usage
-            markdown = markdown.replace(/(\s)\[([^\[\]].*?\S.*?)\]/g, function(match, whitespace, text) {
+            markdown = markdown.replace(/(\s)\[\[([^\[\]]*?\S[^\[\]]*?)\]\](?=\s)/g, function(match, whitespace, text) {
                 return whitespace + buildTag(text.replace(/^[!#]/, ''), text);
             });
             // find, replace simple parsed usage
-            markdown = markdown.replace(/(\s)\[\[([^\[\]].*?\S.*?)\]\]/g, function(match, whitespace, text) {
+            markdown = markdown.replace(/(\s)\[\[\[([^\[\]]*?\S[^\[\]]*?)\]\]\](?=\s)/g, function(match, whitespace, text) {
                 var shown = text.replace(/^[!#]|["']/g, '').replace(/[_#]/g, ' '),
                     value = text.replace(/_/g, '/');
                 return whitespace + buildTag(shown, value);
@@ -337,12 +341,16 @@ var mrkdwn = {
             // find, replace absolute urls and email address
             if(!disableAutoLinks) {
                 // find, replace absolute links
-                markdown = markdown.replace(/(\s)(http[s]?:\/\/\S+?\.\S+?)\b/g, '$1<a href="$2" title="$2">$2</a>');
+                markdown = markdown.replace(/(\s)(http[s]?:\/\/\S+?\.\S+?)\b/g, function(match, whitespace, url) {
+                    return whitespace + buildTag(url, url);
+                });
                 // find, replace email addresses
-                markdown = markdown.replace(/(\s)([^\s"\(\),:;<>@\[\]\\]+?\@\S+?\.\S+?)\b/g, '$1<a href="mailto:$2" title="$2">$2</a>');
+                markdown = markdown.replace(/(\s)([^\s"\(\),:;<>@\[\]\\]+?\@\S+?\.\S+?)\b/g, function(match, whitespace, email) {
+                    return whitespace + buildTag(email, email);
+                });
             }
-            //
-            return markdown;
+            // remove pad and return
+            return markdown.substring(1, markdown.length - 1);
         },
         
         // === >> <h1><a></a></h1>

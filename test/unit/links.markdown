@@ -1,14 +1,20 @@
+[link to something](http://something.com)
+
 A [link to something][linkOne] from [something else][linkTwo]. A [bad link][linkFour].
 
 [This][linkThree] doing its thing.
 
 [A link](to/nowhere.html 'Its Title') that is better than this [one](!link-four).
 
-[url.com#special] and [!link-simple] and [#link-simple] to [me@url.com].
+[not linked]
 
-[["parsed_url thing"]] and [[that_one_thing#name]].
+[linkTwo][]
 
-[] [ ]
+[[url.com#special]] and [[!link-simple]] and [[#link-simple]] to [[me@url.com]].
+
+[[["parsed_url thing"]]] and [[[that_one_thing#name]]].
+
+[] [ ] [[  ]] [[[   ]]]
 
 [
 ]
@@ -24,3 +30,5 @@ https://url.com is a nice place
 email hello@url.com now
 
 info@url.com to contact
+
+[link to something](http://something.com)

@@ -169,6 +169,11 @@ var tests = {
         markup: 'unit/notes.markup',
         method: mrkdwn.markup.notes
     },
+    links: {
+        markdown: 'unit/links.markdown',
+        markup: 'unit/links.markup',
+        method: mrkdwn.markup.links
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',
