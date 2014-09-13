@@ -184,6 +184,11 @@ var tests = {
         markup: 'unit/horizontal-rules.markup',
         method: mrkdwn.markup.horizontalRules
     },
+    phraseFormattings: {
+        markdown: 'unit/phrase-formattings.markdown',
+        markup: 'unit/phrase-formattings.markup',
+        method: mrkdwn.markup.phraseFormattings
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',

@@ -1,0 +1,33 @@
+<b>bold</b>  <strong>strong</strong>  <em>emphasis</em>
+
+inner<b>word</b>bold
+inner<strong>word</strong> strong
+inner <em>word</em>emphasis
+put a * in the **
+not *bold *
+not * bold*
+all <b>of this * is bold</b>
+
+<i>italic</i>  <strike>strikethrough</strike>  <mark>mark</mark>
+
+inner<i>word</i>italic
+inner<strike>word</strike> strike
+inner <mark>word</mark>mark
+not ~ italic ~
+
+<sup>superscript</sup>  <sub>subscript</sub>
+
+inner<sup>word</sup> superscript
+inner <sub>word</sub>subscript
+not ^ superscript ^
+not ^^ subscript ^^
+
+<u>underline</u>
+
+some_file_name
+some_file_ name
+
+<i><b>italic bold</b></i>
+<u><i>italic underline</i></u>
+
+inner<i><b>word</b></i>bold italic

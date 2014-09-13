@@ -168,7 +168,8 @@ with a manual break inserted
 - Phrase formatting can be nested inside of any other syntax, except code or sample blocks.
 - Phrase formatting is only translated when both starting and ending syntax is found in the same line.
 - Phrase formatting can be inside of words, with the exception of underline.
-- Opening phrase formatting followed by whitespace will not be translated as phrase formatting.
+- Opening phrase formatting proceeded by whitespace and closing phrase formatting preceeded by whitespace will not be translated as phrase formatting.
+- Note: diverges almost completely from daringfireball.
 
 ###### mrkdwn
 ```
