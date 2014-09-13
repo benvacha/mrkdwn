@@ -174,6 +174,11 @@ var tests = {
         markup: 'unit/links.markup',
         method: mrkdwn.markup.links
     },
+    headers: {
+        markdown: 'unit/headers.markdown',
+        markup: 'unit/headers.markup',
+        method: mrkdwn.markup.headers
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',

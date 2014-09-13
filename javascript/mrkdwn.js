@@ -358,27 +358,38 @@ var mrkdwn = {
         // ### >> <h#><a></a><h#>
         headers: function(markdown, linkPrefix, disableAutoLinks) {
             var linkPrefix = (linkPrefix) ? linkPrefix : '',
-                // TODO: cache names, if name is not unique append -uniqueNumber
+                nameCounts = {},
                 buildTag = function(hNum, name, content) {
                     if(disableAutoLinks) return '<h' + hNum + '>' + content + '</h' + hNum + '>';
-                    return '<h' + hNum + '><a name="' + linkPrefix + name.replace(' ', '-').toLowerCase() + 
+                    // form unique name
+                    name = name.trim();
+                    if(nameCounts[name]) {
+                        nameCounts[name] += 1;
+                        name = name + ' ' + nameCounts[name];
+                    } else {
+                        nameCounts[name] = 1;
+                    }
+                    // return tags
+                    return '<h' + hNum + '><a name="' + linkPrefix + name.replace(/ /g, '-').toLowerCase() + 
                         '" title="' + mrkdwn.util.asciiEncode(content) + '">' + content + '</a></h' + hNum + '>';
                 };
+            // add pad to ease regex
+            markdown = '\n' + markdown + '\n';
             // find, replace ===
-            markdown = markdown.replace(/(^|\n)([\S ]+?)\n===+\n/g, function(match, newline, content) {
-                return newline + buildTag('1', content, content) + '\n';
+            markdown = markdown.replace(/\n([\S ]+?)\n===+/g, function(match, content) {
+                return '\n' + buildTag('1', content, content);
             });
             // find, replace ---
-            markdown = markdown.replace(/(^|\n)([\S ]+?)\n---+\n/g, function(match, newline, content) {
-                return newline + buildTag('2', content, content) + '\n';
+            markdown = markdown.replace(/\n([\S ]+?)\n---+/g, function(match, content) {
+                return '\n' + buildTag('2', content, content);
             });
             // find, replace #s
-            markdown = markdown.replace(/(^|\n)(\#+)(\(\!(.*)?\))? ([\S ]+?)\n/g, function(match, newline, hashes, fullName, name, content) {
-                if(name) return newline + buildTag(hashes.length, name, content) + '\n';
-                return newline + buildTag(hashes.length, content, content) + '\n';
+            markdown = markdown.replace(/\n(\#+)(\(\!(.*)?\))? ([\S ]+)/g, function(match, hashes, fullName, name, content) {
+                if(name) return '\n' + buildTag(hashes.length, name, content);
+                return '\n' + buildTag(hashes.length, content, content);
             });
-            //
-            return markdown;
+            // remove pad and return
+            return markdown.substring(1, markdown.length - 1);
         },
         
         // --- >> <hr />

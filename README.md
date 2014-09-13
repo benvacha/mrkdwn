@@ -195,8 +195,12 @@ put a * in the **
 
 
 ### Headers
+- Lines of text with 3 or more `=` alone on the proceeding line will be markuped to h1 tags.
+- Lines of text with 3 or more `-` alone on the proceeding line will be markuped to h2 tags.
+- Lines of text beginning with 1 or more `#` will be markuped to h tags with level indicated by the number of `#`.
 - Headers are automatically given internal anchor links based on header text, or can be manually defined.
-- Trailing `#` will not be translated.
+- Headers with identical header text will be given unique numbered anchors based on header text.
+- Note: diverges from daringfireball by not markuping trailing `#`.
 
 ###### mrkdwn
 ```
