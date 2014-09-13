@@ -164,6 +164,11 @@ var tests = {
         markup: 'unit/citations.markup',
         method: mrkdwn.markup.citations
     },
+    notes: {
+        markdown: 'unit/notes.markdown',
+        markup: 'unit/notes.markup',
+        method: mrkdwn.markup.notes
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',
