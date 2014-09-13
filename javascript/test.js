@@ -149,6 +149,11 @@ var tests = {
         markup: 'unit/abbreviations.markup',
         method: mrkdwn.markup.abbreviations
     },
+    images: {
+        markdown: 'unit/images.markdown',
+        markup: 'unit/images.markup',
+        method: mrkdwn.markup.images
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',

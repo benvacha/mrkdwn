@@ -36,6 +36,7 @@ var mrkdwn = {
         
         // change all syntax to markup
         all: function(markdown) {
+            return mrkdwn.markup.images(markdown);
             markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.metas(markdown);
@@ -154,14 +155,15 @@ var mrkdwn = {
                     // if no value, return empty-ish tag
                     if(!value) return '<img alt="' + altText + '" />';
                     // if value, return fully formed tag as possible
-                    var alt, src, title, width, height,
+                    var alt, src, title, clss, width, height,
                         tokens = mrkdwn.util.tokenize(value);
                     alt = ' alt="' + altText + '"';
                     src = (tokens[0]) ? ' src="' + tokens[0] + '"' : '';
                     title = (tokens[1]) ? ' title="' + tokens[1] + '"' : '';
-                    width = (tokens[2]) ? ' width="' + tokens[2] + '"' : '';
-                    height = (tokens[3]) ? ' height="' + tokens[3] + '"' : '';
-                    return '<img' + alt + src + title + width + height + ' />';
+                    clss = (tokens[2]) ? ' class="' + tokens[2] + '"' : '';
+                    width = (tokens[3]) ? ' width="' + tokens[3] + '"' : '';
+                    height = (tokens[4]) ? ' height="' + tokens[4] + '"' : '';
+                    return '<img' + alt + src + title + clss + width + height + ' />';
                 };
             // find, cache, remove definitions
             markdown = markdown.replace(/\!\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
@@ -594,7 +596,7 @@ var mrkdwn = {
         
         // tokenize based on white space and quotations
         tokenize: function(str) {
-            return str.match(/([^"' ]|\s)*\w(?="|')|[^"' ]+/g);
+            return str.match(/(?=""|'')|[^"']*\w(?="|')|[^"' ]+/g);
         }
         
     },

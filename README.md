@@ -606,27 +606,29 @@ Email <a href="mailto:addr@email.com">addr@email.com</a>
 
 
 ### Images
-- `![alt text](url title width height)` will be markuped to img tags.
+- `![alt text](url title class width height)` will be markuped to img tags.
 - `![alt text][imageReference]` will be markuped to img tags.
-- `![imageReference]: url title width height` will be removed from markup, but will define an image.
+- `![imageReference]: url title class width height` will be removed from markup, but will define an image.
 - urls can be absolute or relative.
-- title, width, and height are optional.
+- title, class, width, and height are optional.
 - Usage of an undefined imageReference will be markuped to img tags with only alt text.
 
 ###### mrkdwn
 ```
-![alt text](url title width height)
-![alt text](url "Title" 350px 100%)
+![alt text](url title)
+![alt text](url "Title" bordered 350px 100%)
+![alt text](url '' '' 100%)
 
 ![alt text][reference]
-![reference]: url "Title" width height
+![reference]: url "Title Long" class width height
 ```
 ###### markup
 ```
 <img src="url" title="title" alt="alt text" />
-<img src="url" title="Title" alt="alt text" width="350px" height="100%" />
+<img src="url" title="Title" class="bordered" alt="alt text" width="350px" height="100%" />
+<img src="url" alt="alt text" width="100%" />
 
-<img src="url" title="Title" alt="alt text" width="width" height="height" />
+<img src="url" title="Title Long" class="class" alt="alt text" width="width" height="height" />
 ```
 
 
