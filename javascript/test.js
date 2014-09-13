@@ -154,6 +154,11 @@ var tests = {
         markup: 'unit/images.markup',
         method: mrkdwn.markup.images
     },
+    macros: {
+        markdown: 'unit/macros.markdown',
+        markup: 'unit/macros.markup',
+        method: mrkdwn.markup.macros
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',
