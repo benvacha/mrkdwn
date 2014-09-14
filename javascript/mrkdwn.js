@@ -40,6 +40,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.metas(markdown);
             markdown = mrkdwn.markup.blockquotes(markdown);
+            markdown = mrkdwn.markup.details(markdown);
             markdown = mrkdwn.markup.codesSamples(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
@@ -478,27 +479,31 @@ var mrkdwn = {
         
         // < >> details
         details: function(markdown) {
-            // TODO: better document this recursive nightmare
-            // onMatch is recursivelly called
-            var maxNest = 10, onMatch = function(match, whitespace, ender, fullSummary, summary, content) {
-                ender = (ender) ? '<!-- -->' : '';
-                summary = (summary) ? '<summary>' + summary + '</summary>' : '';
-                whitespace = whitespace.replace(/[\t ]/g, ''); // make markup flat
-                // if the content contains another valid details syntax, recall onMatch on it
-                if(content.search(/()\<(.*)/g) > -1) {
-                    content = content.replace(/()\<(\<?)(?:(\! (.*))| )(.*)/g, onMatch);
-                }
-                // return the whole mess back up 
-                return whitespace + '<details>\n' + summary + content + '\n</details>' + ender;
-            }
+            // buildTag is recursivelly called
+            var maxNest = 10, 
+                buildTag = function(match, ender, fullSummary, summary, content) {
+                    ender = (ender) ? '<!-- -->' : '';
+                    summary = (summary) ? '<summary>' + summary + '</summary>' : '';
+                    // if the content contains another valid details syntax, recall buildTag on it
+                    // nests details inside of each other
+                    if(content.search(/^\<(.*)/g) > -1) {
+                        content = content.replace(/\<(\<?)(\! ?(.*)| )(.*)/g, buildTag);
+                    }
+                    // return the whole mess back up 
+                    return '<details>\n' + summary + content + '\n</details>' + ender;
+                };
+            // add pad to ease regex
+            markdown = '\n' + markdown + '\n';
             // find all of the first level <, optionally match first level <<, optionally match ! summary
-            markdown = markdown.replace(/(\n)\<(\<?)(?:(\! (.*))| )(.*)/g, onMatch);
+            markdown = markdown.replace(/\n\<(\<?)(\! (.*)| )(.*)/g, function(match, ender, fullSummary, summary, content) {
+                return '\n' + buildTag(match, ender, fullSummary, summary, content);
+            });
             // as long as the extra (incorrect) ending and starting details tags are found, remove them
-            while(markdown.search(/<\/details>(\s{0,2})<details.*?>/g) > -1 && maxNest--) {
-                markdown = markdown.replace(/\n<\/details>(\s{0,2})<details.*?>\n/g, '$1');
+            while(markdown.search(/<\/details>(\s{0,1})<details.*?>/g) > -1 && maxNest--) {
+                markdown = markdown.replace(/\n<\/details>(\s{0,1})<details.*?>\n/g, '$1');
             }
-            //
-            return markdown;
+            // remove pad and return
+            return markdown.substring(1, markdown.length - 1);
         },
         
         // - >> <ul></ul>

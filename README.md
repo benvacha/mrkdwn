@@ -274,7 +274,8 @@ Header 2
 
 
 ### Blockquotes
-- Blockquotes can be nested as needed and can contain any other syntax. 
+- Blockquotes can be nested as needed and can contain any other syntax.
+- All lines of a blockquote must begin with `>`.
 - `>>` can be used to signify the end of a blockquote, including nested blockquotes, to avoid translation errors.
 - One are more blank lines between blockquote lines will markup the lines as difference blockquotes.
 - Blockquotes can be nested a max of 10 times.
@@ -345,8 +346,9 @@ level two, but not the same as the above live
 
 ### Details
 - The first line of a details must include `!` and will always be used as its summary.
+- All lines of a details must begin with `<`.
 - `<<` can be used to signify the end of a details, including nested details, to avoid translation errors. 
-- Two are more blank lines between details lines will markup the lines as difference details.
+- One are more blank lines between details lines will markup the lines as difference details.
 - Detail blocks can be nested up to 10 times and can contain any other syntax.
 
 ###### mrkdwn
@@ -359,9 +361,13 @@ level two, but not the same as the above live
 ###### markup
 ```
 <details>
-  <summary>summary</summary>
-  <p>Paragraph One</p>
-  <p>Second Paragraph</p>
+<summary>summary</summary>
+<p>
+Paragraph One
+</p>
+<p>
+Second Paragraph
+</p>
 </details>
 ```
 
