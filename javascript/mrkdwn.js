@@ -39,6 +39,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.escapedChars(markdown);
             markdown = mrkdwn.markup.comments(markdown);
             markdown = mrkdwn.markup.metas(markdown);
+            markdown = mrkdwn.markup.blockquotes(markdown);
             markdown = mrkdwn.markup.codesSamples(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
@@ -50,7 +51,6 @@ var mrkdwn = {
             markdown = mrkdwn.markup.headers(markdown);
             markdown = mrkdwn.markup.horizontalRules(markdown);
             markdown = mrkdwn.markup.phraseFormattings(markdown);
-            markdown = mrkdwn.markup.blockquotes(markdown);
             markdown = mrkdwn.markup.details(markdown);
             markdown = mrkdwn.markup.lists(markdown);
             markdown = mrkdwn.markup.paragraphs(markdown);
@@ -447,29 +447,33 @@ var mrkdwn = {
         
         // > >> blockquote
         blockquotes: function(markdown) {
-            // TODO: better document this recursive nightmare
-            // onMatch is recursivelly called
-            var maxNest = 10, onMatch = function(match, whitespace, ender, fullCite, cite, content) {
-                ender = (ender) ? '<!-- -->' : '';
-                cite = (cite) ? ' cite="' + cite + '"' : '';
-                whitespace = whitespace.replace(/[\t ]/g, ''); // make markup flat
-                // if the blockquote content contains another valid blockquote syntax, recall onMatch on it
-                if(content.search(/(\s)\>(.*)/g) > -1) {
-                    content = content.replace(/(\s)\>(\>?)[ ]?(?!\>)(\! ?(.*))?(.*)/g, onMatch);
-                }
-                // return the whole mess back up 
-                // main diffence between returns is to not include a newline with cite
-                if(cite) return whitespace + '<blockquote' + cite + '>' + content + '\n</blockquote>' + ender;
-                return whitespace + '<blockquote>\n' + content + '\n</blockquote>' + ender;
-            }
+            // buildTag is recursivelly called
+            var maxNest = 10, 
+                buildTag = function(match, ender, fullCite, cite, content) {
+                    ender = (ender) ? '<!-- -->' : '';
+                    cite = (cite) ? ' cite="' + cite + '"' : '';
+                    // if the blockquote content contains another valid blockquote syntax, recall buildTag on it
+                    // nests blockquotes inside of each other
+                    if(content.search(/^\>(.*)/g) > -1) {
+                        content = content.replace(/\>(\>?)(\! ?(.*))? ?(.*)/g, buildTag);
+                    }
+                    // return the whole mess back up 
+                    // main diffence between returns is to not include a newline with cite
+                    if(cite) return '<blockquote' + cite + '>' + content + '\n</blockquote>' + ender;
+                    return '<blockquote>\n' + content + '\n</blockquote>' + ender;
+                };
+            // add pad to ease regex
+            markdown = '\n' + markdown + '\n';
             // find all of the first level >, optionally match first level >>, optionally match ! cite
-            markdown = markdown.replace(/(\n)\>(\>?)[ ]?(?!\>)(\! ?(.*))?(.*)/g, onMatch);
+            markdown = markdown.replace(/\n\>(\>?)(\! (.*))? ?(.*)/g, function(match, ender, fullCite, cite, content) {
+                return '\n' + buildTag(match, ender, fullCite, cite, content);
+            });
             // as long as the extra (incorrect) ending and starting blockquote tags are found, remove them
-            while(markdown.search(/<\/blockquote>(\s{0,2})<blockquote.*?>/g) > -1 && maxNest--) {
-                markdown = markdown.replace(/\n<\/blockquote>(\s{0,2})<blockquote.*?>\n/g, '$1');
+            while(markdown.search(/<\/blockquote>(\s{0,1})<blockquote.*?>/g) > -1 && maxNest--) {
+                markdown = markdown.replace(/\n<\/blockquote>(\s{0,1})<blockquote.*?>\n/g, '$1');
             }
-            //
-            return markdown;
+            // remove pad and return
+            return markdown.substring(1, markdown.length - 1);
         },
         
         // < >> details

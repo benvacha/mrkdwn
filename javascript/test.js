@@ -129,6 +129,11 @@ var tests = {
         markup: 'unit/metas.markup',
         method: mrkdwn.markup.metas
     },
+    blockquotes: {
+        markdown: 'unit/blockquotes.markdown',
+        markup: 'unit/blockquotes.markup',
+        method: mrkdwn.markup.blockquotes
+    },
     codes: {
         markdown: 'unit/codes.markdown',
         markup: 'unit/codes.markup',

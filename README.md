@@ -276,8 +276,9 @@ Header 2
 ### Blockquotes
 - Blockquotes can be nested as needed and can contain any other syntax. 
 - `>>` can be used to signify the end of a blockquote, including nested blockquotes, to avoid translation errors.
-- Two are more blank lines between blockquote lines will markup the lines as difference blockquotes.
+- One are more blank lines between blockquote lines will markup the lines as difference blockquotes.
 - Blockquotes can be nested a max of 10 times.
+- Note: diverges from daringfireball by requiring that all lines of a blockquote be preceeded by `>`.
 
 ###### mrkdwn
 ```
@@ -300,28 +301,44 @@ Header 2
 ###### markup
 ```
 <blockquote>
-  <p>Paragraph one</p>
-  <p>Second paragraph</p>
-</blockquote>&nbsp;
+<p>
+Paragraph one
+</p>
+<p>
+Second paragraph
+</p>
+</blockquote><!-- -->
 
 <blockquote cite="cite">
-  <p>Block Quote<br />
-  with citation</p>
-</blockquote>&nbsp;
+<p>
+Block Quote<br />
+with citation
+</p>
+</blockquote><!-- -->
 
 <blockquote>
-  <p>level one</p>
-  <blockquote cite="cite">
-    <p>level two<br />
-    also level two</p>
-  </blockquote>
-  <p>back on level two</p>
-  <blockquote>
-    <p>level two again</p>
-  </blockquote>&nbsp;
-  <blockquote>
-    <p>level two, but not the same as the above live</p>
-  </blockquote>
+<p>
+level one
+</p>
+<blockquote cite="cite">
+<p>
+level two<br />
+also level two
+</p>
+</blockquote>
+<p>
+back on level two
+</p>
+<blockquote>
+<p>
+level two again
+</p>
+</blockquote><!-- -->
+<blockquote>
+<p>
+level two, but not the same as the above live
+</p>
+</blockquote>
 </blockquote>
 ```
 
