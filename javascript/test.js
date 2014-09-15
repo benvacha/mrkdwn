@@ -139,6 +139,11 @@ var tests = {
         markup: 'unit/details.markup',
         method: mrkdwn.markup.details
     },
+    lists: {
+        markdown: 'unit/lists.markdown',
+        markup: 'unit/lists.markup',
+        method: mrkdwn.markup.lists
+    },
     codes: {
         markdown: 'unit/codes.markdown',
         markup: 'unit/codes.markup',

@@ -373,44 +373,50 @@ Second Paragraph
 
 
 ### Unordered Lists
-- Unordered lists must use `-`; `*` and `+` will not be markuped to unordered lists. 
+- A `- `, `* `, or `+ ` followed by text will be markuped to an unordered lists. 
 - Multiple line list items will be translated into paragraphs.
+- Lists should be followed by two or more blankish lines to signify the list end.
+- Two or more blankish lines between list items will be markuped as two seperate lists.
 - `--` can be used to signify the end of a list to prevent translation errors.
-- Two or more blank lines between list items will be markuped as two seperate lists.
 
 ###### mrkdwn
 ```
 - Item
 - Item
--- Item
-
 - Item
 
-- Item
+
+* Item
+
+* Item
    
-   With a second paragraph
--- Item
-
+  With a second paragraph
+* Item
 ```
 ###### markup
 ```
 <ul>
-  <li>Item</li>
-  <li>Item</li>
-  <li>Item</li>
+<li>Item</li>
+<li>Item</li>
+<li>Item</li>
 </ul>
 
+
 <ul>
-  <li>
-    <p>Item</p>
-  </li>
-  <li>
-    <p>Item</p>
-    <p>With a second paragraph</p>
-  </li>
-  <li>
-    <p>Item</p>
-  </li>
+<li>
+<p>
+Item
+</p>
+</li>
+<li>
+<p>
+Item
+</p>
+<p>
+With a second paragraph
+</p>
+</li>
+<li>Item</li>
 </ul>
 ```
 
@@ -419,31 +425,34 @@ Second Paragraph
 - Numbering does not need to be unique or sequential.
 - The first number will be used as the starting value of the list.
 - Multiple line list items will be translated into paragraphs.
+- Lists should be followed by two or more blankish lines to signify the list end.
+- Two or more blankish lines between list items will be markuped as two seperate lists.
 - A number with `..` instead of `.` can be used to signify the end of a list to prevent translation errors.
-- Two or more blank lines between list items will be markuped as two seperate lists.
 
 ###### mrkdwn
 ```
 1. One
 2. Two
-3.. Three
+3. Three
+
 
 50. Fifty
 34. Fifty One
-25. Fifty Two
+34. Fifty Two
 ```
 ###### markup
 ```
 <ol>
-  <li>One</li>
-  <li>Two</li>
-  <li>Three</li>
+<li>One</li>
+<li>Two</li>
+<li>Three</li>
 </ol>
 
+
 <ol start="50">
-  <li>Fifty</li>
-  <li>Fifty One</li>
-  <li>fifty Two</li>
+<li>Fifty</li>
+<li>Fifty One</li>
+<li>fifty Two</li>
 </ol>
 ```
 
@@ -463,21 +472,22 @@ Second Paragraph
 ###### markup
 ```
 <ul>
-  <li><input type="checkbox" /> Task 1</li>
-  <li><input type="checkbox" checked /> Task 2</li>
-  <li><input type="checkbox" /> Task 3
-    <ol>
-      <li><input type="checkbox" checked /> Sub Task 1</li>
-      <li><input type="checkbox" checked /> Sub Task 2</li>
-      <li><input type="checkbox" /> Sub Task 3</li>
-    </ol>
-  </li>
+<li><input type="checkbox" /> Task 1</li>
+<li><input type="checkbox" checked /> Task 2</li>
+<li><input type="checkbox" /> Task 3
+<ol>
+<li><input type="checkbox" checked /> Sub Task 1</li>
+<li><input type="checkbox" checked /> Sub Task 2</li>
+<li><input type="checkbox" /> Sub Task 3</li>
+</ol>
+</li>
 </ul>
 ```
 
 
 ### Accordian Lists
 - Accordians can be used with ordered or unordered lists, and follow their respective syntax.
+- Accordian effect requires CSS.
 
 ###### mrkdwn
 ```
@@ -491,27 +501,32 @@ Second Paragraph
 ###### markup
 ```
 <ul>
-  <li class="accordian">Visible
-    <ul>
-      <li>Hidden</li>
-    </ul>
-  </li>
-  <li>Item
-    <ol>
-      <li class="accordian">Visible
-        <ul>
-          <li>Hidden</li>
-        </ul>
-      </li>
-    </ol>
-  </li>
+<li class="accordian">Visible
+<ul>
+<li>Hidden</li>
+</ul>
+</li>
+<li>Item
+<ol>
+<li class="accordian">Visible
+<ul>
+<li>Hidden</li>
+</ul>
+</li>
+</ol>
+</li>
 </ul>
 ```
 
 
 ### Definition Lists
+- `:` with no preceeding whitespace, will be markuped to a definition term.
+- `:` with any number of preceeding whitespaces, will be markuped to a definition definition. 
 - A term may have multiple definitions.
 - Multiple line list items will be translated into paragraphs.
+- Lists should be followed by two or more blankish lines to signify the list end.
+- Two or more blankish lines between list items will be markuped as two seperate lists.
+- `::` can be used to signify the end of a list to prevent translation errors.
 
 ###### mrkdwn
 ```
@@ -519,16 +534,22 @@ Second Paragraph
   : Definition
 : Term Two
   : Definition One
+  
+    With a second paragraph.
   : Definition Two
 ```
 ###### markup
 ```
 <dl>
-  <dt>Term One</dt>
-    <dd>Definition</dd>
-  <dt>Term Two</dt>
-    <dd>Definition One</dd>
-    <dd>Definition Two</dd>
+<dt>Term One</dt>
+<dd>Definition</dd>
+<dt>Term Two</dt>
+<dd>
+<p>
+Definition One
+</p>
+</dd>
+<dd>Definition Two</dd>
 </dl>
 ```
 
@@ -550,23 +571,23 @@ Second Paragraph
 ###### markup
 ```
 <ul>
-  <li>Item
-    <ol>
-      <li>One</li>
-      <li>Two</li>
-    </ol>
-  </li>
-  <li>Item
-    <ul>
-      <li>Sub Item
-        <ul>
-          <li>One</li>
-          <li>Two</li>
-        </ul>
-      </li>
-    </ul>
-  <li>
-  <li>Item</li>
+<li>Item
+<ol>
+<li>One</li>
+<li>Two</li>
+</ol>
+</li>
+<li>Item
+<ul>
+<li>Sub Item
+<ul>
+<li>One</li>
+<li>Two</li>
+</ul>
+</li>
+</ul>
+<li>
+<li>Item</li>
 </ul>
 ```
 

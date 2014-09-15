@@ -41,6 +41,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.metas(markdown);
             markdown = mrkdwn.markup.blockquotes(markdown);
             markdown = mrkdwn.markup.details(markdown);
+            markdown = mrkdwn.markup.lists(markdown);
             markdown = mrkdwn.markup.codesSamples(markdown);
             markdown = mrkdwn.markup.variables(markdown);
             markdown = mrkdwn.markup.abbreviations(markdown);
@@ -53,7 +54,6 @@ var mrkdwn = {
             markdown = mrkdwn.markup.horizontalRules(markdown);
             markdown = mrkdwn.markup.phraseFormattings(markdown);
             markdown = mrkdwn.markup.details(markdown);
-            markdown = mrkdwn.markup.lists(markdown);
             markdown = mrkdwn.markup.paragraphs(markdown);
             return markdown;
         },
@@ -512,21 +512,33 @@ var mrkdwn = {
         lists: function(markdown) {
             // TODO: markup nested lists
             // TODO: markup task lists
+            var ulolRegex = /\n([\t ]*?)(\d+)?([-.*+])([-.*+])?(\<)? ([\s\S]*?)(?=\n[\t \d]*[-.*+]|\n[\t ]*\n[\t ]*\n)/g,
+                dlRegex = /\n([\t ]*?)\:(\:)? ([\s\S]*?)(?=\n[\t \d]*\:|\n[\t ]*\n[\t ]*\n)/g;
+            // add pad to ease regex
+            markdown = '\n' + markdown + '\n\n\n';
             // find, replace ul and ol lists, treat everything as one level
-            markdown = markdown.replace(/\n([\t ]*?)(\d+)?(-|\.)(-|\.)?(\<)? (.*)/g, function(match, space, number, marker, ender, accordian, content) {
+            markdown = markdown.replace(ulolRegex, function(match, space, number, marker, ender, accordian, content) {
                 ender = (ender) ? '<!-- -->' : '';
                 accordian = (accordian) ? ' class="accordian"' : '';
+                // if content has a newline, place it flat so paragraph markup can find it
+                if(content.search(/\n/) > -1) {
+                    content = '\n' + content + '\n';
+                }
                 //
-                if(marker === '-') {
-                    return '\n<ul>\n<li' + accordian + '>' + content + '</li>\n</ul>' + ender;
-                } else {
+                if(marker === '.') {
                     number = (number)? ' start="' + number + '"' : '';
                     return '\n<ol' + number + '>\n<li' + accordian + '>' + content + '</li>\n</ol>' + ender;
+                } else {
+                    return '\n<ul>\n<li' + accordian + '>' + content + '</li>\n</ul>' + ender;
                 }
             });
             // find, replace dl lists, cannot be nested
-            markdown = markdown.replace(/\n([\t ]*?)\:(\:)? (.*)/g, function(match, space, ender, content) {
+            markdown = markdown.replace(dlRegex, function(match, space, ender, content) {
                 ender = (ender) ? '<!-- -->' : '';
+                // if content has a newline, place it flat so paragraph markup can find it
+                if(content.search(/\n/) > -1) {
+                    content = '\n' + content + '\n';
+                }
                 //
                 if(space.length) {
                     return '\n<dl>\n<dd>' + content + '</dd>\n</dl>' + ender;
@@ -535,9 +547,9 @@ var mrkdwn = {
                 }
             });
             // clean up first level lists
-            markdown = markdown.replace(/\n<\/(?:ul|ol|dl)>(\s{0,2})<(?:ul|ol|dl).*?>\n/g, '$1');
-            //
-            return markdown;
+            markdown = markdown.replace(/\n<\/(?:ul|ol|dl)>(\s{0,1})<(?:ul|ol|dl).*?>\n/g, '$1');
+            // remove pad and return
+            return markdown.substring(1, markdown.length - 3);
         },
         
         // >> <table></table>
