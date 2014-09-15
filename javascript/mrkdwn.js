@@ -53,7 +53,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.headers(markdown);
             markdown = mrkdwn.markup.horizontalRules(markdown);
             markdown = mrkdwn.markup.phraseFormattings(markdown);
-            markdown = mrkdwn.markup.details(markdown);
+            markdown = mrkdwn.markup.spans(markdown);
             markdown = mrkdwn.markup.paragraphs(markdown);
             return markdown;
         },
@@ -555,6 +555,15 @@ var mrkdwn = {
         // >> <table></table>
         tables: function(markdown) {
             // TODO: implement tables
+        },
+        
+        // [] >> <span></span>
+        spans: function(markdown) {
+            // find, replace spans
+            return markdown.replace(/\[([^\]]+?)\](?:<(.*?)>)?/g, function(match, content, clss) {
+                clss = (clss) ? ' class="' + clss + '"' : '';
+                return '<span' + clss + '>' + content + '</span>';
+            });
         },
         
         // text preceeded and proceeded by blank line not in pre or comment >> <p></p>

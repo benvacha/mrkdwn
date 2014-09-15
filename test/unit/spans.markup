@@ -1,0 +1,26 @@
+<span>in the span</span>
+
+<span>in the span</span> that was
+
+this is <span>in the span</span>
+
+inner<span>span</span>word
+
+[]
+
+<span> </span>
+
+<span>multiple
+line
+span</span>
+
+<span>
+</span>
+
+<span class="class">span with some</span>
+
+<span class="classOne classTwo">span with multiple</span>
+
+inner<span class="class">span</span>word
+
+<span class="class">in the span</span>

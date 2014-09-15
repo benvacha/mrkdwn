@@ -204,6 +204,11 @@ var tests = {
         markup: 'unit/phrase-formattings.markup',
         method: mrkdwn.markup.phraseFormattings
     },
+    spans: {
+        markdown: 'unit/spans.markdown',
+        markup: 'unit/spans.markup',
+        method: mrkdwn.markup.spans
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',

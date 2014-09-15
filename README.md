@@ -999,43 +999,42 @@ sample output
 
 
 ### Spans
-- `((text))` will be markuped to span tags.
-- Spans must start and end on the same line.
+- `[text]` will be markuped to a span tag.
+- Spans can be on multiple lines.
 - Spans can be used inside any other syntax.
 - Spans can be used within words.
+- Spans are primarily used with class syntax.
 
 ###### mrkdwn
 ```
-Put a span ((around this text)).
+Put a span [around this text].
 
-something((SpannedUp))
+something[SpannedUp]<class>.
 ```
 ###### markup
 ```
 Put a span <span>around this text</span>
 
-something<span>SpannedUp</span>
+something<span class="class">SpannedUp</span>.
 ```
 
 
 ### Classes
-- `<<class>>` can be added to any other syntax to add a css class to its markup.
+- `<class>` can be added to any other syntax to add a css class to its markup.
 - Classes can define more than one class.
 
 ###### mrkdwn
 ```
-#<<class>> Header
+#<class> Header
 
----<<class>>
+---<class>
 
--<<class>> Item
+-<class> Item
 - Item
 
-[linked text](url title)<<classOne classTwo>>
+[linked text](url title)<classOne classTwo>
 
-How about ((some styled text))<<class>>!
-
-<<classOne classTwo>>A paragraph with some classes
+How about [some styled text]<class>!
 ```
 ###### markup
 ```
@@ -1055,10 +1054,6 @@ Item
 <a href="url" title="title" class="classOne classTwo">linked text</a>
 
 How about <span class="class">some styled text</span>!
-
-<p class="classOne classTwo">
-A paragraph with some classes
-</p>
 ```
 
 ---
