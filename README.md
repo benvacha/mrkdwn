@@ -26,6 +26,71 @@ Table of Contents
 Syntax Cheatsheet
 -----------------
 
+| description | mrkdwn example |
+| ----------- | -------------- |
+| [escaped characters](#escaped-characters) | `\*` |
+| [comment mrkdwn](#comments) | `/// text ///` |
+| [comment html](#comments) | `///! text ///` |
+| [bold](#phrase-formattings) | `*text*` |
+| [strong](#phrase-formattings) | `**text**` |
+| [emphasis](#phrase-formattings) | `***text***` |
+| [italic](#phrase-formattings) | `~text~` |
+| [strikethrough](#phrase-formattings) | `~~text~~` |
+| [mark](#phrase-formattings) | `~~~text~~~` |
+| [superscript](#phrase-formattings) | `^text^` |
+| [subscript](#phrase-formattings) | `^^text^^` |
+| [underline](#phrase-formattings) | `_text_` |
+| [header auto link](#headers) | `# text` |
+| [header manual link](#header) | `#(!anchor) text` |
+| [horizontal rule](#horizontal-rules) | `---` |
+| [blockquote cite](#blockquotes) | `>! cite` |
+| [blockquote content](#blockquotes) | `> text` |
+| [details summary](#details) | `<! cite` |
+| [details content](#details) | `< text` |
+| [list unordered](#unordered-lists) | `- text` |
+| [list ordered](#ordered-lists) | `1. text` |
+| [list task unchecked](#task-lists) | `- [ ] text` |
+| [list task checked](#task-lists) | `- [x] text` |
+| [list accordian](#accordian-lists) | `-< text` |
+| [list definition term](#definition-lists) | `: text` |
+| [list definition definition](#definition-lists) | `  : text` |
+| [span](#spans) | `[text]` |
+| [span class](#spans) | `[text]<class>` |
+| [link url](#links) | `[text](url title)` |
+| [link anchor](#links) | `[text](!anchor title)` |
+| [link reference definition](#links) | `[reference]: url title` |
+| [link reference usage](#links) | `[text][reference]` |
+| [link reference usage short](#links) | `[reference][]` |
+| [link auto url](#links) | `[[url]]` |
+| [link auto email](#links) | `[[email]]` |
+| [link auto parsed](#links) | `[[[url_to_parse]]]` |
+| [image simple](#images) | `![text](url width height)` |
+| [image reference definition](#images) | `![reference]: url width height` |
+| [image reference usage](#images) | `![text][reference]` |
+| [image reference usage short](#images) | `![reference][]` |
+| [macro simple](#macros) | `%[text](macro args)` |
+| [macro reference definition](#macros) | `%[reference]: macro args` |
+| [macro reference usage](#macros) | `%[text][reference]` |
+| [macro reference usage short](#macros) | `%[reference][]` |
+| [citation definition](#citations) | `@[reference]: type args` |
+| [citation usage](#citations) | `@[reference]` |
+| [citation usage short](#citations) | `@reference` |
+| [note definition](#notes) | `&[reference]: note` |
+| [note usage](#notes) | `&[reference]` |
+| [note usage short](#notes) | `&reference` |
+| [variable definition](#variables) | `$[reference]: value` |
+| [variable usage](#variables) | `$[reference]` |
+| [variable usage short](#variables) | `$reference` |
+| [abbreviation definition](#abbreviations) | `+[abbreviation]: text` |
+| [inline code](#inline-codes) | &#96;text&#96; |
+| [inline sample](#inline-samples) | &#96;!text&#96; |
+| [block code](#block-pre-codes) | &#96;&#96;&#96; syntax text &#96;&#96;&#96; |
+| [block sample](#block-pre-samples) | &#96;&#96;&#96;! syntax text &#96;&#96;&#96; |
+| [table row](#tables) | &#124; text &#124; text &#124; |
+| [meta mrkdwn](#metas) | `{{{ text }}}` |
+| [meta comment](#metas) | `{{{! text }}}` |
+| [class](#classes) | `<class-one class-two>` |
+
 ---
 
 Full Syntax
