@@ -14,7 +14,7 @@ Table of Contents
 -----------------
 
 - [Syntax Cheatsheet](#syntax-cheatsheet)
-- [Full Syntax](#full-syntax)
+- [Syntax Details](#syntax-details)
 - [Javascript Implementation](#javascript-implementation)
   - [NodeJS Usage](#nodejs-usage)
   - [Web Usage](#web-usage)
@@ -26,75 +26,239 @@ Table of Contents
 Syntax Cheatsheet
 -----------------
 
-| description | mrkdwn example |
-| ----------- | -------------- |
-| [escaped characters](#escaped-characters) | `\*` |
-| [comment mrkdwn](#comments) | `/// text ///` |
-| [comment html](#comments) | `///! text ///` |
-| [bold](#phrase-formattings) | `*text*` |
-| [strong](#phrase-formattings) | `**text**` |
-| [emphasis](#phrase-formattings) | `***text***` |
-| [italic](#phrase-formattings) | `~text~` |
-| [strikethrough](#phrase-formattings) | `~~text~~` |
-| [mark](#phrase-formattings) | `~~~text~~~` |
-| [superscript](#phrase-formattings) | `^text^` |
-| [subscript](#phrase-formattings) | `^^text^^` |
-| [underline](#phrase-formattings) | `_text_` |
-| [header auto link](#headers) | `# text` |
-| [header manual link](#header) | `#(!anchor) text` |
-| [horizontal rule](#horizontal-rules) | `---` |
-| [blockquote cite](#blockquotes) | `>! cite` |
-| [blockquote content](#blockquotes) | `> text` |
-| [details summary](#details) | `<! cite` |
-| [details content](#details) | `< text` |
-| [list unordered](#unordered-lists) | `- text` |
-| [list ordered](#ordered-lists) | `1. text` |
-| [list task unchecked](#task-lists) | `- [ ] text` |
-| [list task checked](#task-lists) | `- [x] text` |
-| [list accordian](#accordian-lists) | `-< text` |
-| [list definition term](#definition-lists) | `: text` |
-| [list definition definition](#definition-lists) | `  : text` |
-| [span](#spans) | `[text]` |
-| [span class](#spans) | `[text]<class>` |
-| [link url](#links) | `[text](url title)` |
-| [link anchor](#links) | `[text](!anchor title)` |
-| [link reference definition](#links) | `[reference]: url title` |
-| [link reference usage](#links) | `[text][reference]` |
-| [link reference usage short](#links) | `[reference][]` |
-| [link auto url](#links) | `[[url]]` |
-| [link auto email](#links) | `[[email]]` |
-| [link auto parsed](#links) | `[[[url_to_parse]]]` |
-| [image simple](#images) | `![text](url width height)` |
-| [image reference definition](#images) | `![reference]: url width height` |
-| [image reference usage](#images) | `![text][reference]` |
-| [image reference usage short](#images) | `![reference][]` |
-| [macro simple](#macros) | `%[text](macro args)` |
-| [macro reference definition](#macros) | `%[reference]: macro args` |
-| [macro reference usage](#macros) | `%[text][reference]` |
-| [macro reference usage short](#macros) | `%[reference][]` |
-| [citation definition](#citations) | `@[reference]: type args` |
-| [citation usage](#citations) | `@[reference]` |
-| [citation usage short](#citations) | `@reference` |
-| [note definition](#notes) | `&[reference]: note` |
-| [note usage](#notes) | `&[reference]` |
-| [note usage short](#notes) | `&reference` |
-| [variable definition](#variables) | `$[reference]: value` |
-| [variable usage](#variables) | `$[reference]` |
-| [variable usage short](#variables) | `$reference` |
-| [abbreviation definition](#abbreviations) | `+[abbreviation]: text` |
-| [inline code](#inline-codes) | &#96;text&#96; |
-| [inline sample](#inline-samples) | &#96;!text&#96; |
-| [block code](#block-pre-codes) | &#96;&#96;&#96; syntax text &#96;&#96;&#96; |
-| [block sample](#block-pre-samples) | &#96;&#96;&#96;! syntax text &#96;&#96;&#96; |
-| [table row](#tables) | &#124; text &#124; text &#124; |
-| [meta mrkdwn](#metas) | `{{{ text }}}` |
-| [meta comment](#metas) | `{{{! text }}}` |
-| [class](#classes) | `<class-one class-two>` |
+<table>
+<tr>
+<th>description</th>
+<th>mrkdwn</th>
+</tr>
+
+<tr>
+<td><a href="#escaped-characters">escaped characters</a></td>
+<td><pre>
+\*
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#comments">comments</a></td>
+<td><pre>
+/// comment ///
+///! comment ///
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#phrase-formattings">phrase formattings</a></td>
+<td><pre>
+*bold*           ~italic~        _underline_
+**strong**       ~~strike~~
+***emphasis***   ~~~mark~~~
+^superscript^    ^^subscript^^
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#headers">headers</a></td>
+<td><pre>
+Header One
+==========
+
+Header Two
+----------
+
+# Header One
+## Header Two
+### Header Three
+#### Header Four
+##### Header Five
+###### Header Six
+
+#(!anchor) Header
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#horizontal-rules">horizontal rules</a></td>
+<td><pre>
+---
+***
+- - -
+* * *
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#blockquotes">blockquotes</a></td>
+<td><pre>
+>! cite
+> text
+> text
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#details">details</a></td>
+<td><pre>
+&lt;! summary
+&lt; text
+&lt; text
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#unordered-lists">unordered lists</a></td>
+<td><pre>
+- item
+- item
+- item
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#ordered-lists">ordered lists</a></td>
+<td><pre>
+1. item
+2. item
+3. item
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#definition-lists">definition lists</a></td>
+<td><pre>
+: term
+  : definition
+  : definition
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#task-lists">task lists</a></td>
+<td><pre>
+- [ ] item
+- [x] item
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#accordian-lists">accordian lists</a></td>
+<td><pre>
+-&lt; item
+  - sub item
+  - sub item
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#spans">spans</a></td>
+<td><pre>
+[text]
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#links">links</a></td>
+<td><pre>
+[text](url title)
+[text](email title)
+[text](!anchor title)
+[text][reference]
+[reference][]
+
+[reference]: url title
+[reference]: email title
+[reference]: !anchor title
+
+[[url]]
+[[email]]
+[[!anchor]]
+[[[url_to_parse]]]
+[[[!anchor_to_parse]]]
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#images">images</a></td>
+<td><pre>
+![alt](url width height)
+![alt][reference]
+![reference][]
+
+![reference]: url width height
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#macros">macros</a></td>
+<td><pre>
+%[alt](type args)
+%[alt][reference]
+%[reference][]
+
+%[reference]: type args
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#citations">citations</a></td>
+<td><pre>
+@[reference]
+@reference
+
+@[reference]: type args
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#notes">notes</a></td>
+<td><pre>
+&[reference]
+&reference
+
+&[reference]: note
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#variables"></a></td>
+<td><pre>
+$[reference]
+$reference
+
+$[reference]: value
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#abbreviations">abbreviations</a></td>
+<td><pre>
++[abbreviation]: expansion
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#tables">tables</a></td>
+<td><pre>
+| header | header | header |
+| :----- | :----: | -----: |
+| left   | center |  right |
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#metas">metas</a></td>
+<td><pre>
+{{{ data }}}
+{{{! data }}}
+</pre></td>
+</tr>
+
+</table>
 
 ---
 
-Full Syntax
------------
+Syntax Details
+--------------
 
 - [Escaped Characters](#escaped-characters)
 - [Comments](#comments)
