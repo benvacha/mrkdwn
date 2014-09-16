@@ -220,7 +220,7 @@ Header Two
 </tr>
 
 <tr>
-<td><a href="#variables"></a></td>
+<td><a href="#variables">variables</a></td>
 <td><pre>
 $[reference]
 $reference
@@ -250,6 +250,47 @@ $[reference]: value
 <td><pre>
 {{{ data }}}
 {{{! data }}}
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#classes">classes</a></td>
+<td><pre>
+#&lt;class&gt; Header
+#(!anchor)&lt;class&gt; Header
+
+---&lt;class&gt;
+- - -&lt;class&gt;
+
+>!&lt;class&gt; cite
+
+>&lt;class&gt; text
+
+&lt;!&lt;class&gt; summary
+
+-&lt;class&gt; item
+
+1.&lt;class&gt; item
+
+:&lt;class&gt; term
+  :&lt;class&gt; definition
+
+[text]&lt;class&gt;
+
+[text](url title)&lt;class&gt;
+[text][reference]&lt;class&gt;
+
+![alt](url width height)&lt;class&gt;
+![alt][reference]&lt;class&gt;
+
+@[reference]&lt;class&gt;
+@reference&lt;class&gt;
+
+&[reference]&lt;class&gt;
+&reference&lt;class&gt;
+
+| header | header | header |&lt;class&gt;
+
 </pre></td>
 </tr>
 
