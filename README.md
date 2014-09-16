@@ -2,9 +2,9 @@
 
 One Markdown To Rule Them All
 
-**mrkdwn** combines the [original markdown specification](http://daringfireball.net/projects/markdown/) created by John Gruber, the latest and greatest flavors of markdown, and new syntax for semantic notation and improved machine readability. **mrkdwn** seeks to provide the most complete set of syntax while considering both backward compatibility and future need. While **mrkdwn** may stray from full backward compatability, it is with the goal of improving speed, reliability, and readability.
+**mrkdwn** combines the [original markdown specification](http://daringfireball.net/projects/markdown/) created by John Gruber, the latest and greatest flavors of markdown, various other lightweight markup languages, and new syntax for semantic notation and improved machine readability. **mrkdwn** seeks to provide the most complete set of syntax while considering both backward compatibility and future need. While **mrkdwn** may stray from full backward compatability, it is with the goal of improving speed, usability, and readability.
 
-**mrkdwn**'s ultimate goal is to the be the one markdown to rule them all, the one markdown to bring them all and in the darkness bind them. With this in mind, **mrkdwn** will work to provide translation packages in all major languages as well as GUI packages for live editing, including syntax highlighting and real time output.
+**mrkdwn**'s ultimate goal is to the be the one markdown to rule them all, the one markdown to bring them all and in the darkness bind them. With this in mind, **mrkdwn** will work to provide translation packages in all major languages. **mrkdwn** will also provide GUI packages for live editing, including syntax highlighting, real time output, and media management.
 
 Try the live demo at [http://mrkdwn.org](http://mrkdwn.org)
 
@@ -13,45 +13,23 @@ Try the live demo at [http://mrkdwn.org](http://mrkdwn.org)
 Table of Contents
 -----------------
 
-- [Live Markup and Preview](#live-markup-and-preview)
-- [Current Syntax](#current-syntax)
-- [Javascript Errata, Bugs, and Future](#javascript-errata-bugs-and-future)
+- [Syntax Cheatsheet](#syntax-cheatsheet)
+- [Full Syntax](#full-syntax)
+- [Javascript Implementation](#javascript-implementation)
+  - [NodeJS Usage](#nodejs-usage)
+  - [Web Usage](#web-usage)
+  - [Live Usage](#live-usage)
+  - [Javascript Implementation Status](#javascript-implementation-status)
 
 ---
 
-Live Markup and Preview
------------------------
-
-The javascript (browser and node.js) implementation of *mrkdwn* contains functionality to enable editing with live markup and live preview. Input from the markdown textarea is read on initiation and input change, markuped for all syntax, and output to the markup textarea and or preview element.
-
-###### html
-```
-<textarea id="markdown"></textarea>
-<textarea id="markup" disabled></textarea>
-<div id="preview"></div>
-```
-###### javascript
-```
-// get the elements
-var markdownTextarea = document.getElementById('markdown'),
-    markupTextarea = document.getElementById('markup'),
-    previewElement = document.getElementById('preview');
-// start live markup and output
-// will markup and ouput on init
-mrkdwn.live.markup(markdownTextarea, markupTextarea, previewElement);
-
-// markupTextarea can be omitted if not needed or used
-// mrkdwn.live.markup(markdownTextarea, null, previewElement);
-
-// previewElement can be omitted if not needed or used
-// mrkdwn.live.markup(markdownTextarea, markupTextarea);
-
-```
+Syntax Cheatsheet
+-----------------
 
 ---
 
-Current Syntax
----------------
+Full Syntax
+-----------
 
 - [Escaped Characters](#escaped-characters)
 - [Comments](#comments)
@@ -1058,30 +1036,74 @@ How about <span class="class">some styled text</span>!
 
 ---
 
-Javascript Errata, Bugs, and Future
------------------------------------
-These are observed errata, bugs, and future plans for the javascript (node) implementation of mrkdwn. All of these will be resolved as soon as possible.
+Javascript Implementation
+-------------------------
 
-- Most syntax fails to markup when on the last or first line.
-  - All syntax should markup correctly anywhere.
-- Headers markup incorrectly if on consecutive lines.
-  - Blank lines shouldn't matter.
-- Automatic header anchors are not unique.
-  - Headers with the same text markup the same anchor.
-  - Should consecutively number non-unique anchors.
+### NodeJS Usage
+**mrkdwn** can be imported and used as a module in Node.JS. The module has access to all methods in mrkdwn.
+
+###### javascript
+```
+var mrkdwn = require('pathtofile/mrkdwn.js'),
+    mrkdwnString = from_an_API_or_other_source,
+    markupString = mrkdwn.markup.all(mrkdwnString);
+```
+
+### Web Usage
+**mrkdwn** can be used to perform a one-time translation on a string. It is possible to only perform a subset of available markups, but the below example shows using all markups.
+
+###### html
+```
+<head>
+  <script type="text/javascript" src="pathtofile/mrkdwn.js"></script>
+```
+###### javascript
+```
+var mrkdwnString = from_an_API_or_other_source,
+    markupString = mrkdwn.markup.all(mrkdwnString);
+```
+
+### Live Usage
+**mrkdwn**, when used in the browser, contains functionality to enable editing with live markup and live preview. Input from the markdown textarea is read on initiation and input change, markuped for all syntax, and output to the markup textarea and or preview element.
+
+###### html
+```
+<textarea id="markdown"></textarea>
+<textarea id="markup" disabled></textarea>
+<div id="preview"></div>
+```
+###### javascript
+```
+// get the elements
+var markdownTextarea = document.getElementById('markdown'),
+    markupTextarea = document.getElementById('markup'),
+    previewElement = document.getElementById('preview');
+// start live markup and output
+// will markup and ouput on init
+mrkdwn.live.markup(markdownTextarea, markupTextarea, previewElement);
+
+// markupTextarea can be omitted if not needed or used
+// mrkdwn.live.markup(markdownTextarea, null, previewElement);
+
+// previewElement can be omitted if not needed or used
+// mrkdwn.live.markup(markdownTextarea, markupTextarea);
+
+```
+
+### Javascript Implementation Status
+These are observed implementation state, errata, bugs, and future plans for the javascript (node) implementation of mrkdwn. All of these will be resolved as soon as possible.
+
 - Lists cannot be nested.
   - Nested lists are markuped as a single level.
-- List items cannot be on more than one line. 
-  - Multiple line items force a new list.
-  - Should be markuped to multiple paragraphs in same list.
-- Explore allowing `*` and `+` as list identifiers
+  - Differing list types interfere when nested.
 - Task Lists are not implemented.
+- Classes are not universally implemented.
 - Tables are not implemented.
 - Metas are barely implemented.
   - Does not do any parsing.
   - Does not insert comment.
-- Spans are not implemented.
-- Classes are not implemented.
+- Blank image syntax markups button for file browser in live.
+- Blank link syntax markups button for file browser in live.
 
 
 
