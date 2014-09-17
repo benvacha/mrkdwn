@@ -61,7 +61,7 @@ var mrkdwn = {
         // escaped non whitespace chars >> ascii html encoding
         // ** should be run as first markup **
         escapedChars: function(markdown) {
-            return markdown.replace(/\\(\S)/g, function(match, escapedChar) {
+            return markdown.replace(/\\([^A-Za-z0-9\s])/g, function(match, escapedChar) {
                 return '&#' + escapedChar.charCodeAt() + ';';
             });
         },

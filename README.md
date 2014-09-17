@@ -358,7 +358,7 @@ Syntax Details
 - [Classes](#classes)
 
 ### Escaped Characters
-- Any non whitespace character can be escaped with `\` to markup the ascii representation and remove its mrkdwn meaning.
+- Any non whitespace special character can be escaped with `\` to markup the ascii representation and remove its mrkdwn meaning.
 - Applied to escaped characters anywhere, without exception. Including pre and comments.
 
 ###### mrkdwn
