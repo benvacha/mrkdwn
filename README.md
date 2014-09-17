@@ -127,8 +127,8 @@ Header Two
 <td><a href="#definition-lists">definition lists</a></td>
 <td><pre>
 : term
-  : definition
-  : definition
+:: definition
+:: definition
 </pre></td>
 </tr>
 
@@ -144,8 +144,33 @@ Header Two
 <td><a href="#accordian-lists">accordian lists</a></td>
 <td><pre>
 -&lt; item
-  - sub item
-  - sub item
+- - sub item
+- - sub item
+</pre></td>
+</tr>
+
+<tr>
+<td><a href="#nested-lists">nested lists</a></td>
+<td><pre>
+- item
+- - sub item
+- - sub item
+- item
+- - sub item
+
+1. item
+1. 1. sub item
+1. 2. sub item
+2. item
+2. 1. sub item
+
+- item
+- 1. sub item
+- 2. sub item
+
+1. item
+1. - sub item
+1. - sub item
 </pre></td>
 </tr>
 
