@@ -375,8 +375,9 @@ Syntax Details
 - Pairs of three or more `/` will be removed from markup.
 - Pairs of three or more `/` with a `!` will be markuped to a html comment.
 - Can be applied inline or block.
-- Pairs of n or more `/` can be used to comment n - 1 `/`
-- Applied anywhere, without exception
+- Can be used inside of words.
+- Pairs of n or more `/` can be used to comment n or less `/`.
+- Applied anywhere, without exception. Including pre.
 
 ###### mrkdwn
 ```

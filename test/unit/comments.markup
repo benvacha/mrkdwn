@@ -10,6 +10,8 @@
 
 
 
+innercomment
+
 
 
 /! not comment /
@@ -23,6 +25,8 @@
 <!--  comment //  -->
 
 <!--  comment ///  -->
+
+inner<!-- word -->comment
 
 <!-- 
 comment

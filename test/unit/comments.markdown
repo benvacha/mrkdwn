@@ -10,6 +10,8 @@
 
 /// comment // ///
 
+inner///word///comment
+
 ///
 comment
 ///
@@ -25,6 +27,8 @@ comment
 ///! comment // ///
 
 ////! comment /// ////
+
+inner///!word///comment
 
 ///!
 comment
