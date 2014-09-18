@@ -29,3 +29,10 @@ two two
 two three
 </details>
 </details>
+
+<details class="class-one class-two">
+<summary>summary</summary>
+one
+two
+three
+</details>

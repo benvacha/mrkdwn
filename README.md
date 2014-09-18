@@ -649,6 +649,9 @@ block quote
 < Paragaph One
 <
 < Second Paragraph
+
+<!<class-one class-two> summary
+< Paragraph One
 ```
 ###### markup
 ```
@@ -659,6 +662,12 @@ Paragraph One
 </p>
 <p>
 Second Paragraph
+</p>
+</details>
+
+<details class="class-one class-two">
+<p>
+Paragraph One
 </p>
 </details>
 ```

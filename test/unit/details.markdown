@@ -19,3 +19,8 @@
 < < two one
 < < two two
 < < two three
+
+<!<class-one class-two> summary
+< one
+< two
+< three
