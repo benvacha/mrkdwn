@@ -9,6 +9,7 @@ Header Two
 
 # Head One
 # Head One One
+# Head One One One
 
 ## Head Two
 
@@ -30,3 +31,7 @@ Some more non head Text
 ### Same Header
 
 ###(!special name) Different Header
+
+###<class> Class Header
+
+###(!special class)<class-one class-two> Special Class Header 

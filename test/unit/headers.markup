@@ -7,6 +7,7 @@ Not A Header
 
 <h1><a name="head-one" title="Head One">Head One</a></h1>
 <h1><a name="head-one-one" title="Head One One">Head One One</a></h1>
+<h1><a name="head-one-one-one" title="Head One One One">Head One One One</a></h1>
 
 <h2><a name="head-two" title="Head Two">Head Two</a></h2>
 
@@ -28,3 +29,7 @@ Some more non head Text
 <h3><a name="same-header-3" title="Same Header">Same Header</a></h3>
 
 <h3><a name="special-name" title="Different Header">Different Header</a></h3>
+
+<h3 class="class"><a name="class-header" title="Class Header">Class Header</a></h3>
+
+<h3 class="class-one class-two"><a name="special-class" title="Special Class Header ">Special Class Header </a></h3>

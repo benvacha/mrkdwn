@@ -487,18 +487,15 @@ Header 2
 --------
 
 # Header 1
-
 ## Header 2
-
 ### Header 3
-
 #### Header 4
-
 ##### Header 5
-
 ###### Header 6
 
 ##(!anchor) Header 2
+##<class> Header 2
+##(!anchor)<class> Header 2
 ```
 ###### markup
 ```
@@ -507,18 +504,15 @@ Header 2
 <h2><a name="header-2">Header 2</a></h2>
 
 <h1><a name="header-1">Header 1</a></h1>
-
-<h2><a name="header-2">Header 2</a></h2>
-
+<h2><a name="header-2-2">Header 2</a></h2>
 <h3><a name="header-3">Header 3</a></h3>
-
 <h4><a name="header-4">Header 4</a></h4>
-
 <h5><a name="header-5">Header 5</a></h5>
-
 <h6><a name="header-6">Header 6</a></h6>
 
 <h2><a name="anchor">Header 2</a></h2>
+<h2 class="class"><a name="header-2-3">Header 2</a></h2>
+<h2 class="class"><a name="anchor-2">Header 2</a></h2>
 ```
 
 
