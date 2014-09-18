@@ -38,3 +38,11 @@ three
 <blockquote>
 sub three
 </blockquote>
+
+<blockquote class="class">
+block quote
+</blockquote>
+
+<blockquote class="class-one class-two" cite="cite">
+block quote
+</blockquote>

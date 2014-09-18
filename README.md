@@ -554,7 +554,7 @@ Header 2
 - `>>` can be used to signify the end of a blockquote, including nested blockquotes, to avoid translation errors.
 - One are more blank lines between blockquote lines will markup the lines as difference blockquotes.
 - Blockquotes can be nested a max of 10 times.
-- Note: diverges from daringfireball by requiring that all lines of a blockquote be preceeded by `>`.
+- Note: diverges from daringfireball by requiring that all lines of a blockquote begin with `>`.
 
 ###### mrkdwn
 ```
@@ -564,7 +564,7 @@ Header 2
 
 >! cite 
 > Block Quote
->> with citation
+> with citation
 
 > level one
 > >! cite
@@ -573,6 +573,11 @@ Header 2
 > back on level one
 > >> level two again
 > > level two, but not the same as the above line
+
+>!<class> cite
+> block quote
+
+><class-one class-two> block quote
 ```
 ###### markup
 ```
@@ -590,7 +595,7 @@ Second paragraph
 Block Quote<br />
 with citation
 </p>
-</blockquote><!-- -->
+</blockquote>
 
 <blockquote>
 <p>
@@ -615,6 +620,18 @@ level two again
 level two, but not the same as the above live
 </p>
 </blockquote>
+</blockquote>
+
+<blockquote class="class" cite="cite">
+<p>
+block quote
+</p>
+</blockquote>
+
+<blockquote class="class-one class-two">
+<p>
+block quote
+</p>
 </blockquote>
 ```
 

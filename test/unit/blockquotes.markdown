@@ -25,3 +25,8 @@ two
 > sub two
 three
 > sub three
+
+><class> block quote
+
+>!<class-one class-two> cite
+> block quote

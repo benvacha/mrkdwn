@@ -454,24 +454,25 @@ var mrkdwn = {
         blockquotes: function(markdown) {
             // buildTag is recursivelly called
             var maxNest = 10, 
-                buildTag = function(match, ender, fullCite, cite, content) {
+                buildTag = function(match, ender, cite, clss, content) {
                     ender = (ender) ? '<!-- -->' : '';
-                    cite = (cite) ? ' cite="' + cite + '"' : '';
+                    cite = (cite) ? ' cite="' + content + '"' : '';
+                    clss = (clss) ? ' class="' + clss + '"' : '';
                     // if the blockquote content contains another valid blockquote syntax, recall buildTag on it
                     // nests blockquotes inside of each other
-                    if(content.search(/^\>(.*)/g) > -1) {
-                        content = content.replace(/\>(\>?)(\! ?(.*))? ?(.*)/g, buildTag);
+                    if(!cite && content.search(/^\>(.*)/g) > -1) {
+                        content = content.replace(/\>(\>?)(\!?)(?:\<(.*)?\>)? (.*)/g, buildTag);
                     }
                     // return the whole mess back up 
                     // main diffence between returns is to not include a newline with cite
-                    if(cite) return '<blockquote' + cite + '>' + content + '\n</blockquote>' + ender;
-                    return '<blockquote>\n' + content + '\n</blockquote>' + ender;
+                    if(cite) return '<blockquote' + clss + cite + '>\n</blockquote>' + ender;
+                    return '<blockquote' + clss + '>\n' + content + '\n</blockquote>' + ender;
                 };
             // add pad to ease regex
             markdown = '\n' + markdown + '\n';
             // find all of the first level >, optionally match first level >>, optionally match ! cite
-            markdown = markdown.replace(/\n\>(\>?)(\! (.*))? ?(.*)/g, function(match, ender, fullCite, cite, content) {
-                return '\n' + buildTag(match, ender, fullCite, cite, content);
+            markdown = markdown.replace(/\n\>(\>?)(\!?)(?:\<(.*)?\>)? (.*)/g, function(match, ender, cite, clss, content) {
+                return '\n' + buildTag(match, ender, cite, clss, content);
             });
             // as long as the extra (incorrect) ending and starting blockquote tags are found, remove them
             while(markdown.search(/<\/blockquote>(\s{0,1})<blockquote.*?>/g) > -1 && maxNest--) {
