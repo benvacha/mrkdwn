@@ -527,6 +527,10 @@ Header 2
 ------------
 
 *********
+
+---<class>
+
+*****<class-one class-two>
 ```
 ###### markup
 ```
@@ -537,6 +541,10 @@ Header 2
 <hr />
 
 <hr />
+
+<hr class="class" />
+
+<hr class="class-one class-two" />
 ```
 
 
