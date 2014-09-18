@@ -441,6 +441,7 @@ with a manual break inserted
 ### Phrase Formattings
 - Phrase formatting can be nested inside of other syntax, including other phrase formattings.
 - Phrase formatting is only translated when both starting and ending syntax is found in the same line.
+- Phrase formatting can contain multiple words on the same line.
 - Phrase formatting can be inside of words, with the exception of underline.
 - Opening phrase formatting proceeded by whitespace and closing phrase formatting preceeded by whitespace will not be translated as phrase formatting.
 - Note: diverges almost completely from daringfireball.
