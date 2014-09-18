@@ -82,8 +82,6 @@ Header Two
 <td><pre>
 ---
 ***
-- - -
-* * *
 </pre></td>
 </tr>
 
@@ -285,7 +283,7 @@ $[reference]: value
 #(!anchor)&lt;class&gt; Header
 
 ---&lt;class&gt;
-- - -&lt;class&gt;
+*****&lt;class&gt;
 
 >!&lt;class&gt; cite
 
@@ -518,17 +516,17 @@ Header 2
 
 ### Horizontal Rules
 - Three or more `-` or `*` on a line, alone, will create a horizontal rule. 
-- `-` and `*` may be seperated by spaces.
+- Note: diverges from daringfireball by not allowing `-` and `*` to be seperated by spaces.
 
 ###### mrkdwn
 ```
 ---
 
-- - - - - - - -
+***
+
+------------
 
 *********
-
- * * * * *
 ```
 ###### markup
 ```

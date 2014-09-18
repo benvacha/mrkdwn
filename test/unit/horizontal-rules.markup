@@ -5,14 +5,7 @@
 <hr />
 
 <hr />
-<hr />
-<hr />
-
-<hr />
 plain text
-<hr />
-
-<hr />
 
 --
 
@@ -26,4 +19,6 @@ plain text
 
 <hr />
 
-<hr />
+<hr class="class" />
+
+<hr class="class-one class-two" />
