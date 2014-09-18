@@ -439,7 +439,7 @@ with a manual break inserted
 
 
 ### Phrase Formattings
-- Phrase formatting can be nested inside of any other syntax, except code or sample blocks.
+- Phrase formatting can be nested inside of other syntax, including other phrase formattings.
 - Phrase formatting is only translated when both starting and ending syntax is found in the same line.
 - Phrase formatting can be inside of words, with the exception of underline.
 - Opening phrase formatting proceeded by whitespace and closing phrase formatting preceeded by whitespace will not be translated as phrase formatting.
@@ -458,8 +458,8 @@ put a * in the **
 ```
 ###### markup
 ```
-<em>emphasis</em>  <b>bold</b>  <strong>strong</strong>
-<i>italic</i>  <mark>mark</mark>  <strike>strikethrough</strike>
+<b>bold</em>  <strong>strong</strong>  <em>emphasis</em>
+<i>italic</i>  <strike>strikethrough</strike>  <mark>mark</mark>
 <i><b>italic bold</b></i>
 <sup>superscript</sup>  <sub>subscript</sub>
 <u>underline</u>

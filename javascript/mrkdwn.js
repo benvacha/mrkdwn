@@ -410,7 +410,7 @@ var mrkdwn = {
         // _t_ >> underline
         phraseFormattings: function(markdown) {
             // find, replace emphasis, strong, bold
-            markdown = markdown.replace(/(\*+)(?!\*)(\S.*?\S)\1(?!\*)/g, function(match, asterisks, content) {
+            markdown = markdown.replace(/(\*+)(?!\*)([^\s*].*?[^\s*])\1(?!\*)/g, function(match, asterisks, content) {
                 if(asterisks.length === 1) {
                     return '<b>' + content + '</b>';
                 } else if(asterisks.length === 2) {
@@ -421,7 +421,7 @@ var mrkdwn = {
                 return match;
             });
             // find, replace mark, strike, italic
-            markdown = markdown.replace(/(\~+)(?!\~)(\S.*?\S)\1(?!\~)/g, function(match, tildes, content) {
+            markdown = markdown.replace(/(\~+)(?!\~)([^\s~].*?[^\s~])\1(?!\~)/g, function(match, tildes, content) {
                 if(tildes.length === 1) {
                     return '<i>' + content + '</i>';
                 } else if(tildes.length === 2) {
@@ -432,7 +432,7 @@ var mrkdwn = {
                 return match;
             });
             // find, replace subscript, superscript
-            markdown = markdown.replace(/(\^+)(?!\^)(\S.*?\S)\1(?!\^)/g, function(match, carets, content) {
+            markdown = markdown.replace(/(\^+)(?!\^)([^\s^].*?[^\s^])\1(?!\^)/g, function(match, carets, content) {
                 if(carets.length === 1) {
                     return '<sup>' + content + '</sup>';
                 } else if(carets.length === 2) {
@@ -441,7 +441,7 @@ var mrkdwn = {
                 return match;
             });
             // find, replace underline
-            markdown = markdown.replace(/(\s)(\_+)([^\_\s].*?)\2(?!\S)/g, "$1<u>$3</u>");
+            markdown = markdown.replace(/\b_([^\s_].*?[^\s_])_\b/g, "<u>$1</u>");
             //
             return markdown;
         },
