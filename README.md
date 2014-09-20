@@ -139,15 +139,6 @@ Header Two
 </tr>
 
 <tr>
-<td><a href="#accordian-lists">accordian lists</a></td>
-<td><pre>
--&lt; item
-- - sub item
-- - sub item
-</pre></td>
-</tr>
-
-<tr>
 <td><a href="#nested-lists">nested lists</a></td>
 <td><pre>
 - item
@@ -291,11 +282,14 @@ $[reference]: value
 
 &lt;!&lt;class&gt; summary
 
+
+-&lt;&lt;class&gt; item
 -&lt;class&gt; item
 
-1.&lt;class&gt; item
+1.&lt;&lt;class&gt; item
+2.&lt;class&gt; item
 
-:&lt;class&gt; term
+:&lt;&lt;class&gt; term
   :&lt;class&gt; definition
 
 [text]&lt;class&gt;
@@ -335,7 +329,6 @@ Syntax Details
 - [Unordered Lists](#unordered-lists)
 - [Ordered Lists](#ordered-lists)
 - [Task Lists](#task-lists)
-- [Accordian Lists](#accordian-lists)
 - [Definition Lists](#definition-lists)
 - [Nested Lists](#nested-lists)
 - [Links](#links)
@@ -678,7 +671,9 @@ Paragraph One
 - Multiple line list items will be translated into paragraphs.
 - Lists should be followed by two or more blankish lines to signify the list end.
 - Two or more blankish lines between list items will be markuped as two seperate lists.
-- `--` can be used to signify the end of a list to prevent translation errors.
+- `-- `, `** `, or `++ ` can be used to signify the end of a list to prevent translation errors.
+- `<class>` is markuped on the li and cannot be used with `<<class>`.
+- `<<class>` is markuped on the ul and can only be used on the first list item.
 
 ###### mrkdwn
 ```
@@ -693,6 +688,11 @@ Paragraph One
    
   With a second paragraph
 * Item
+
+
++<<class-one class-two> Item
++ Item
++<class> Item
 ```
 ###### markup
 ```
@@ -719,6 +719,13 @@ With a second paragraph
 </li>
 <li>Item</li>
 </ul>
+
+
+<ul class="class-one class-two">
+<li>Item</li>
+<li>Item</li>
+<li class="class">Item</li>
+</ul>
 ```
 
 
@@ -728,7 +735,9 @@ With a second paragraph
 - Multiple line list items will be translated into paragraphs.
 - Lists should be followed by two or more blankish lines to signify the list end.
 - Two or more blankish lines between list items will be markuped as two seperate lists.
-- A number with `..` instead of `.` can be used to signify the end of a list to prevent translation errors.
+- A number with `.. ` instead of `. ` can be used to signify the end of a list to prevent translation errors.
+- `<class>` is markuped on the li and cannot be used with `<<class>`.
+- `<<class>` is markuped on the ol and can only be used on the first list item.
 
 ###### mrkdwn
 ```
@@ -740,6 +749,11 @@ With a second paragraph
 50. Fifty
 34. Fifty One
 34. Fifty Two
+
+
+1.<<class-one class-two> One
+2. Two
+3.<class> Three
 ```
 ###### markup
 ```
@@ -755,20 +769,28 @@ With a second paragraph
 <li>Fifty One</li>
 <li>fifty Two</li>
 </ol>
+
+
+<ol class="class-one class-two">
+<li>One</li>
+<li>Two</li>
+<li class="class">Three</li>
+</ol>
 ```
 
 
 ### Task Lists
-- Task lists can be used with ordered or unordered lists, and follow their respective syntax.
+- Task lists can be used with any list type and can be used with nested lists.
+- Task lists use checkbox type input tags, and require CSS for correct visual display.
 
 ###### mrkdwn
 ```
 - [ ] Task 1
 - [x] Task 2
 - [ ] Task 3
-  1. [x] Sub Task 1
-  2. [x] Sub Task 2
-  3. [ ] Sub Task 3
+- 1. [x] Sub Task 1
+- 2. [x] Sub Task 2
+- 3. [ ] Sub Task 3
 ```
 ###### markup
 ```
@@ -786,40 +808,6 @@ With a second paragraph
 ```
 
 
-### Accordian Lists
-- Accordians can be used with ordered or unordered lists, and follow their respective syntax.
-- Accordian effect requires CSS.
-
-###### mrkdwn
-```
--< Visible
-  - Hidden
-- Item
-  1.< Visible
-    - Hidden
-  2. Item
-```
-###### markup
-```
-<ul>
-<li class="accordian">Visible
-<ul>
-<li>Hidden</li>
-</ul>
-</li>
-<li>Item
-<ol>
-<li class="accordian">Visible
-<ul>
-<li>Hidden</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-```
-
-
 ### Definition Lists
 - `:` with no preceeding whitespace, will be markuped to a definition term.
 - `:` with any number of preceeding whitespaces, will be markuped to a definition definition. 
@@ -827,17 +815,25 @@ With a second paragraph
 - Multiple line list items will be translated into paragraphs.
 - Lists should be followed by two or more blankish lines to signify the list end.
 - Two or more blankish lines between list items will be markuped as two seperate lists.
-- `::` can be used to signify the end of a list to prevent translation errors.
+- `<class>` is markuped on the dt or dd and cannot be used with `<<class>`.
+- `<<class>` is markuped on the dl and can only be used on the first list item.
 
 ###### mrkdwn
 ```
 : Term One
-  : Definition
+:: Definition
 : Term Two
-  : Definition One
+:: Definition One
   
-    With a second paragraph.
-  : Definition Two
+   With a second paragraph.
+:: Definition Two
+
+
+:<<class-one class-two> Term
+:: Definition
+::<class> Definition
+:<class> Term
+:: Definition
 ```
 ###### markup
 ```
@@ -852,6 +848,15 @@ Definition One
 </dd>
 <dd>Definition Two</dd>
 </dl>
+
+
+<dl class="class-one class-two">
+<dt>Term</dt>
+<dd>Definition</dd>
+<dd class="class">Definition</dd>
+<dt class="class">Term</dt>
+<dd>Definition</dd>
+</dl>
 ```
 
 
@@ -861,12 +866,12 @@ Definition One
 ###### mrkdwn
 ```
 - Item
-  1. One
-  2. Two
+- 1. One
+- 2. Two
 - Item
-  - Sub Item
-    1. One
-    2. Two
+- - Sub Item
+- - 1. One
+- - 2. Two
 - Item
 ```
 ###### markup

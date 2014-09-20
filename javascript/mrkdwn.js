@@ -517,44 +517,65 @@ var mrkdwn = {
         // #. >> <ol></ol>
         // : >> <dl></dl>
         lists: function(markdown) {
-            // TODO: markup nested lists
-            // TODO: markup task lists
-            var ulolRegex = /\n([\t ]*?)(\d+)?([-.*+])([-.*+])?(\<)? ([\s\S]*?)(?=\n[\t \d]*[-.*+]|\n[\t ]*\n[\t ]*\n)/g,
-                dlRegex = /\n([\t ]*?)\:(\:)? ([\s\S]*?)(?=\n[\t \d]*\:|\n[\t ]*\n[\t ]*\n)/g;
+            // buildTags is recursivelly called
+            var maxNest = 10,
+                regex = /\n(\d*)([-*+.:])([-*+.:])?(\<)?(?:\<(.*)?\>)? ([\s\S]*?)(?=\n[\d]*[-*+.:]|\n[\t ]*\n[\t ]*\n)/g,
+                rRegex = /(\d*)([-*+.:])([-*+.:])?(\<)?(?:\<(.*)?\>)? ([\s\S]*)/g,
+                buildTags = function(match, number, marker, ender, listClss, clss, content) {
+                    // check for recursion / nested lists
+                    if(content.search(/^\d*[-*+.:]/) > -1) {
+                        content = '\n' + content.replace(rRegex, buildTags) + '\n';
+                    } else {
+                        // check for task lists
+                        content = content.replace(/\[(\w)? ?\]/, function(match, checked) {
+                            checked = (checked) ? ' checked' : '';
+                            return '<input type="checkbox"' + checked + ' />';
+                        });
+                        // check for multi-line
+                        if(content.search(/\n/) > -1) {
+                            content = '\n' + content + '\n';
+                        }
+                    }
+                    // check for list or item class
+                    if(listClss && clss) {
+                        listClss = ' class="' + clss + '"';
+                        clss = '';
+                    } else if(clss) {
+                        listClss = '';
+                        clss = ' class="' + clss + '"';
+                    } else {
+                        listClss = '';
+                        clss = '';
+                    }
+                    // create tags based on marker character
+                    if(marker == ':') {
+                        if(ender) {
+                            return '<dl' + listClss + '>\n<dd' + clss + '>' + content + '</dd>\n</dl>';
+                        } else {
+                            return '<dl' + listClss + '>\n<dt' + clss + '>' + content + '</dt>\n</dl>';
+                        }
+                    } else if(marker == '.') {
+                        ender = (ender) ? '<!-- -->' : '';
+                        number = (number)? ' start="' + number + '"' : '';
+                        return '<ol' + number + listClss + '>\n<li' + clss + '>' + content + '</li>\n</ol>' + ender;
+                    } else {
+                        ender = (ender) ? '<!-- -->' : '';
+                        return '<ul' + listClss + '>\n<li' + clss + '>' + content + '</li>\n</ul>' + ender;
+                    }
+                    return match;
+                };
             // add pad to ease regex
             markdown = '\n' + markdown + '\n\n\n';
-            // find, replace ul and ol lists, treat everything as one level
-            markdown = markdown.replace(ulolRegex, function(match, space, number, marker, ender, accordian, content) {
-                ender = (ender) ? '<!-- -->' : '';
-                accordian = (accordian) ? ' class="accordian"' : '';
-                // if content has a newline, place it flat so paragraph markup can find it
-                if(content.search(/\n/) > -1) {
-                    content = '\n' + content + '\n';
-                }
-                //
-                if(marker === '.') {
-                    number = (number)? ' start="' + number + '"' : '';
-                    return '\n<ol' + number + '>\n<li' + accordian + '>' + content + '</li>\n</ol>' + ender;
-                } else {
-                    return '\n<ul>\n<li' + accordian + '>' + content + '</li>\n</ul>' + ender;
-                }
+            // find, replace, ul, ol, dl lists, now with nesting, start of recursion
+            markdown = markdown.replace(regex, function(match, number, marker, ender, listClss, clss, content) {
+                return '\n' + buildTags(match, number, marker, ender, listClss, clss, content);
             });
-            // find, replace dl lists, cannot be nested
-            markdown = markdown.replace(dlRegex, function(match, space, ender, content) {
-                ender = (ender) ? '<!-- -->' : '';
-                // if content has a newline, place it flat so paragraph markup can find it
-                if(content.search(/\n/) > -1) {
-                    content = '\n' + content + '\n';
-                }
-                //
-                if(space.length) {
-                    return '\n<dl>\n<dd>' + content + '</dd>\n</dl>' + ender;
-                } else {
-                    return '\n<dl>\n<dt>' + content + '</dt>\n</dl>' + ender;
-                }
-            });
-            // clean up first level lists
-            markdown = markdown.replace(/\n<\/(?:ul|ol|dl)>(\s{0,1})<(?:ul|ol|dl).*?>\n/g, '$1');
+            // clean up nested lists and items
+            while(markdown.search(/<\/(ul|ol|dl)>\n<\1.*?>/g) > -1 && maxNest--) {
+                markdown = markdown.replace(/\n<\/(ul|ol|dl)>\n<\1.*?>\n/g, '\n');
+                markdown = markdown.replace(/\n?<\/(?:li|dt|dd)>\n<(?:li|dt|dd)>\n<((ul|ol|dl).*?)>\n/g, '\n<$1>\n');
+            }
+            markdown = markdown.replace(/\n?<\/(?:li|dt|dd)>\n<(?:li|dt|dd)>\n<((ul|ol|dl).*?)>\n/g, '\n<$1>\n');
             // remove pad and return
             return markdown.substring(1, markdown.length - 3);
         },
