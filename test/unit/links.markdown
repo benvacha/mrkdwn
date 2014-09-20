@@ -32,3 +32,9 @@ email hello@url.com now
 info@url.com to contact
 
 [link to something](http://something.com)
+
+[text](url title)<class-one class-two>
+[text][linkOne]<class-one class-two>
+[linkOne][]<class-one class-two>
+[[url]]<class-one class-two>
+[[[url]]]<class-one class-two>

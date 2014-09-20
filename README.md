@@ -927,6 +927,7 @@ Definition One
 [text](#anchor "long title")
 
 [text][reference]
+[reference][]
 [reference]: url 'long title'
 
 [[url]]
@@ -934,6 +935,11 @@ Definition One
 [[!anchor]]
 [[#anchor]]
 [[[parsed_url#anchor]]]
+
+
+[text](url title)<class>
+[text][reference]<class-one class-two>
+[[url]]<class>
 ```
 ###### markup
 ```
@@ -944,12 +950,17 @@ Definition One
 <a href="#anchor" title="long title">text</a>
 
 <a href="url" title="long title">text</a>
+<a href="url" title="long title">text</a>
 
 <a href="url">url</a>
 <a href="auto/parsed/url">auto parsed url</a>
 <a name="anchor">anchor</a>
 <a href="#anchor">anchor</a>
 <a href="parsed/url#anchor">parsed url anchor</a>
+
+<a class="class" href="url" title="Title">text</a>
+<a class="class-one class-two" href="url" title="long title">text</a>
+<a class="class" href="url">url</a>
 ```
 
 

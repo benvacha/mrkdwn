@@ -288,7 +288,7 @@ var mrkdwn = {
         // single or double square brackets >> <a></a>
         links: function(markdown, runtimeDefinitions, disableAutoLinks) {
             var defs = (runtimeDefinitions) ? runtimeDefinitions : {},
-                buildTag = function(text, value) {
+                buildTag = function(text, value, clss) {
                     // if no value, return unaltered text
                     if(!value) return text;
                     // if value, split it into tokens and return tag
@@ -311,7 +311,9 @@ var mrkdwn = {
                         title = ' title="' + mrkdwn.util.asciiEncode(text) + '"';
                     }
                     //
-                    return '<a' + url + email + name + title + '>' + text + '</a>';
+                    clss = (clss) ? ' class="' + clss + '"' : '';
+                    //
+                    return '<a' + clss + url + email + name + title + '>' + text + '</a>';
                 };
             // add pad to ease regex
             markdown = '\n' + markdown + '\n';
@@ -321,23 +323,23 @@ var mrkdwn = {
                 return '';
             });
             // find, replace reference usage
-            markdown = markdown.replace(/(\s)\[(.*?)\]\[(.*?)\]/g, function(match, whitespace, text, name) {
-                if(!name) return whitespace + buildTag(text, defs[text]);
-                return whitespace + buildTag(text, defs[name]);
+            markdown = markdown.replace(/(\s)\[(.*?)\]\[(.*?)\](?:\<(.*)?\>)?/g, function(match, whitespace, text, name, clss) {
+                if(!name) return whitespace + buildTag(text, defs[text], clss);
+                return whitespace + buildTag(text, defs[name], clss);
             });
             // find, replace inline usage
-            markdown = markdown.replace(/(\s)\[(.*?)\]\((.*?)\)/g, function(match, whitespace, text, value) {
-                return whitespace + buildTag(text, value);
+            markdown = markdown.replace(/(\s)\[(.*?)\]\((.*?)\)(?:\<(.*)?\>)?/g, function(match, whitespace, text, value, clss) {
+                return whitespace + buildTag(text, value, clss);
             });
             // find, replace simple usage
-            markdown = markdown.replace(/(\s)\[\[([^\[\]]*?\S[^\[\]]*?)\]\](?=\s)/g, function(match, whitespace, text) {
-                return whitespace + buildTag(text.replace(/^[!#]/, ''), text);
+            markdown = markdown.replace(/(\s)\[\[([^\[\]]*?\S[^\[\]]*?)\]\](?:\<(.*)?\>)?(?=\s)/g, function(match, whitespace, text, clss) {
+                return whitespace + buildTag(text.replace(/^[!#]/, ''), text, clss);
             });
             // find, replace simple parsed usage
-            markdown = markdown.replace(/(\s)\[\[\[([^\[\]]*?\S[^\[\]]*?)\]\]\](?=\s)/g, function(match, whitespace, text) {
+            markdown = markdown.replace(/(\s)\[\[\[([^\[\]]*?\S[^\[\]]*?)\]\]\](?:\<(.*)?\>)?(?=\s)/g, function(match, whitespace, text, clss) {
                 var shown = text.replace(/^[!#]|["']/g, '').replace(/[_#]/g, ' '),
                     value = text.replace(/_/g, '/');
-                return whitespace + buildTag(shown, value);
+                return whitespace + buildTag(shown, value, clss);
             });
             // find, replace absolute urls and email address
             if(!disableAutoLinks) {
