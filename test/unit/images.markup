@@ -2,11 +2,11 @@
 
 <img alt="two" src="image/one.png" title="Title" />
 
-<img alt="three" src="image/one.png" title="Title" class="class" />
+<img alt="three" src="image/one.png" class="class" title="Title" />
 
 <img alt="four" src="image/one.png" title="Long Title" />
 
-<img alt="five" src="image/one.png" title="Long Title" class="class" width="100px" />
+<img alt="five" src="image/one.png" title="Long Title" width="100px" />
 
 <img alt="six" src="image/one.png" title="Long Title" width="100px" height="100px" />
 
@@ -14,6 +14,8 @@
 
 
 <img alt="seven" src="http://url.com/two.png" title="A Title" width="100%" height="200%" />
-<img alt="eight" src="three.png" title="Three Title" class="class" />
+<img alt="eight" src="three.png" class="class-one class-two" title="Three Title" />
 <img alt="nine" />
+<img alt="imgTwo" src="http://url.com/two.png" title="A Title" width="100%" height="200%" />
+<img alt="imgThree" src="three.png" class="class" title="Three Title" />
 
