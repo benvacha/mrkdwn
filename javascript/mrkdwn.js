@@ -243,10 +243,10 @@ var mrkdwn = {
                     bib = value.trim();
                 }
                 defs[name] = {id: ++defCount, bib: bib};
-                return '\n<ol class="citations">\n<li><a name="' + linkPrefix + defCount + '">' + bib + '</a></li></ol>';
+                return '\n<ol class="citations">\n<li><a name="' + linkPrefix + defCount + '">' + bib + '</a></li>\n</ol>';
             });
             // clean up list
-            markdown = markdown.replace(/<\/ol>\n<ol.*?>/g, '');
+            markdown = markdown.replace(/\n<\/ol>\n<ol.*?>/g, '');
             // find, replace inline usage
             markdown = markdown.replace(/\s\@\[(.*?)\](?:\<(.*)?\>)?/g, function(match, name, clss) {
                 return buildTags(match, name, clss);
@@ -264,28 +264,32 @@ var mrkdwn = {
         notes: function(markdown, linkPrefix) {
             var linkPrefix = (linkPrefix) ? linkPrefix : 'note-',
                 defCount = 0, defs = {},
-                buildTags = function(altText, name) {
+                buildTags = function(altText, name, clss) {
                     if(defs[name]) {
-                        return '<sup class="note"><a href="#' + linkPrefix + defs[name].id + '" title="' + 
+                        clss = (clss) ? ' class="note ' + clss + '"' : ' class="note"';
+                        return '<sup' + clss + '><a href="#' + linkPrefix + defs[name].id + '" title="' + 
                             mrkdwn.util.asciiEncode(defs[name].note) + '">' + defs[name].id + '</a></sup>';
                     }
                     return altText;
                 };
+            // pad to ease regex
+            markdown = '\n' + markdown + '\n';
             // find, cache, create list
-            markdown = markdown.replace(/\&\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
+            markdown = markdown.replace(/\n\&\[(.*?)\]:(.*)/g, function(match, name, value) {
                 defs[name] = {id: ++defCount, note: value};
-                return '<ol><li><a name="' + linkPrefix + defCount + '">' + value.trim() + '</a></li></ol>';
+                return '\n<ol class="notes">\n<li><a name="' + linkPrefix + defCount + '">' + value.trim() + '</a></li>\n</ol>';
             });
             // clean up list
-            markdown = markdown.replace(/<\/ol>\s{0,2}<ol>/g, '');
+            markdown = markdown.replace(/\n<\/ol>\n<ol.*?>/g, '');
             // find, replace inline usage
-            markdown = markdown.replace(/\s?\&\[(.*?)\]/g, function(match, name) {
-                return buildTags(match, name);
+            markdown = markdown.replace(/\s\&\[(.*?)\](?:\<(.*)?\>)?/g, function(match, name, clss) {
+                return buildTags(match, name, clss);
             });
-            markdown = markdown.replace(/\s?\&(\w\S+?)\b/g, function(match, name) {
-                return buildTags(match, name);
+            markdown = markdown.replace(/\s\&(\w\S+?)\b/g, function(match, name) {
+                return buildTags(match, name, '');
             });
-            return markdown;
+            // remove pad and return
+            return markdown.substring(1, markdown.length - 1);
         },
         
         // square brackets colon >> nothing

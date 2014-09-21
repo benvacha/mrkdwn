@@ -1089,24 +1089,27 @@ Yeah for classes<sup class="citation class-one class-two"><a href="#cite-1" titl
 - Note references must be placed together in the document where they should be displayed and will be translated as a list.
 - Note reference names must begin with an alphanumeric character, contain no spaces, and are case sensative. 
 - Notes are automatically numbered based on list order.
+- Note references list is given a `notes` class.
+- Note sup tags are given a `note` class.
 
 ###### mrkdwn
 ```
 This sentence needs a note &[refOne]. 
 This sentence also needs a note &refTwo. 
-This sentence gets a fancy note &[refTwo].
+This sentence gets a fancy note &[refTwo]<class-one>.
 
 &[refOne]: note text
 &[refTwo]: note text
 ```
 ###### markup
 ```
-This sentence needs a note<sup class="note"><a href="#note-1" title="note text">1</a></sup>. 
+This sentence needs a note<sup class="note"><a href="#note-1" title="note text">1</a></sup>.
 This sentence also needs a note<sup class="note"><a href="#note-2" title="note text">2</a></sup>.
+This sentence gets a fancy note<sup class="note class-one"><a href="#note-2" title="note text">2</a></sup>.
 
-<ol>
-  <li><a name="note-1">note text</a></li>
-  <li><a name="note-2">note text</a></li>
+<ol class="notes">
+<li><a name="note-1">note text</a></li>
+<li><a name="note-2">note text</a></li>
 </ol>
 ```
 

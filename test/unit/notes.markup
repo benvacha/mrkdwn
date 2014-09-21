@@ -1,7 +1,11 @@
 Dogs like bones<sup class="note"><a href="#note-1" title=" the bigger the better">1</a></sup> and cars.
 
-Cats hate swimming<sup class="note"><a href="#note-2" title=" for the most part">2</a></sup> and lasers.
+Cats hate swimming<sup class="note"><a href="#note-2" title=" for the most part">2</a></sup> and lasers<sup class="note class-one"><a href="#note-1" title=" the bigger the better">1</a></sup>.
 
-Mice like cheese &three.
+Mice like cheese<sup class="note"><a href="#note-3" title=" a note with a &#60;br &#47;&#62; in it">3</a></sup> &four.
 
-<ol><li><a name="note-1">the bigger the better</a></li><li><a name="note-2">for the most part</a></li></ol>
+<ol class="notes">
+<li><a name="note-1">the bigger the better</a></li>
+<li><a name="note-2">for the most part</a></li>
+<li><a name="note-3">a note with a <br /> in it</a></li>
+</ol>
