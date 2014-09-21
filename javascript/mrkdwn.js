@@ -124,9 +124,15 @@ var mrkdwn = {
                 return '';
             });
             // find, replace usage
-            return markdown.replace(/\$\[(.*?)\]/g, function(match, name) {
+            markdown = markdown.replace(/\$\[(.*?)\]/g, function(match, name) {
                 return (defs[name]) ? defs[name] : name;
             });
+            // find, replace short usage
+            markdown = markdown.replace(/\$(\w\S+?)\b/g, function(match, name) {
+                return (defs[name]) ? defs[name] : match;
+            });
+            //
+            return markdown;
         },
         
         // plus square brackets colon >> nothing
