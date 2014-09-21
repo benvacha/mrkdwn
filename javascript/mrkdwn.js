@@ -223,15 +223,18 @@ var mrkdwn = {
         citations: function(markdown, linkPrefix) {
             var linkPrefix = (linkPrefix) ? linkPrefix : 'cite-',
                 defCount = 0, defs = {},
-                buildTags = function(altText, name) {
+                buildTags = function(altText, name, clss) {
                     if(defs[name]) {
-                        return '<sup class="citation"><a href="#' + linkPrefix + defs[name].id + '" title="' + 
+                        clss = (clss) ? ' class="citation ' + clss + '"' : ' class="citation"';
+                        return '<sup' + clss + '><a href="#' + linkPrefix + defs[name].id + '" title="' + 
                             mrkdwn.util.asciiEncode(defs[name].bib) + '">' + defs[name].id + '</a></sup>';
                     }
                     return altText;
                 };
+            // pad to ease regex
+            markdown = '\n' + markdown + '\n';
             // find, cache, create list
-            markdown = markdown.replace(/\@\[(.*?)\]:(.*)(\n)?/g, function(match, name, value) {
+            markdown = markdown.replace(/\n\@\[(.*?)\]:(.*)/g, function(match, name, value) {
                 var tokens = mrkdwn.util.tokenize(value),
                     type = tokens.shift(), bib;
                 if(mrkdwn.citation[type]) {
@@ -240,18 +243,19 @@ var mrkdwn = {
                     bib = value.trim();
                 }
                 defs[name] = {id: ++defCount, bib: bib};
-                return '<ol><li><a name="' + linkPrefix + defCount + '">' + bib + '</a></li></ol>';
+                return '\n<ol class="citations">\n<li><a name="' + linkPrefix + defCount + '">' + bib + '</a></li></ol>';
             });
             // clean up list
-            markdown = markdown.replace(/<\/ol>\s{0,2}<ol>/g, '');
+            markdown = markdown.replace(/<\/ol>\n<ol.*?>/g, '');
             // find, replace inline usage
-            markdown = markdown.replace(/\s?\@\[(.*?)\]/g, function(match, name) {
-                return buildTags(match, name);
+            markdown = markdown.replace(/\s\@\[(.*?)\](?:\<(.*)?\>)?/g, function(match, name, clss) {
+                return buildTags(match, name, clss);
             });
-            markdown = markdown.replace(/\s?\@(\w\S+?)\b/g, function(match, name) {
-                return buildTags(match, name);
+            markdown = markdown.replace(/\s\@(\w\S+?)\b/g, function(match, name) {
+                return buildTags(match, name, '');
             });
-            return markdown;
+            // remove pad and return
+            return markdown.substring(1, markdown.length - 1);
         },
         
         // amp square brackets colon >> note list

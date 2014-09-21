@@ -301,10 +301,8 @@ $[reference]: value
 ![alt][reference]&lt;class&gt;
 
 @[reference]&lt;class&gt;
-@reference&lt;class&gt;
 
 &[reference]&lt;class&gt;
-&reference&lt;class&gt;
 
 | header | header | header |&lt;class&gt;
 
@@ -1051,8 +1049,10 @@ varied based on macro
 - `@[citationReference]` will be markuped to a superscript numbered anchor linked to the citation in page.
 - `@citationReference` will be markuped to a superscript numbered anchor linked to the citation in page.
 - `@[citationReference]: type arg1 ...` will be markuped depending on type, and will define a citation.
-- Citation references must be placed together in the document where they should be displayed and will be translated as a list. 
-- Citation reference names must begin with an alphanumeric character, contain no spaces, and are case sensative. 
+- Citation references must be placed together in the document where they should be displayed and will be translated as a list.
+- Citation reference names must begin with an alphanumeric character, contain no spaces, and are case sensative.
+- Citation references list is given a `citations` class.
+- Citation sup tags are given a `citation` class.
 - Citations are automatically numbered based on list order. 
 - Any number and type of arguments can be included after the first argument depending on the citation type.
 - If the first argument in a citation reference is a known type of citation its arguments will be used to autoformat a citation in MLA. 
@@ -1062,6 +1062,7 @@ varied based on macro
 ```
 This sentence is from something trustworthy @[refOne]. 
 This sentence is way less trustworthy @refTwo.
+Yeah for classes @[refOne]<class-one class-two>.
 
 @[refOne]: type arg1 arg2
 @[refTwo]: type arg1 arg2 arg3
@@ -1071,11 +1072,12 @@ This sentence is way less trustworthy @refTwo.
 ```
 This sentence is from something trustworthy<sup class="citation"><a href="#cite-1" title="bibliography">1</a></sup>. 
 This sentence is way less trustworthy<sup class="citation"><a href="#cite-2" title="bibliography">2</a></sup>.
+Yeah for classes<sup class="citation class-one class-two"><a href="#cite-1" title="bibliography">1</a></sup>.
 
-<ol>
-  <li><a name="cite-1">bibliography based on type</a></li>
-  <li><a name="cite-2">bibliography based on type</a></li>
-  <li><a name="cite-3">A preformatted citation</a></li>
+<ol class="citations">
+<li><a name="cite-1">bibliography based on type</a></li>
+<li><a name="cite-2">bibliography based on type</a></li>
+<li><a name="cite-3">A preformatted citation</a></li>
 </ol>
 ```
 

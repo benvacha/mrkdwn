@@ -1,7 +1,14 @@
 Dogs like bones<sup class="citation"><a href="#cite-1" title="Millan&#44; Cesar&#46; &#34;Dog Likes&#46;&#34; &#60;i&#62;Good Dog Owners&#46;&#60;&#47;i&#62; 08&#47;25&#47;2014&#46; &#60;br &#47;&#62;&#60;&#60;a href&#61;&#34;http&#58;&#47;&#47;url&#46;com&#34;&#62;http&#58;&#47;&#47;url&#46;com&#60;&#47;a&#62;&#62;&#46;">1</a></sup>.
 
+Dots like bones<sup class="citation class"><a href="#cite-1" title="Millan&#44; Cesar&#46; &#34;Dog Likes&#46;&#34; &#60;i&#62;Good Dog Owners&#46;&#60;&#47;i&#62; 08&#47;25&#47;2014&#46; &#60;br &#47;&#62;&#60;&#60;a href&#61;&#34;http&#58;&#47;&#47;url&#46;com&#34;&#62;http&#58;&#47;&#47;url&#46;com&#60;&#47;a&#62;&#62;&#46;">1</a></sup>.
+
 Cats hate swimming<sup class="citation"><a href="#cite-2" title="That one cat book Sally has">2</a></sup> and lasers.
 
-Mice like cheese @three.
+Mice like cheese<sup class="citation"><a href="#cite-2" title="That one cat book Sally has">2</a></sup><sup class="citation"><a href="#cite-3" title="That one cat book Bill has">3</a></sup>.
 
-<ol><li><a name="cite-1">Millan, Cesar. "Dog Likes." <i>Good Dog Owners.</i> 08/25/2014. <br /><<a href="http://url.com">http://url.com</a>>.</a></li><li><a name="cite-2">That one cat book Sally has</a></li></ol>
+Birds like flying @four.
+
+<ol class="citations">
+<li><a name="cite-1">Millan, Cesar. "Dog Likes." <i>Good Dog Owners.</i> 08/25/2014. <br /><<a href="http://url.com">http://url.com</a>>.</a></li>
+<li><a name="cite-2">That one cat book Sally has</a></li>
+<li><a name="cite-3">That one cat book Bill has</a></li></ol>
