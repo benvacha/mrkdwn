@@ -304,7 +304,9 @@ $[reference]: value
 
 &[reference]&lt;class&gt;
 
-| header | header | header |&lt;class&gt;
+| header | header | header |&lt;&lt;class-table&gt;
+| ------ | ------ | ------ |
+| col    | col    | col    |&lt;class-row&gt;
 
 </pre></td>
 </tr>
@@ -1252,13 +1254,21 @@ sample output
 
 ### Tables
 - Tables must have preceeding and proceeding `|`.
+- The first text row will always be markuped as the head row.
+- The first row with only bars, dashes, and colons will always be used to define aligns.
+- Remaining text rows will be markuped as body rows.
+- Aligns are applied to head and body rows.
 - Column text lengths do not need to be equal between columns or rows.
+- Table rows must be on the same line.
+- All other inline syntax can be nested inside table syntax.
+- `<class>` is markuped on the tr and cannot be used with `<<class>`.
+- `<<class>` is markuped on the table and can only be used on the head row.
 
 ###### mrkdwn
 ```
-| Header One | Header Two |
+| Header One | Header Two |<<class-one>
 | ---------- | ---------- |
-| Content    | Content    |
+| Content    | Content    |<class>
 
 | Left | Center | Right |
 | :--- | :----: | ----: |
@@ -1266,36 +1276,36 @@ sample output
 ```
 ###### markup
 ```
-<table>
-  <thead>
-    <tr>
-      <th>Header One</th>
-      <th>Header Two</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Content</td>
-      <td>Content</td>
-    </tr>
-  </tbody>
+<table class="class-one">
+<thead>
+<tr>
+<th>Header One</th>
+<th>Header Two</th>
+</tr>
+</thead>
+<tbody>
+<tr class="class">
+<td>Content</td>
+<td>Content</td>
+</tr>
+</tbody>
 </table>
 
 <table>
-  <thead>
-    <tr>
-      <th>Left</th>
-      <th>Center</th>
-      <th>Right</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="left">Content</td>
-      <td align="center">Content</td>
-      <td align="right">Content</td>
-    </tr>
-  </tbody>
+<thead>
+<tr>
+<th align="left">Left</th>
+<th align="center">Center</th>
+<th align="right">Right</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Content</td>
+<td align="center">Content</td>
+<td align="right">Content</td>
+</tr>
+</tbody>
 </table>
 ```
 

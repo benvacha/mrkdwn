@@ -209,6 +209,11 @@ var tests = {
         markup: 'unit/spans.markup',
         method: mrkdwn.markup.spans
     },
+    tables: {
+        markdown: 'unit/tables.markdown',
+        markup: 'unit/tables.markup',
+        method: mrkdwn.markup.tables
+    },
     paragraphs: {
         markdown: 'unit/paragraphs.markdown',
         markup: 'unit/paragraphs.markup',

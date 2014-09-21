@@ -1,0 +1,43 @@
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>description</th>
+<th>type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>one</td>
+<td>a single thing</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>two</td>
+<td>double things</td>
+<td>integer</td>
+</tr>
+</tbody>
+</table>
+
+<table class="class-table">
+<thead>
+<tr>
+<th align="left">name</th>
+<th align="center">description</th>
+<th align="right">type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="class-row">
+<td align="left">one</td>
+<td align="center">a single thing</td>
+<td align="right">integer</td>
+</tr>
+<tr>
+<td align="left">two</td>
+<td align="center">double things</td>
+<td align="right">integer</td>
+</tr>
+</tbody>
+</table>

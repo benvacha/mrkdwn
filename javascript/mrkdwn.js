@@ -54,6 +54,7 @@ var mrkdwn = {
             markdown = mrkdwn.markup.horizontalRules(markdown);
             markdown = mrkdwn.markup.phraseFormattings(markdown);
             markdown = mrkdwn.markup.spans(markdown);
+            markdown = mrkdwn.markup.tables(markdown);
             markdown = mrkdwn.markup.paragraphs(markdown);
             return markdown;
         },
@@ -598,9 +599,86 @@ var mrkdwn = {
             return markdown.substring(1, markdown.length - 3);
         },
         
-        // >> <table></table>
+        // | | >> <table></table>
         tables: function(markdown) {
-            // TODO: implement tables
+            //
+            var getHeaderTags = function(content, tableClss, clss, aligns) {
+                    var i = 0, align;
+                    // check for table or row class
+                    if(tableClss && clss) {
+                        tableClss = ' class="' + clss + '"';
+                        clss = '';
+                    } else if(clss) {
+                        tableClss = '';
+                        clss = ' class="' + clss + '"';
+                    } else {
+                        tableClss = '';
+                        clss = '';
+                    }
+                    // convert bars to columns
+                    content = content.replace(/(?:\|)? ?([\S\t ]*?) ?\|/g, function(match, content) {
+                        align = (aligns[i]) ? aligns[i] : '';
+                        i++;
+                        return '\n<th' + align + '>' + content + '</th>';
+                    });
+                    //
+                    return '\n<table' + tableClss + '>\n<thead>\n<tr' + clss + '>' + content + '\n</tr>\n</thead>\n</table>';
+                },
+                getRowAligns = function(content) {
+                    var aligns = [];
+                    content = content.replace(/(?:\|)? ?(:)?([\S\t ]*?)(:)? ?\|/g, function(match, left, content, right) {
+                        if(left && right) {
+                            aligns.push(' align="center"');
+                        } else if(left) {
+                            aligns.push(' align="left"');
+                        } else if(right) {
+                            aligns.push(' align="right"');
+                        } else {
+                            aligns.push('');
+                        }
+                        return '';
+                    });
+                    return aligns;
+                },
+                getRowTags = function(content, clss, aligns) {
+                    var i = 0, align;
+                    clss = (clss) ? ' class="' + clss + '"' : '';
+                    // convert bars to columns
+                    content = content.replace(/(?:\|)? ?([\S\t ]*?) ?\|/g, function(match, content) {
+                        align = (aligns[i]) ? aligns[i] : '';
+                        i++;
+                        return '\n<td' + align + '>' + content + '</td>';
+                    });
+                    //
+                    return '\n<table>\n<tbody>\n<tr' + clss + '>' + content + '\n</tr>\n</tbody>\n</table>';
+                };
+            var processTable = function(match, table) {
+                var aligns = [];
+                // parse first row that is only dashes, bars, and colons for aligns
+                table = table.replace(/\n(\|[-:\|\t ]*?\|)(\<)?(?:\<(.*)?\>)?(?=\n)/, function(match, content, tableClss, clss) {
+                    aligns = getRowAligns(content);
+                    return '';
+                });
+                // parse the first row in the table for headers
+                table = table.replace(/\n(\|[\S\t ]*?\|)(\<)?(?:\<(.*)?\>)?(?=\n)/, function(match, content, tableClss, clss) {
+                    return getHeaderTags(content, tableClss, clss, aligns);
+                });
+                // parse every other line in the table for rows
+                table = table.replace(/\n(\|[\S\t ]*?\|)(\<)?(?:\<(.*)?\>)?(?=\n|$)/g, function(match, content, tableClss, clss) {
+                    return getRowTags(content, clss, aligns);
+                });
+                //
+                return table;
+            };
+            // add pad to ease regex
+            markdown = '\n' + markdown + '\n\n';
+            // find, markup an entire table
+            markdown = markdown.replace(/(\n\|[\S\s]*?\|)(?=\n[\t ]*\n)/g, processTable);
+            // clean up extra table and tbody tags
+            markdown = markdown.replace(/\n<\/table>\n<table.*?>\n/g, '\n');
+            markdown = markdown.replace(/\n<\/tbody>\n<tbody.*?>\n/g, '\n');
+            // remove pad and return
+            return markdown.substring(1, markdown.length - 2);
         },
         
         // [] >> <span></span>
