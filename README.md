@@ -1465,12 +1465,6 @@ mrkdwn.live.markup(markdownTextarea, markupTextarea, previewElement);
 ### Javascript Implementation Status
 These are observed implementation state, errata, bugs, and future plans for the javascript (node) implementation of mrkdwn. All of these will be resolved as soon as possible.
 
-- Lists cannot be nested.
-  - Nested lists are markuped as a single level.
-  - Differing list types interfere when nested.
-- Task Lists are not implemented.
-- Classes are not universally implemented.
-- Tables are not implemented.
 - Metas are barely implemented.
   - Does not do any parsing.
   - Does not insert comment.
