@@ -987,6 +987,7 @@ Email <a href="mailto:&#97;&#100;&#100;&#114;&#64;&#101;&#109;&#97;&#105;&#108;&
 ### Images
 - `![alt text](url title width height)` will be markuped to img tags.
 - `![alt text][imageReference]` will be markuped to img tags.
+- `![imageReference][]` will be markuped to img tags.
 - `![imageReference]: url title width height` will be removed from markup, but will define an image.
 - urls can be absolute or relative.
 - title, width, and height are optional.
@@ -1021,23 +1022,27 @@ Email <a href="mailto:&#97;&#100;&#100;&#114;&#64;&#101;&#109;&#97;&#105;&#108;&
 ### Macros
 - `%[alt text](macro arg1 ...)` will be markuped depending on the macro.
 - `%[alt text][macroReference]` will be markuped depending on the macro.
+- `%[macroReference][]` will be markuped depending on the macro.
 - `%[macroReference]: macro arg1 ...` will be removed from markup, but will define a macro.
 - Macros can be used to embed video, other media, or custom markups.
 - Usage of an undefined or invalid macroReference will be markuped to the alt text.
 - The first argument must be the macro name. 
 - Any number and type of arguments can be included after the first argument depending on the macro.
+- Macros do not support class syntax.
 
 ###### mrkdwn
 ```
 %[alt text](macro arg1 arg2 arg3 ...)
 
 %[alt text][reference]
+%[reference][]
 %[reference]: macro arg1 arg2 arg3 arg4
 ```
 ###### markup
 ```
 varied based on macro
 
+varied based on macro
 varied based on macro
 ```
 

@@ -206,6 +206,7 @@ var mrkdwn = {
             });
             // find, replace reference usage
             markdown = markdown.replace(/\%\[(.*?)\]\[(.*?)\]/g, function(match, altText, name) {
+                if(!name) return runMacro(altText, defs[altText]);
                 return runMacro(altText, defs[name]);
             });
             // find, replace inline usage
