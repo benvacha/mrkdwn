@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>mrkdwn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link type="image/png" rel="icon" href="resource/icon.png" />
+	<link type="image/png" rel="apple-touch-icon-precomposed" href="resource/icon.png" />
+    <link type="text/css" rel="stylesheet" href="index.css" />
+    <script type="text/javascript" src="mrkdwn.js"></script>
+    <script type="text/javascript" src="jquery.min.js"></script>
+</head>
+<body>
+    
+    <div class="banner">
+        <div class="header">
+            <div class="icon">
+                <a href="http://mrkdwn.org">
+                    <img src="resource/logo.svg" alt="mrkdwn" height="32px" />
+                </a>
+            </div>
+            <div class="menu">
+                <a href="https://github.com/benvacha/mrkdwn#mrkdwn">about</a>
+                <a href="https://github.com/benvacha/mrkdwn#current-syntax">syntax</a>
+                <a href="http://github.com/benvacha/mrkdwn">github</a>
+            </div>
+        </div>
+        <div class="demo">
+            <div class="display" id="markdown-display">
+                <div class="header">mrkdwn
+                    <div class="samples">
+                        <div class="sample" id="sample-one">s1</div>
+                        <div class="sample" id="sample-two">s2</div>
+                        <div class="sample" id="sample-three">s3</div>
+                        <div class="sample" id="sample-clear">clr</div>
+                    </div>
+                </div>
+                <textarea class="field mrkdwn" id="markdown-textarea"></textarea>
+            </div>
+            <div class="display" id="markup-display">
+                <div class="header">markup</div>
+                <textarea class="field" id="markup-textarea" disabled></textarea>
+            </div>
+            <div class="display" id="preview-display">
+                <div class="header">preview</div>
+                <div class="field" id="preview-element"></div>
+            </div>
+        </div>
+        <div class="options">
+            <div class="option" id="markup-option">markup</div>
+            <div class="option" id="preview-option">preview</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    
+    <!--
+    
+    <div class="content">
+        
+    </div>
+    
+    <div class="footer">
+        <a href="http://github.com/benvacha/mrkdwn">http://github.com/benvacha/mrkdwn</a>
+    </div>
+    
+    -->
+    
+    <script type="text/javascript">
+        // common elements
+        var $window = $(window),
+            markdownTextarea = document.getElementById('markdown-textarea'),
+            markdownDisplay = $('#markdown-display'),
+            //markdownOption = $('#markdown-option'),
+            markupTextarea = document.getElementById('markup-textarea'),
+            markupDisplay = $('#markup-display'),
+            markupOption = $('#markup-option'),
+            previewElement = document.getElementById('preview-element'),
+            previewDisplay = $('#preview-display'),
+            previewOption = $('#preview-option'),
+            sampleOne = $('#sample-one'),
+            sampleTwo = $('#sample-two'),
+            sampleThree = $('#sample-three'),
+            sampleClear = $('#sample-clear'),
+            inputEvent = new Event('input'),
+            markdownKey = 'org.mrkdwn.demo.markdown';
+        // set the markdown to the stored markdown value
+        if(localStorage.getItem(markdownKey)) {
+            markdownTextarea.value = localStorage.getItem(markdownKey);
+        } else {
+            markdownTextarea.value = "Start typing in *mrkdwn*.\nTry one of the samples (s1, s2, s3).\nClear all the input (clr).";
+            //"Feel free to refresh or leave the page;\n" + 
+            //"we'll keep your input safe and sound!";
+        }
+        // on page reload or close store the markdown value, also disables alert
+        window.onbeforeunload = function(){
+            localStorage.setItem(markdownKey, markdownTextarea.value);
+        };
+        // start live markup
+        mrkdwn.live.markup(markdownTextarea, markupTextarea, previewElement);
+        // toggle display visibility based on option having class disabled
+        // ensures combinations of visible displays is 100% width
+        function toggleDisplay(display, option, siblingDisplay, siblingOption) {
+            var hide = !option.hasClass('disabled'),
+                siblingHidden = siblingOption.hasClass('disabled'),
+                windowWidth = $window.width();
+            if(hide && siblingHidden) {
+                option.addClass('disabled');
+                if(windowWidth < 600) {
+                    display.css({display:'none', width:'0%'});
+                    siblingDisplay.css({display:'none', width:'0%'});
+                    markdownDisplay.css({display:'block', width:'100%', height:''});
+                } else if(windowWidth < 850) {
+                    display.css({display:'none', width:'0%'});
+                    siblingDisplay.css({display:'none', width:'0%'});
+                    markdownDisplay.css({display:'block', width:'100%', height:'100%'});
+                } else {
+                    display.css({display:'none', width:'0%'});
+                    siblingDisplay.css({display:'none', width:'0%'});
+                    markdownDisplay.css({display:'block', width:'100%'});
+                }
+            } else if(hide && !siblingHidden) {
+                option.addClass('disabled');
+                if(windowWidth < 600) {
+                    display.css({display:'none', width:'0%'});
+                    siblingDisplay.css({display:'block', width:'100%'});
+                    markdownDisplay.css({display:'block', width:'100%', height:''});
+                } else if(windowWidth < 850) {
+                    display.css({display:'none', width:'0%'});
+                    siblingDisplay.css({display:'block', width:'100%'});
+                    markdownDisplay.css({display:'block', width:'100%', height:'50%'});
+                } else {
+                    display.css({display:'none', width:'0%'});
+                    siblingDisplay.css({display:'block', width:'50%'});
+                    markdownDisplay.css({display:'block', width:'50%'});
+                }
+            } else if(!hide && siblingHidden) {
+                option.removeClass('disabled');
+                if(windowWidth < 600) {
+                    display.css({display:'block', width:'100%'});
+                    siblingDisplay.css({display:'none', width:'0%'});
+                    markdownDisplay.css({display:'block', width:'100%', height:''});
+                } else if(windowWidth < 850) {
+                    display.css({display:'block', width:'100%'});
+                    siblingDisplay.css({display:'none', width:'0%'});
+                    markdownDisplay.css({display:'block', width:'100%', height:'50%'});
+                } else {
+                    display.css({display:'block', width:'50%'});
+                    siblingDisplay.css({display:'none', width:'0%'});
+                    markdownDisplay.css({display:'block', width:'50%'});
+                }
+            } else {
+                option.removeClass('disabled');
+                display.css({display:'', width:''});
+                siblingDisplay.css({display:'', width:''});
+                markdownDisplay.css({display:'', width:''});
+            }
+        }
+        // on click, toggle visible displays
+        markupOption.click(function() {
+            toggleDisplay(markupDisplay, markupOption, previewDisplay, previewOption);
+        });
+        previewOption.click(function() {
+            toggleDisplay(previewDisplay, previewOption, markupDisplay, markupOption);
+        });
+        // change the content in markdownTextara
+        // trigger the input change event
+        function changeMarkdown(markdown) {
+            markdownTextarea.value = markdown;
+            if(markdownTextarea.dispatchEvent) {
+                markdownTextarea.dispatchEvent(inputEvent);
+            } else if(markdownTextarea.fireEvent) {
+                markdownTextarea.fireEvent('onpropertychange');
+            }
+        }
+        // on click, autopopulate markdown with samples
+        sampleOne.click(function() {
+            var markdown = '## mrkdwn\n\n' +
+                'One Markdown To Rule Them All\n\n*mrkdwn* combines the original markdown specification created by John Gruber, the latest and greatest flavors of markdown, and new syntax for semantic notation and improved machine readability. *mrkdwn* seeks to provide the most complete set of syntax while considering both backward compatibility and future need. While *mrkdwn* may stray from full backward compatability, it is with the goal of improving speed, reliability, and readability.\n\n*mrkdwn*\'s ultimate goal is to the be the one markdown to rule them all, the one markdown to bring them all and in the darkness bind them. With this in mind, *mrkdwn* will work to provide translation packages in all major languages as well as GUI packages for live editing, including syntax highlighting and real time output.\n\n- - -\n\n#### Daring Fireball\n\n>! John Gruber\n> Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).\n\nFrom\n[http://daringfireball.net/projects/markdown/]\n\n';
+            changeMarkdown(markdown);
+        });
+        sampleTwo.click(function() {
+            var markdown = '### Phrase Formatting\n\n*bold* **strong** ***emphasis***\n~italic~ ~~strikethrough~~ ~~~mark~~~\n~*italic and bold*~\n^superscript^ normal ^^subscript^^\n_underline_\n\n### Headers\n\nHeader One\n==========\n\nHeader Two\n----------\n\n#### Header Four\n\n###(!custom-anchor) Custom Header\n\n### Horizontal Rule\n\n---\n\n- - -\n\n### Blockquote\n\n>! Quote Citation\n> The block quote text.\n>\n> With paragraphs!\n\n### Lists\n\n#### Unordered List\n- Item One\n- Item Two\n- Item Three\n\n#### Ordered List\n1. One\n2. Two\n3.. Three\n\n20. Twenty\n21. Twenty One\n\n#### Definition List\n: Term One\n : Definition One\n: Term Two\n : Definition Two One\n : Definition Two Two\n\n### Links\n\n[linked text](url.com "Title")\n[anchor text][linkOne]\n[auto/linked]\n[[auto_parsed_link]]\nhttp://url.com\nname@email.com\n[linkOne]: !anchor "Title"\n\n### Images\n\n![alt text](resource/icon.png title width height)\n![alt text][imageOne]\n![imageOne]: resource/icon.png title 200px 30px\n\n### Macros\n\n%[alt text](csv one two three)\n%[alt text][macroOne]\n%[macroOne]: youtube dQw4w9WgXcQ\n\n';
+            changeMarkdown(markdown);
+        });
+        sampleThree.click(function() {
+            var markdown = '### Comments\n\nHide /// something /// from the markup.\n\nInsert a ///! html comment ///\n\n### Details\n\n<! Summary One\n< Something about summary one.\n< \n< With paragraphs.\n\n### Citations\n\nDogs like bones @[citeDogs]. Cats hate water @citeCats.\n\n@[citeDogs]: web http://allaboutdogs.com "The Dog Man"\n@[citeCats]: A book about cats.\n\n### Notes\n\nThe sky is blue &[noteSky]. Apples are red &noteApple.\n\n&[noteSky]: It can be red, orange, and yellow too.\n&[noteApple]: Some apples are green.\n\n### Variables\n\n$[version] was written by $[author]\n\n$[version]: 1.1.1\n$[author]: Billy Madison\n\n### Codes\n\nYou can add `codes inline` and you can use ``n ` to code n-1 ` ``\n\n``` syntax\nPre formated\nCode block with syntax knowledge\n```\n\n````\nCan use n to code n-1.\nFor instance ``` works here\n````\n\n### Samples\n\nYou can add a `! bang` to get a sample instead.\n\n```! syntax\n> Sample Bash Output\n```\n\n### Metas\n\nFull meta (aka sematic) markdown is coming soon. For now it is removed from markup. {{{ author: "The Pinguin" }}}\n\n{{{\ndate: today\nlinks: [one, two, three]\ndata: {one:"1", two:"2", three:"3""}\n}}}'
+            changeMarkdown(markdown);
+        });
+        sampleClear.click(function() {
+            changeMarkdown('');
+        });
+    </script>
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
