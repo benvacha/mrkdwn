@@ -1,4 +1,4 @@
-[![mrkdwn](http://mrkdwn.org/brand/logo.png)](http://mrkdwn.org)
+[![mrkdwn](http://mrkdwn.benvacha.com/resource/logo.png)](http://mrkdwn.benvacha.com)
 
 One Markdown To Rule Them All
 
@@ -6,7 +6,7 @@ One Markdown To Rule Them All
 
 **mrkdwn**'s ultimate goal is to the be the one markdown to rule them all, the one markdown to bring them all and in the darkness bind them. With this in mind, **mrkdwn** will work to provide translation packages in all major languages. **mrkdwn** will also provide GUI packages for live editing, including syntax highlighting, real time output, and media management.
 
-Try the live demo at [http://mrkdwn.org](http://mrkdwn.org)
+Try the live demo at [http://mrkdwn.benvacha.com](http://mrkdwn.benvacha.com)
 
 ---
 
